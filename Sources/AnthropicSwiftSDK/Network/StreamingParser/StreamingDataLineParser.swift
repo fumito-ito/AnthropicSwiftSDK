@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct StreamingDataLineParser {
+enum StreamingDataLineParser {
     static func parse<T>(dataLine line: String) throws -> T where T: StreamingResponse {
         // data line has `data: json` structure and json value might have `data: ` string
         let jsonString = String(line.dropFirst(6))
@@ -15,6 +15,6 @@ struct StreamingDataLineParser {
             throw ClientError.cannotHandleDataOfDataLine(jsonString)
         }
 
-        return try AnthropicJSONDecoder.decode(T.self, from: data)
+        return try anthropicJSONDecoder.decode(T.self, from: data)
     }
 }

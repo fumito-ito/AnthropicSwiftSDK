@@ -8,6 +8,7 @@
 import Foundation
 
 enum AnthropicVersion {
+    // swiftlint:disable:next identifier_name
     case v2023_06_01
     case custom(String)
 }

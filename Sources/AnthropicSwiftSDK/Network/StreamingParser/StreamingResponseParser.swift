@@ -13,7 +13,7 @@ enum StreamingResponseLineType {
     case data
 }
 
-struct StreamingResponseParser {
+enum StreamingResponseParser {
     /// line is these kinds
     /// - `event: event_name`
     /// - `data: json`

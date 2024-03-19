@@ -15,10 +15,10 @@ public protocol AuthenticationHeaderProvider {
 }
 
 struct APIKeyAuthenticationHeaderProvider: AuthenticationHeaderProvider {
-    func getAuthenticationHeaders() -> [String : String] {
+    func getAuthenticationHeaders() -> [String: String] {
         ["x-api-key": apiKey]
     }
-    
+
     private let apiKey: String
 
     init(apiKey: String) {

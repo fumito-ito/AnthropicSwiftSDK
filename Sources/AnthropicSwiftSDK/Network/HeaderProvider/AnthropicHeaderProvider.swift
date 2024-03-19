@@ -22,7 +22,7 @@ struct DefaultAnthropicHeaderProvider: AnthropicHeaderProvider {
 
     private let betaDescription = "messages-2023-12-15"
 
-    func getAnthropicAPIHeaders() -> [String : String] {
+    func getAnthropicAPIHeaders() -> [String: String] {
         var headers: [String: String] = [
             "anthropic-version": version.stringfy,
             "content-type": contentType

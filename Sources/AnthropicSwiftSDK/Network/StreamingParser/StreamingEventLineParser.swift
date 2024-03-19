@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct StreamingEventLineParser {
+enum StreamingEventLineParser {
     static func parse(eventLine line: String) throws -> StreamingEvent {
         // event line has `event: event_name` structure
         let eventName = line.replacingOccurrences(of: "event: ", with: "")

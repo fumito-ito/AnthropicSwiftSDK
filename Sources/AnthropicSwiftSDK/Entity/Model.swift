@@ -12,10 +12,13 @@ import Foundation
 /// See [models](https://docs.anthropic.com/claude/docs/models-overview) for additional details and options.
 public enum Model {
     /// Most powerful model for highly complex tasks
+    // swiftlint:disable:next identifier_name
     case claude_3_Opus
     /// Ideal balance of intelligence and speed for enterprise workloads
+    // swiftlint:disable:next identifier_name
     case claude_3_Sonnet
     /// Fastest and most compact model for near-instant responsiveness
+    // swiftlint:disable:next identifier_name
     case claude_3_Haiku
     /// Custom Model
     case custom(String)

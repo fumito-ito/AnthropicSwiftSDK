@@ -1,5 +1,5 @@
 //
-//  AnthropicJSONDecoder.swift
+//  anthropicJSONDecoder.swift
 //
 //
 //  Created by Fumito Ito on 2024/03/17.
@@ -7,7 +7,7 @@
 
 import Foundation
 
-let AnthropicJSONDecoder: JSONDecoder = {
+let anthropicJSONDecoder: JSONDecoder = {
     let decoder = JSONDecoder()
     decoder.keyDecodingStrategy = .convertFromSnakeCase
 

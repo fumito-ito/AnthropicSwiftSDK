@@ -71,7 +71,7 @@ extension Content: Decodable {
             let image = try container.decode(ImageContent.self, forKey: .source)
             self = .image(image)
         default:
-            fatalError()
+            fatalError("Unknown content type detected")
         }
     }
 }

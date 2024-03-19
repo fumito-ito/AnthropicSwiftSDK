@@ -86,7 +86,7 @@ public struct Messages {
             throw AnthropicAPIError(fromHttpStatusCode: httpResponse.statusCode)
         }
 
-        return try AnthropicJSONDecoder.decode(MessagesResponse.self, from: data)
+        return try anthropicJSONDecoder.decode(MessagesResponse.self, from: data)
     }
 
     public func streamMessage(
@@ -115,6 +115,7 @@ public struct Messages {
         )
     }
 
+    // swiftlint:disable:next cyclomatic_complexity
     public func streamMessage(
         _ messages: [Message],
         model: Model = .claude_3_Opus,
@@ -159,7 +160,7 @@ public struct Messages {
 
         return AsyncThrowingStream.init { continuation in
             let task = Task {
-                var currentEvent: StreamingEvent? = nil
+                var currentEvent: StreamingEvent?
                 for try await line in data.lines {
                     do {
                         let lineType = try StreamingResponseParser.parse(line: line)

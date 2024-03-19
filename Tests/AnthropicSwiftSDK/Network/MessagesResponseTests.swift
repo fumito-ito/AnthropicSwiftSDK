@@ -31,7 +31,7 @@ final class MessagesResponseTests: XCTestCase {
           }
         }
         """
-        XCTAssertNoThrow(try AnthropicJSONDecoder.decode(MessagesResponse.self, from: json.data(using: .utf8)!))
+        XCTAssertNoThrow(try anthropicJSONDecoder.decode(MessagesResponse.self, from: json.data(using: .utf8)!))
     }
 
     func testParseMultipleConversationalTurnsResponse() {
@@ -54,7 +54,7 @@ final class MessagesResponseTests: XCTestCase {
             }
         }
         """
-        XCTAssertNoThrow(try AnthropicJSONDecoder.decode(MessagesResponse.self, from: json.data(using: .utf8)!))
+        XCTAssertNoThrow(try anthropicJSONDecoder.decode(MessagesResponse.self, from: json.data(using: .utf8)!))
     }
 
     func testPuttingWordsInClaudesMouthResponse() {
@@ -78,7 +78,7 @@ final class MessagesResponseTests: XCTestCase {
           }
         }
         """
-        XCTAssertNoThrow(try AnthropicJSONDecoder.decode(MessagesResponse.self, from: json.data(using: .utf8)!))
+        XCTAssertNoThrow(try anthropicJSONDecoder.decode(MessagesResponse.self, from: json.data(using: .utf8)!))
     }
 
     func testVisionResponse() {
@@ -102,6 +102,6 @@ final class MessagesResponseTests: XCTestCase {
           }
         }
         """
-        XCTAssertNoThrow(try AnthropicJSONDecoder.decode(MessagesResponse.self, from: json.data(using: .utf8)!))
+        XCTAssertNoThrow(try anthropicJSONDecoder.decode(MessagesResponse.self, from: json.data(using: .utf8)!))
     }
 }

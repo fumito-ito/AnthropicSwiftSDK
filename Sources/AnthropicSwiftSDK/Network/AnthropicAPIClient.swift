@@ -45,7 +45,7 @@ struct AnthropicAPIClient {
     }()
 
     private var headers: [String: String] {
-        var headers = [String: String]()
+        var headers: [String: String] = [:]
 
         anthropicHeaderProvider.getAnthropicAPIHeaders().forEach { key, value in
             headers.updateValue(value, forKey: key)
@@ -70,7 +70,7 @@ struct AnthropicAPIClient {
 
     private var urlRequest: URLRequest {
         guard let url = requestURL else {
-            fatalError()
+            fatalError("APIClient must have requestURL")
         }
 
         return URLRequest(url: url)
@@ -87,7 +87,7 @@ struct AnthropicAPIClient {
         self.authenticationHeaderProvider = authenticationHeaderProvider
         self.session = session
     }
-    
+
     /// Send messages API request. This method receives HTTP response from API.
     ///
     /// For more detail, see https://docs.anthropic.com/claude/reference/messages_post.
@@ -103,7 +103,7 @@ struct AnthropicAPIClient {
 
         return try await session.data(for: request)
     }
-    
+
     /// Send messages API request. This method read the messages api response sequentially.
     ///
     /// For more detail, see https://docs.anthropic.com/claude/reference/messages-streaming.

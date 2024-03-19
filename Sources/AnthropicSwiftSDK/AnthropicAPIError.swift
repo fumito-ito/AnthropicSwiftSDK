@@ -17,7 +17,7 @@ public enum AnthropicAPIError: String, Decodable, Error {
     case apiError = "api_error"
     case overloadedError = "overloaded_error"
     case unknown
-    
+
     /// Description of Anthropic API errors.
     ///
     /// for more detail, see https://docs.anthropic.com/claude/reference/errors

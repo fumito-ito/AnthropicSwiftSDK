@@ -11,7 +11,7 @@ import Foundation
 public final class Anthropic {
     /// Messages API Interface
     public let messages: Messages
-    
+
     /// Construction of SDK
     /// - Parameter apiKey: API key to access Anthropic API.
     public init(apiKey: String) {
