@@ -37,8 +37,8 @@ final class StreamingDataLineParserTests: XCTestCase {
         XCTAssertEqual(result.type, .messageDelta)
         XCTAssertEqual(result.delta.stopReason, .endTurn)
         XCTAssertNil(result.delta.stopSequence)
-        XCTAssertEqual(result.delta.usage.outputTokens, 15)
-        XCTAssertNil(result.delta.usage.inputTokens)
+        XCTAssertEqual(result.delta.usage?.outputTokens, 15)
+        XCTAssertNil(result.delta.usage?.inputTokens)
     }
 
     func testParseMessageStopDataLine() throws {

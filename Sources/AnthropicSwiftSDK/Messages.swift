@@ -19,7 +19,7 @@ public struct Messages {
     }
 
     public func createMessage(
-        _ message: Message,
+        _ messages: [Message],
         model: Model = .claude_3_Opus,
         system: String? = nil,
         maxTokens: Int,
@@ -30,7 +30,7 @@ public struct Messages {
         topK: Int? = nil
     ) async throws -> MessagesResponse {
         try await createMessage(
-            message,
+            messages,
             model: model,
             system: system,
             maxTokens: maxTokens,
@@ -45,7 +45,7 @@ public struct Messages {
     }
 
     public func createMessage(
-        _ message: Message,
+        _ messages: [Message],
         model: Model = .claude_3_Opus,
         system: String? = nil,
         maxTokens: Int,
@@ -65,7 +65,7 @@ public struct Messages {
 
         let requestBody = MessagesRequest(
             model: model,
-            messages: [message],
+            messages: messages,
             system: system,
             maxTokens: maxTokens,
             metaData: metaData,
@@ -90,7 +90,7 @@ public struct Messages {
     }
 
     public func streamMessage(
-        _ message: Message,
+        _ messages: [Message],
         model: Model = .claude_3_Opus,
         system: String? = nil,
         maxTokens: Int,
@@ -101,7 +101,7 @@ public struct Messages {
         topK: Int? = nil
     ) async throws -> AsyncThrowingStream<StreamingResponse, Error> {
         try await streamMessage(
-            message,
+            messages,
             model: model,
             system: system,
             maxTokens: maxTokens,
@@ -116,7 +116,7 @@ public struct Messages {
     }
 
     public func streamMessage(
-        _ message: Message,
+        _ messages: [Message],
         model: Model = .claude_3_Opus,
         system: String? = nil,
         maxTokens: Int,
@@ -136,7 +136,7 @@ public struct Messages {
 
         let requestBody = MessagesRequest(
             model: model,
-            messages: [message],
+            messages: messages,
             system: system,
             maxTokens: maxTokens,
             metaData: metaData,

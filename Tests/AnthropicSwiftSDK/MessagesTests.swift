@@ -28,7 +28,7 @@ final class MessagesTests: XCTestCase {
         })
 
         let message = Message(role: .user, content: [.text("This is test text")])
-        let _ = try await messages.createMessage(message, maxTokens: 1024)
+        let _ = try await messages.createMessage([message], maxTokens: 1024)
 
         await fulfillment(of: [expectation], timeout: 1.0)
     }
@@ -57,7 +57,7 @@ final class MessagesTests: XCTestCase {
         """)
 
         let message = Message(role: .user, content: [.text("This is test text")])
-        let response = try await messages.createMessage(message, maxTokens: 1024)
+        let response = try await messages.createMessage([message], maxTokens: 1024)
 
         XCTAssertEqual(response.id, "msg_01XFDUDYJgAACzvnptvVoYEL")
         XCTAssertEqual(response.type, .message)
@@ -84,7 +84,7 @@ final class MessagesTests: XCTestCase {
         """)
 
         let message = Message(role: .user, content: [.text("This is test text")])
-        let stream = try await messages.streamMessage(message, maxTokens: 1024)
+        let stream = try await messages.streamMessage([message], maxTokens: 1024)
 
         for try await chunk in stream {
             let response = try XCTUnwrap(chunk as? StreamingMessageStartResponse)
