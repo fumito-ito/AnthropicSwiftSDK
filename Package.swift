@@ -17,6 +17,7 @@ let package = Package(
     ],
     dependencies: [
         .package(url: "https://github.com/realm/SwiftLint", .upToNextMajor(from: "0.54.0")),
+        .package(url: "https://github.com/awslabs/aws-sdk-swift", from: "0.32.0"),
     ],
     targets: [
         // Targets are the basic building blocks of a package, defining a module or a test suite.
@@ -28,5 +29,11 @@ let package = Package(
         .testTarget(
             name: "AnthropicSwiftSDKTests",
             dependencies: ["AnthropicSwiftSDK"]),
+        .target(
+            name: "AnthropicSwiftSDK-Bedrock",
+            dependencies: [
+                "AnthropicSwiftSDK",
+                .product(name: "AWSBedrockRuntime", package: "aws-sdk-swift")
+            ])
     ]
 )
