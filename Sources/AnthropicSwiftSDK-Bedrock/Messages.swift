@@ -10,9 +10,9 @@ import AnthropicSwiftSDK
 import AWSBedrockRuntime
 
 public struct Messages {
-    private let acceptContentType = "application/json"
-    private let requestContentType = "application/json"
-    private let client: BedrockRuntimeClient
+    public let acceptContentType = "application/json"
+    public let requestContentType = "application/json"
+    public let client: BedrockRuntimeClient
 
     public let model: Model
 
@@ -81,8 +81,6 @@ public struct Messages {
             topP: topP,
             topK: topK
         )
-
-        let data = try anthropicJSONEncoder.encode(requestBody)
 
         let input = try InvokeModelWithResponseStreamInput(
             accept: acceptContentType,
