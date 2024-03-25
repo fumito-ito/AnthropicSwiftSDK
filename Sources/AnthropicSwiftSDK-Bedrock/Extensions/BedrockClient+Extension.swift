@@ -10,7 +10,7 @@ import AWSBedrockRuntime
 import AnthropicSwiftSDK
 
 public extension BedrockRuntimeClient {
-    static func useAnthropic(_ client: BedrockRuntimeClient, model: Model) -> BedrockAnthropicClient {
-        BedrockAnthropicClient(client: client, model: model)
+    static func useAnthropic(_ client: BedrockRuntimeClient, model: Model) -> AnthropicBedrockClient {
+        AnthropicBedrockClient(client: client, model: model)
     }
 }
