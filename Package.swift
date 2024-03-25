@@ -33,7 +33,10 @@ let package = Package(
             name: "AnthropicSwiftSDK-Bedrock",
             dependencies: [
                 "AnthropicSwiftSDK",
-                .product(name: "AWSBedrockRuntime", package: "aws-sdk-swift")
-            ])
+                .product(name: "AWSBedrockRuntime", package: "aws-sdk-swift")]),
+        .testTarget(
+            name: "AnthropicSwiftSDK-BedrockTests",
+            dependencies: [
+                "AnthropicSwiftSDK-Bedrock"])
     ]
 )
