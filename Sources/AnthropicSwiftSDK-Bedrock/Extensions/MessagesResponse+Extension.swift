@@ -10,6 +10,10 @@ import AnthropicSwiftSDK
 import AWSBedrockRuntime
 
 extension MessagesResponse {
+    /// Create `MessagesResponse` object from InvokeModelOutput.
+    ///
+    /// This constructor converts `InvokeModelOutput.body` into `MessageResponse`
+    /// - Parameter invokeModelOutput: model output to convert `MessageResponse`
     init (from invokeModelOutput: InvokeModelOutput) throws {
         guard let data = invokeModelOutput.body else {
             throw AnthropicBedrockClientError.cannotGetAnyDataFromBedrockMessageResponse(invokeModelOutput)

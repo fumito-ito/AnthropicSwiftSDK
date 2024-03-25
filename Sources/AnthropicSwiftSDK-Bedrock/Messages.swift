@@ -10,10 +10,13 @@ import AnthropicSwiftSDK
 import AWSBedrockRuntime
 
 public struct Messages {
+    /// Acceptable content type for response
     public let acceptContentType = "application/json"
+    /// Acceptable content type for request
     public let requestContentType = "application/json"
+    /// Bedrock API Client
     public let client: BedrockRuntimeClient
-
+    /// Claude model for this client
     public let model: Model
 
     init(client: BedrockRuntimeClient, model: Model) {
