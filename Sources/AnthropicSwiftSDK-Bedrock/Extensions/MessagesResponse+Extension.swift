@@ -12,7 +12,7 @@ import AWSBedrockRuntime
 extension MessagesResponse {
     init (from invokeModelOutput: InvokeModelOutput) throws {
         guard let data = invokeModelOutput.body else {
-            fatalError()
+            throw AnthropicBedrockClientError.cannotGetAnyDataFromBedrockResponse(invokeModelOutput)
         }
 
         self = try anthropicJSONDecoder.decode(MessagesResponse.self, from: data)
