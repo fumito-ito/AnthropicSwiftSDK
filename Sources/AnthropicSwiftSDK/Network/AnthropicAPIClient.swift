@@ -37,13 +37,6 @@ struct AnthropicAPIClient {
     let authenticationHeaderProvider: AuthenticationHeaderProvider
     private let session: URLSession
 
-    private static let jsonEncoder = {
-        let encoder = JSONEncoder()
-        encoder.keyEncodingStrategy = .convertToSnakeCase
-
-        return encoder
-    }()
-
     private var headers: [String: String] {
         var headers: [String: String] = [:]
 
@@ -99,7 +92,7 @@ struct AnthropicAPIClient {
             request.setValue(value, forHTTPHeaderField: key)
         }
         request.httpMethod = type.method.rawValue
-        request.httpBody = try Self.jsonEncoder.encode(requestBody)
+        request.httpBody = try anthropicJSONEncoder.encode(requestBody)
 
         return try await session.data(for: request)
     }
@@ -115,7 +108,7 @@ struct AnthropicAPIClient {
             request.setValue(value, forHTTPHeaderField: key)
         }
         request.httpMethod = type.method.rawValue
-        request.httpBody = try Self.jsonEncoder.encode(requestBody)
+        request.httpBody = try anthropicJSONEncoder.encode(requestBody)
 
         return try await session.bytes(for: request)
     }

@@ -7,7 +7,7 @@
 
 import Foundation
 
-let anthropicJSONDecoder: JSONDecoder = {
+public let anthropicJSONDecoder: JSONDecoder = {
     let decoder = JSONDecoder()
     decoder.keyDecodingStrategy = .convertFromSnakeCase
 

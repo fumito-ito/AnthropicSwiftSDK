@@ -13,6 +13,10 @@ public struct MetaData {
     ///
     /// This should be a uuid, hash value, or other opaque identifier. Anthropic may use this id to help detect abuse. Do not include any identifying information such as name, email address, or phone number.
     public let userId: String
+
+    public init(userId: String) {
+        self.userId = userId
+    }
 }
 
 extension MetaData: Encodable {}

@@ -12,6 +12,14 @@ Just add to your Package.swift under dependencies
 let package = Package(
     name: "MyPackage",
     products: [...],
+    targets: [
+        .target(
+            "YouAppModule",
+            dependencies: [
+                .product(name: "AnthropicSwiftSDK", package: "AnthropicSwiftSDK")
+            ]
+        )
+    ],
     dependencies: [
         .package(url: "https://github.com/fumito-ito/AnthropicSwiftSDK.git", .upToNextMajor(from: "0.0.1"))
     ]
@@ -70,6 +78,62 @@ for try await chunk in stream {
     }
 }
 ```
+
+## Amazon Web Services Bedrock
+
+This library provides support for the [Anthropic Bedrock API](https://aws.amazon.com/bedrock/claude/) through a separate package.
+
+```swift
+let package = Package(
+    name: "MyPackage",
+    products: [...],
+    targets: [
+        .target(
+            "YouAppModule",
+            dependencies: [
+                .product(name: "AnthropicSwiftSDK_Bedrock", package: "AnthropicSwiftSDK")
+            ]
+        )
+    ],
+    dependencies: [
+        .package(url: "https://github.com/fumito-ito/AnthropicSwiftSDK.git", .upToNextMajor(from: "0.0.1"))
+    ]
+)
+```
+
+To create an `AnthropicBedrockClient` from a `BedrockRuntimeClient` with a `Model` to access Claude on Bedrock.
+The API usage is the same as the normal AnthropicClient.
+
+```swift
+let client = try BedrockRuntimeClient(region: "USEast1")
+let anthropic = BedrockRuntimeClient.useAnthropic(client, model: .claude_3_Haiku)
+
+let response = try await anthropic.messages.createMessage(Message(role: .user, content: [.text("This is test text")]), maxTokens: 1024)
+for content in response.content {
+    switch content {
+    case .text(let text):
+        print(text)
+    case .image(let imageContent):
+        // handle base64 encoded image content
+    }
+}
+```
+
+Of course, `Streaming Message API` works in the same way.
+
+```swift
+let client = try BedrockRuntimeClient(region: "USEast1")
+let anthropic = BedrockRuntimeClient.useAnthropic(client, model: .claude_3_Haiku)
+
+let stream = try await anthropic.messages.streamMessage([Message(role: .user, content: [.text("This is test text")])], maxTokens: 1024)
+for try await chunk in stream {
+    switch chunk.type {
+    case .messageStart:
+        // handle message start object with casting chunk into `StreamingMessageStartResponse`
+    }
+}
+```
+
 
 ## Contributing
 
