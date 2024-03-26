@@ -23,7 +23,7 @@ public enum Model {
     /// Custom Model
     case custom(String)
 
-    init(modelName: String) {
+    public init(modelName: String) {
         switch modelName {
         case Model.claude_3_Opus.stringfy:
             self = .claude_3_Opus
