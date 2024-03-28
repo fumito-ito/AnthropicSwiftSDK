@@ -16,7 +16,7 @@ extension MessagesResponse {
     /// - Parameter invokeModelOutput: model output to convert `MessageResponse`
     init (from invokeModelOutput: InvokeModelOutput) throws {
         guard let data = invokeModelOutput.body else {
-            throw AnthropicBedrockClientError.cannotGetAnyDataFromBedrockMessageResponse(invokeModelOutput)
+            throw AnthropicBedrockClientError.cannotGetDataFromBedrockMessageResponse(invokeModelOutput)
         }
 
         self = try anthropicJSONDecoder.decode(MessagesResponse.self, from: data)

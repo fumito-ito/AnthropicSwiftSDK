@@ -94,7 +94,7 @@ public struct Messages {
         let response = try await client.invokeModelWithResponseStream(input: input)
 
         guard let responseStream = response.body else {
-            throw AnthropicBedrockClientError.cannotGetAnyDataFromBedrockStreamResponse(response)
+            throw AnthropicBedrockClientError.cannotGetDataFromBedrockStreamResponse(response)
         }
 
         return try await AnthropicStreamingParser.parse(stream: responseStream.map { try $0.toString() })
@@ -110,7 +110,7 @@ extension BedrockRuntimeClientTypes.ResponseStream {
         guard
             let data = payload.bytes,
             let line = String(data: data, encoding: .utf8) else {
-            throw AnthropicBedrockClientError.cannotGetAnyDataFromBedrockRuntimeClientPayload(payload)
+            throw AnthropicBedrockClientError.cannotGetDataFromBedrockClientPayload(payload)
         }
 
         return line
