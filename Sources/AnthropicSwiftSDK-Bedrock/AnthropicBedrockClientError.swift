@@ -9,8 +9,8 @@ import Foundation
 import AWSBedrockRuntime
 
 public enum AnthropicBedrockClientError: Error {
-    case cannotGetAnyDataFromBedrockMessageResponse(InvokeModelOutput)
-    case cannotGetAnyDataFromBedrockStreamResponse(InvokeModelWithResponseStreamOutput)
+    case cannotGetDataFromBedrockMessageResponse(InvokeModelOutput)
+    case cannotGetDataFromBedrockStreamResponse(InvokeModelWithResponseStreamOutput)
     case bedrockRuntimeClientGetsUnknownPayload(BedrockRuntimeClientTypes.ResponseStream)
-    case cannotGetAnyDataFromBedrockRuntimeClientPayload(BedrockRuntimeClientTypes.PayloadPart)
+    case cannotGetDataFromBedrockClientPayload(BedrockRuntimeClientTypes.PayloadPart)
 }
