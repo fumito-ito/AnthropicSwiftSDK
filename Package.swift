@@ -16,15 +16,13 @@ let package = Package(
             targets: ["AnthropicSwiftSDK"]),
     ],
     dependencies: [
-        .package(url: "https://github.com/realm/SwiftLint", .upToNextMajor(from: "0.54.0")),
         .package(url: "https://github.com/awslabs/aws-sdk-swift", from: "0.32.0"),
     ],
     targets: [
         // Targets are the basic building blocks of a package, defining a module or a test suite.
         // Targets can depend on other targets in this package and products from dependencies.
         .target(
-            name: "AnthropicSwiftSDK",
-            plugins: [.plugin(name: "SwiftLintPlugin", package: "SwiftLint")]
+            name: "AnthropicSwiftSDK"
         ),
         .testTarget(
             name: "AnthropicSwiftSDKTests",
