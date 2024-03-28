@@ -8,6 +8,7 @@
 import Foundation
 
 public enum AnthropicStreamingParser {
+    // swiftlint:disable:next cyclomatic_complexity
     public static func parse<T: AsyncSequence>(stream: T) async throws -> AsyncThrowingStream<StreamingResponse, Error> where T.Element == String {
         return AsyncThrowingStream.init { continuation in
             let task = Task {
