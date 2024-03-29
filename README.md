@@ -32,7 +32,7 @@ let package = Package(
 let anthropic = Anthropic(apiKey: "YOUR_OWN_API_KEY")
 
 let message = Message(role: .user, content: [.text("This is test text")])
-let response = try await anthropic.messages.createMessage(message, maxTokens: 1024)
+let response = try await anthropic.messages.createMessage([message], maxTokens: 1024)
 ```
 
 ## Supporting APIs
@@ -49,7 +49,7 @@ The Messages API can be used for for either single queries or stateless multi-tu
 let anthropic = Anthropic(apiKey: "YOUR_OWN_API_KEY")
 
 let message = Message(role: .user, content: [.text("This is test text")])
-let response = try await anthropic.messages.createMessage(message, maxTokens: 1024)
+let response = try await anthropic.messages.createMessage([message], maxTokens: 1024)
 
 for content in response.content {
     switch content {
@@ -69,7 +69,7 @@ Send a structured list of input messages with text and/or image content, and the
 let anthropic = Anthropic(apiKey: "YOUR_OWN_API_KEY")
 
 let message = Message(role: .user, content: [.text("This is test text")])
-let stream = try await anthropic.messages.streamMessage(message, maxTokens: 1024)
+let stream = try await anthropic.messages.streamMessage([message], maxTokens: 1024)
 
 for try await chunk in stream {
     switch chunk.type {
