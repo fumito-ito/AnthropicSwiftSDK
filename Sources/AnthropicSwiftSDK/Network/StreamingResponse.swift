@@ -23,6 +23,7 @@ public struct StreamingMessageStartResponse: StreamingResponse {
 public struct StreamingMessageDeltaResponse: StreamingResponse {
     public let type: StreamingEvent
     public let delta: MessageDelta
+    public let usage: TokenUsage
 }
 
 public struct StreamingMessageStopResponse: StreamingResponse {

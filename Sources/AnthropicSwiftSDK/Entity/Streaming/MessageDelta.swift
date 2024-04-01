@@ -10,5 +10,4 @@ import Foundation
 public struct MessageDelta: Decodable {
     public let stopReason: StopReason
     public let stopSequence: String?
-    public let usage: TokenUsage?
 }
