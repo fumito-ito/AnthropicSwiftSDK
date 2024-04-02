@@ -30,15 +30,15 @@ final class StreamingDataLineParserTests: XCTestCase {
 
     func testParseMessageDeltaDataLine() throws {
         let line = """
-        data: {"type": "message_delta", "delta": {"stop_reason": "end_turn", "stop_sequence":null, "usage":{"output_tokens": 15}}}
+        data: {"type": "message_delta", "delta": {"stop_reason": "end_turn", "stop_sequence":null}, "usage":{"output_tokens": 15}}
         """
         let result = try StreamingDataLineParser.parse(dataLine: line) as StreamingMessageDeltaResponse
 
         XCTAssertEqual(result.type, .messageDelta)
         XCTAssertEqual(result.delta.stopReason, .endTurn)
         XCTAssertNil(result.delta.stopSequence)
-        XCTAssertEqual(result.delta.usage?.outputTokens, 15)
-        XCTAssertNil(result.delta.usage?.inputTokens)
+        XCTAssertEqual(result.usage.outputTokens, 15)
+        XCTAssertNil(result.usage.inputTokens)
     }
 
     func testParseMessageStopDataLine() throws {
