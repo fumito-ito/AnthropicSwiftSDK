@@ -26,7 +26,7 @@ public struct Messages {
         metaData: MetaData? = nil,
         stopSequence: [String]? = nil,
         temperature: Double? = nil,
-        topP: Int? = nil,
+        topP: Double? = nil,
         topK: Int? = nil
     ) async throws -> MessagesResponse {
         try await createMessage(
@@ -52,7 +52,7 @@ public struct Messages {
         metaData: MetaData? = nil,
         stopSequence: [String]? = nil,
         temperature: Double? = nil,
-        topP: Int? = nil,
+        topP: Double? = nil,
         topK: Int? = nil,
         anthropicHeaderProvider: AnthropicHeaderProvider,
         authenticationHeaderProvider: AuthenticationHeaderProvider
@@ -97,7 +97,7 @@ public struct Messages {
         metaData: MetaData? = nil,
         stopSequence: [String]? = nil,
         temperature: Double? = nil,
-        topP: Int? = nil,
+        topP: Double? = nil,
         topK: Int? = nil
     ) async throws -> AsyncThrowingStream<StreamingResponse, Error> {
         try await streamMessage(
@@ -123,7 +123,7 @@ public struct Messages {
         metaData: MetaData? = nil,
         stopSequence: [String]? = nil,
         temperature: Double? = nil,
-        topP: Int? = nil,
+        topP: Double? = nil,
         topK: Int? = nil,
         anthropicHeaderProvider: AnthropicHeaderProvider,
         authenticationHeaderProvider: AuthenticationHeaderProvider

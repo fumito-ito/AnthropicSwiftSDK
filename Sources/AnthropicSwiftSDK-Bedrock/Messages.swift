@@ -32,7 +32,7 @@ public struct Messages {
         metaData: MetaData? = nil,
         stopSequence: [String]? = nil,
         temperature: Double? = nil,
-        topP: Int? = nil,
+        topP: Double? = nil,
         topK: Int? = nil
     ) async throws -> MessagesResponse {
         // In the inference call, fill the body field with a JSON object that conforms the type call you want to make [Anthropic Claude Messages API](https://docs.aws.amazon.com/bedrock/latest/userguide/model-parameters-anthropic-claude-messages.html).
@@ -68,7 +68,7 @@ public struct Messages {
         metaData: MetaData? = nil,
         stopSequence: [String]? = nil,
         temperature: Double? = nil,
-        topP: Int? = nil,
+        topP: Double? = nil,
         topK: Int? = nil
     ) async throws -> AsyncThrowingStream<StreamingResponse, Error> {
         // In the inference call, fill the body field with a JSON object that conforms the type call you want to make [Anthropic Claude Messages API](https://docs.aws.amazon.com/bedrock/latest/userguide/model-parameters-anthropic-claude-messages.html).
