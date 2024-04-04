@@ -16,7 +16,7 @@ extension InvokeModelInput {
     ///   - request: Claude API request. It will be converted to `Data` and contained in bedrock request.
     ///   - contentType: acceptable request content type
     init(accept: String, request: MessagesRequest, contentType: String) throws {
-        let data = try anthropicJSONEncoder.encode(request)
+        let data = try request.encode(with: ["anthropic_version": AnthropicBedrockClient.anthropicVersion])
 
         self.init(
             accept: accept,

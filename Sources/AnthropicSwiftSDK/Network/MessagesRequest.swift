@@ -72,3 +72,18 @@ public struct MessagesRequest: Encodable {
         self.topK = topK
     }
 }
+
+extension MessagesRequest {
+    public func encode(with appendingObject: [String: Any]) throws -> Data {
+        let encoded = try anthropicJSONEncoder.encode(self)
+        guard var dictionary = try JSONSerialization.jsonObject(with: encoded, options: []) as? [String: Any] else {
+            return encoded
+        }
+
+        appendingObject.forEach { key, value in
+            dictionary[key] = value
+        }
+
+        return try JSONSerialization.data(withJSONObject: dictionary, options: [])
+    }
+}

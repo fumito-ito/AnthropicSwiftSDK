@@ -14,6 +14,10 @@ public final class AnthropicBedrockClient {
     /// Endpoint for Messages API
     public let messages: AnthropicSwiftSDK_Bedrock.Messages
 
+    public static var anthropicVersion: String {
+        AnthropicVersion.custom("bedrock-2023-05-31").stringfy
+    }
+
     init(client: BedrockRuntimeClient, model: Model) {
         self.messages = .init(client: client, model: model)
     }

@@ -7,14 +7,14 @@
 
 import Foundation
 
-enum AnthropicVersion {
+public enum AnthropicVersion {
     // swiftlint:disable:next identifier_name
     case v2023_06_01
     case custom(String)
 }
 
 extension AnthropicVersion {
-    var stringfy: String {
+    public var stringfy: String {
         switch self {
         case .v2023_06_01:
             return "2023-06-01"
