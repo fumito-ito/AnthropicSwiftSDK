@@ -9,13 +9,13 @@ import Foundation
 import AnthropicSwiftSDK
 
 public struct Messages {
-    let apiKey: String
     let projectId: String
+    private let accessToken: String
     let region: SupportedRegion
 
-    init(apiKey: String, projectId: String, region: SupportedRegion) {
-        self.apiKey = apiKey
+    init(projectId: String, accessToken: String, region: SupportedRegion) {
         self.projectId = projectId
+        self.accessToken = accessToken
         self.region = region
     }
 
@@ -31,7 +31,7 @@ public struct Messages {
         topK: Int? = nil
     ) async throws -> MessagesResponse {
         let modelName = try model.vertexAIModelName
-        let client = VertexAIClient(location: region, projectId: projectId, modelName: modelName, apiKey: apiKey)
+        let client = VertexAIClient(projectId: projectId, accessToken: "", region: region, modelName: modelName)
 
         let requestBody = MessagesRequest(
             model: model,
@@ -71,7 +71,7 @@ public struct Messages {
         topK: Int? = nil
     ) async throws -> AsyncThrowingStream<StreamingResponse, Error> {
         let modelName = try model.vertexAIModelName
-        let client = VertexAIClient(location: region, projectId: projectId, modelName: modelName, apiKey: apiKey)
+        let client = VertexAIClient(projectId: projectId, accessToken: "", region: region, modelName: modelName)
 
         let requestBody = MessagesRequest(
             model: model,

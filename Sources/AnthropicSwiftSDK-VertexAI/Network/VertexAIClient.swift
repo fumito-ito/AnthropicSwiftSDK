@@ -16,7 +16,7 @@ struct VertexAIClient {
     let region: SupportedRegion
     let projectId: String
     let modelName: String
-    private let apiKey: String
+    private let accessToken: String
 
     var anthropicVersion: String {
         AnthropicVersion.custom("vertex-2023-10-16").stringfy
@@ -36,7 +36,7 @@ struct VertexAIClient {
 
     var headers: [String: String] {
         [
-            "x-goog-api-key": apiKey,
+            "Authorization": "Bearer \(accessToken)",
             "content-type": "application/json"
         ]
     }
@@ -60,11 +60,17 @@ struct VertexAIClient {
 
     let session: URLSession
 
-    init(location: SupportedRegion, projectId: String, modelName: String, apiKey: String, session: URLSession = .shared) {
-        self.region = location
+    init(
+        projectId: String,
+        accessToken: String,
+        region: SupportedRegion,
+        modelName: String,
+        session: URLSession = .shared
+    ) {
         self.projectId = projectId
+        self.accessToken = accessToken
+        self.region = region
         self.modelName = modelName
-        self.apiKey = apiKey
         self.session = session
     }
 

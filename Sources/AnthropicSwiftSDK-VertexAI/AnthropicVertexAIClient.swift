@@ -11,7 +11,7 @@ import AnthropicSwiftSDK
 public final class AnthropicVertexAIClient {
     let messages: Messages
 
-    public init(apiKey: String, projectId: String, region: SupportedRegion = .usCentral1) {
-        self.messages = Messages(apiKey: apiKey, projectId: projectId, region: region)
+    public init(projectId: String, accessToken: String, region: SupportedRegion = .usCentral1) {
+        self.messages = Messages(projectId: projectId, accessToken: accessToken, region: region)
     }
 }
