@@ -52,7 +52,7 @@ struct VertexAIClient {
 
     var request: URLRequest {
         guard let requestURL else {
-            fatalError()
+            fatalError("VertexAIClient must have requestURL")
         }
 
         return URLRequest(url: requestURL)
