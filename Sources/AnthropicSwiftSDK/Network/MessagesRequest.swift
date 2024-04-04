@@ -41,7 +41,7 @@ public struct MessagesRequest: Encodable {
     ///
     /// In nucleus sampling, we compute the cumulative distribution over all the options for each subsequent token in decreasing probability order and cut it off once it reaches a particular probability specified by top_p. You should either alter temperature or top_p, but not both.
     /// Recommended for advanced use cases only. You usually only need to use temperature.
-    public let topP: Int?
+    public let topP: Double?
     /// Only sample from the top K options for each subsequent token.
     ///
     /// Used to remove "long tail" low probability responses.
@@ -57,7 +57,7 @@ public struct MessagesRequest: Encodable {
         stopSequences: [String]? = nil,
         stream: Bool = false,
         temperature: Double? = nil,
-        topP: Int? = nil,
+        topP: Double? = nil,
         topK: Int? = nil
     ) {
         self.model = model

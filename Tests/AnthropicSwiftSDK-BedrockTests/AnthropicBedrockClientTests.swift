@@ -157,7 +157,7 @@ extension MessagesRequest: Decodable {
             stopSequences: try container.decode([String].self, forKey: .stopSequences),
             stream: try container.decode(Bool.self, forKey: .stream),
             temperature: try container.decode(Double.self, forKey: .temperature),
-            topP: try container.decode(Int.self, forKey: .topP),
+            topP: try container.decode(Double.self, forKey: .topP),
             topK: try container.decode(Int.self, forKey: .topK)
         )
     }
