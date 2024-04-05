@@ -14,6 +14,12 @@ let package = Package(
         .library(
             name: "AnthropicSwiftSDK",
             targets: ["AnthropicSwiftSDK"]),
+        .library(
+            name: "AnthropicSwiftSDK-Bedrock",
+            targets: ["AnthropicSwiftSDK-Bedrock"]),
+        .library(
+            name: "AnthropicSwiftSDK-VertexAI",
+            targets: ["AnthropicSwiftSDK-VertexAI"]),
     ],
     dependencies: [
         .package(url: "https://github.com/awslabs/aws-sdk-swift", from: "0.32.0"),
