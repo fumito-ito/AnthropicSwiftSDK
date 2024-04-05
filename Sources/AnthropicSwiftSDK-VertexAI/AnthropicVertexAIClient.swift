@@ -8,7 +8,7 @@
 import Foundation
 import AnthropicSwiftSDK
 
-public final class AnthropicVertex {
+public final class AnthropicVertexAIClient {
     let messages: Messages
 
     public init(projectId: String, accessToken: String, region: SupportedRegion = .usCentral1) {
