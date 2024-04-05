@@ -7,25 +7,25 @@
 
 import Foundation
 
-enum MockInspectType {
+public enum MockInspectType {
     case none
     case request((URLRequest) -> Void)
     case requestHeader(([String: String]?) -> Void)
     case response(String)
 }
 
-class HTTPMock: URLProtocol {
-    static var inspectType: MockInspectType = .none
+public class HTTPMock: URLProtocol {
+    public static var inspectType: MockInspectType = .none
 
-    override class func canInit(with request: URLRequest) -> Bool {
+    public override class func canInit(with request: URLRequest) -> Bool {
         return true
     }
 
-    override class func canonicalRequest(for request: URLRequest) -> URLRequest {
+    public override class func canonicalRequest(for request: URLRequest) -> URLRequest {
         return request
     }
 
-    override func startLoading() {
+    public override func startLoading() {
         if case let .request(inspection) = Self.inspectType {
             inspection(request)
         }
@@ -70,6 +70,6 @@ class HTTPMock: URLProtocol {
         client?.urlProtocolDidFinishLoading(self)
     }
 
-    override func stopLoading() {
+    public override func stopLoading() {
     }
 }

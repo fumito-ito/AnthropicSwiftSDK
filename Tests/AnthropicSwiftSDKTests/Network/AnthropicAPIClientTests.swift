@@ -6,6 +6,7 @@
 //
 
 import XCTest
+import AnthropicSwiftSDK_TestUtils
 @testable import AnthropicSwiftSDK
 
 final class AnthropicAPIClientTests: XCTestCase {

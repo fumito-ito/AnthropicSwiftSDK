@@ -6,10 +6,10 @@
 //
 
 import Foundation
-@testable import AnthropicSwiftSDK
+import AnthropicSwiftSDK
 
 extension MessagesRequest {
-    static var nop: Self {
+    public static var nop: Self {
         MessagesRequest(messages: [], maxTokens: 1024)
     }
 }

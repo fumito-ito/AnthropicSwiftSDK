@@ -26,7 +26,10 @@ let package = Package(
         ),
         .testTarget(
             name: "AnthropicSwiftSDKTests",
-            dependencies: ["AnthropicSwiftSDK"]),
+            dependencies: [
+                "AnthropicSwiftSDK",
+                "AnthropicSwiftSDK-TestUtils"
+            ]),
         .target(
             name: "AnthropicSwiftSDK-Bedrock",
             dependencies: [
@@ -46,7 +49,12 @@ let package = Package(
         .testTarget(
             name: "AnthropicSwiftSDK-VertexAITests",
             dependencies: [
-                "AnthropicSwiftSDK-VertexAI"
+                "AnthropicSwiftSDK-VertexAI",
+                "AnthropicSwiftSDK-TestUtils",
             ]),
+        .target(
+            name: "AnthropicSwiftSDK-TestUtils",
+            dependencies: ["AnthropicSwiftSDK"]
+        )
     ]
 )
