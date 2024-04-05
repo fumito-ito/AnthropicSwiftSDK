@@ -12,11 +12,13 @@ public struct Messages {
     let projectId: String
     private let accessToken: String
     let region: SupportedRegion
+    private let session: URLSession
 
-    init(projectId: String, accessToken: String, region: SupportedRegion) {
+    init(projectId: String, accessToken: String, region: SupportedRegion, session: URLSession = .shared) {
         self.projectId = projectId
         self.accessToken = accessToken
         self.region = region
+        self.session = session
     }
 
     public func createMessage(
@@ -31,7 +33,7 @@ public struct Messages {
         topK: Int? = nil
     ) async throws -> MessagesResponse {
         let modelName = try model.vertexAIModelName
-        let client = VertexAIClient(projectId: projectId, accessToken: "", region: region, modelName: modelName)
+        let client = VertexAIClient(projectId: projectId, accessToken: accessToken, region: region, modelName: modelName, session: session)
 
         let requestBody = MessagesRequest(
             model: model,
@@ -71,7 +73,7 @@ public struct Messages {
         topK: Int? = nil
     ) async throws -> AsyncThrowingStream<StreamingResponse, Error> {
         let modelName = try model.vertexAIModelName
-        let client = VertexAIClient(projectId: projectId, accessToken: "", region: region, modelName: modelName)
+        let client = VertexAIClient(projectId: projectId, accessToken: accessToken, region: region, modelName: modelName, session: session)
 
         let requestBody = MessagesRequest(
             model: model,
