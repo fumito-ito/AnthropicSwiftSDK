@@ -1,6 +1,7 @@
 excluded:
   - ${PWD}/DerivedData
   - ${PWD}/.build
+  - Sources/AnthropicSwiftSDK-TestUtils
   - Tests
   - Example.swiftpm
 

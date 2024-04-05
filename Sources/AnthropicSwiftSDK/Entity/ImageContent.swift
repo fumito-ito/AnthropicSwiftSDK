@@ -28,6 +28,16 @@ public struct ImageContent {
     public var mediaType: ImageContentMediaType
     /// Base64 encoded data for image
     public var data: Data
+
+    public init(
+        type: ImageContentType = .base64,
+        mediaType: ImageContentMediaType,
+        data: Data
+    ) {
+        self.type = type
+        self.mediaType = mediaType
+        self.data = data
+    }
 }
 
 extension ImageContent: Codable {}

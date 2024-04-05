@@ -42,7 +42,7 @@ public enum AnthropicAPIError: String, Decodable, Error {
         }
     }
 
-    init(fromHttpStatusCode statusCode: Int) {
+    public init(fromHttpStatusCode statusCode: Int) {
         switch statusCode {
         case 400:
             self = .invalidRequestError

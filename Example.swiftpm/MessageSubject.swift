@@ -25,7 +25,7 @@ import AnthropicSwiftSDK
         task = Task {
             do {
                 isLoading = true
-                let stream = try await anthropic.messages.streamMessage(message, maxTokens: 1024)
+                let stream = try await anthropic.messages.streamMessage([message], maxTokens: 1024)
                 for try await chunk in stream {
                     switch chunk.type {
                     case .contentBlockDelta:

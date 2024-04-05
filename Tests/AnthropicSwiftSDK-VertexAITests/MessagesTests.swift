@@ -2,12 +2,13 @@
 //  MessagesTests.swift
 //  
 //
-//  Created by Fumito Ito on 2024/03/17.
+//  Created by 伊藤史 on 2024/04/05.
 //
 
 import XCTest
 import AnthropicSwiftSDK_TestUtils
-@testable import AnthropicSwiftSDK
+import AnthropicSwiftSDK
+@testable import AnthropicSwiftSDK_VertexAI
 
 final class MessagesTests: XCTestCase {
     var session = URLSession.shared
@@ -20,11 +21,11 @@ final class MessagesTests: XCTestCase {
     }
 
     func testMessagesUsesProvidedAPIKey() async throws {
-        let messages = Messages(apiKey: "This-is-test-API-key", session: session)
+        let messages = Messages(projectId: "", accessToken: "This-is-test-access-token", region: .usCentral1, session: session)
         let expectation = XCTestExpectation(description: "Messages uses provided api key in request header.")
 
         HTTPMock.inspectType = .requestHeader({ headers in
-            XCTAssertEqual(headers!["x-api-key"], "This-is-test-API-key")
+            XCTAssertEqual(headers!["Authorization"], "Bearer This-is-test-access-token")
             expectation.fulfill()
         })
 
@@ -35,7 +36,7 @@ final class MessagesTests: XCTestCase {
     }
 
     func testCreateMessage() async throws {
-        let messages = Messages(apiKey: "", session: session)
+        let messages = Messages(projectId: "", accessToken: "", region: .usCentral1, session: session)
         HTTPMock.inspectType = .response("""
         {
           "id": "msg_01XFDUDYJgAACzvnptvVoYEL",
@@ -63,13 +64,16 @@ final class MessagesTests: XCTestCase {
         XCTAssertEqual(response.id, "msg_01XFDUDYJgAACzvnptvVoYEL")
         XCTAssertEqual(response.type, .message)
         XCTAssertEqual(response.role, .assistant)
-        XCTAssertEqual(response.content.first?.contentType, .text)
         if case let .text(text) = response.content.first {
             XCTAssertEqual(text, "Hello!")
         } else {
             XCTFail("Wrong type content is received.")
         }
-        XCTAssertEqual(response.model?.stringfy, "claude-2.1")
+        if case let .custom(modelName) = response.model {
+            XCTAssertEqual(modelName, "claude-2.1")
+        } else {
+            XCTFail("Wrong model type is received.")
+        }
         XCTAssertEqual(response.stopReason, .endTurn)
         XCTAssertNil(response.stopSequence)
         XCTAssertEqual(response.usage.inputTokens, 12)
@@ -77,7 +81,7 @@ final class MessagesTests: XCTestCase {
     }
 
     func testStreamMessage() async throws {
-        let messages = Messages(apiKey: "", session: session)
+        let messages = Messages(projectId: "", accessToken: "", region: .usCentral1, session: session)
         HTTPMock.inspectType = .response("""
         event: message_start
         data: {"type": "message_start", "message": {"id": "msg_1nZdL29xx5MUA1yADyHTEsnR8uuvGzszyY", "type": "message", "role": "assistant", "content": [], "model": "claude-3-opus-20240229", "stop_reason": null, "stop_sequence": null, "usage": {"input_tokens": 25, "output_tokens": 1}}}
@@ -95,7 +99,9 @@ final class MessagesTests: XCTestCase {
             XCTAssertEqual(response.message.type, .message)
             XCTAssertEqual(response.message.role, .assistant)
             XCTAssertTrue(response.message.content.isEmpty)
-            XCTAssertEqual(response.message.model?.stringfy, Model.claude_3_Opus.stringfy)
+            if case .claude_3_Opus = response.message.model { } else {
+                XCTFail("Wrong model type is received.")
+            }
             XCTAssertNil(response.message.stopReason)
             XCTAssertNil(response.message.stopSequence)
             XCTAssertEqual(response.message.usage.inputTokens, 25)

@@ -13,4 +13,9 @@ public struct TokenUsage: Decodable {
     public let inputTokens: Int?
     /// The number of output tokens which were used.
     public let outputTokens: Int?
+
+    public init(inputTokens: Int?, outputTokens: Int?) {
+        self.inputTokens = inputTokens
+        self.outputTokens = outputTokens
+    }
 }

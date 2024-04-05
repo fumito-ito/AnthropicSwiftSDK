@@ -14,6 +14,12 @@ let package = Package(
         .library(
             name: "AnthropicSwiftSDK",
             targets: ["AnthropicSwiftSDK"]),
+        .library(
+            name: "AnthropicSwiftSDK-Bedrock",
+            targets: ["AnthropicSwiftSDK-Bedrock"]),
+        .library(
+            name: "AnthropicSwiftSDK-VertexAI",
+            targets: ["AnthropicSwiftSDK-VertexAI"]),
     ],
     dependencies: [
         .package(url: "https://github.com/awslabs/aws-sdk-swift", from: "0.32.0"),
@@ -26,7 +32,10 @@ let package = Package(
         ),
         .testTarget(
             name: "AnthropicSwiftSDKTests",
-            dependencies: ["AnthropicSwiftSDK"]),
+            dependencies: [
+                "AnthropicSwiftSDK",
+                "AnthropicSwiftSDK-TestUtils"
+            ]),
         .target(
             name: "AnthropicSwiftSDK-Bedrock",
             dependencies: [
@@ -37,6 +46,21 @@ let package = Package(
             name: "AnthropicSwiftSDK-BedrockTests",
             dependencies: [
                 "AnthropicSwiftSDK-Bedrock"
-            ])
+            ]),
+        .target(
+            name: "AnthropicSwiftSDK-VertexAI",
+            dependencies: [
+                "AnthropicSwiftSDK",
+            ]),
+        .testTarget(
+            name: "AnthropicSwiftSDK-VertexAITests",
+            dependencies: [
+                "AnthropicSwiftSDK-VertexAI",
+                "AnthropicSwiftSDK-TestUtils",
+            ]),
+        .target(
+            name: "AnthropicSwiftSDK-TestUtils",
+            dependencies: ["AnthropicSwiftSDK"]
+        )
     ]
 )

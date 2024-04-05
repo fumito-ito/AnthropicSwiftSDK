@@ -40,4 +40,15 @@ public struct MessagesResponse: Decodable {
     public let stopSequence: String?
     /// Billing and rate-limit usage.
     public let usage: TokenUsage
+
+    public init(id: String, type: MessagesResponseType, role: Role, content: [Content], model: Model?, stopReason: StopReason?, stopSequence: String?, usage: TokenUsage) {
+        self.id = id
+        self.type = type
+        self.role = role
+        self.content = content
+        self.model = model
+        self.stopReason = stopReason
+        self.stopSequence = stopSequence
+        self.usage = usage
+    }
 }
