@@ -21,7 +21,7 @@ let package = Package(
         )
     ],
     dependencies: [
-        .package(url: "https://github.com/fumito-ito/AnthropicSwiftSDK.git", .upToNextMajor(from: "0.2.1"))
+        .package(url: "https://github.com/fumito-ito/AnthropicSwiftSDK.git", .upToNextMajor(from: "0.3.0"))
     ]
 )
 ```
@@ -91,12 +91,12 @@ let package = Package(
         .target(
             "YouAppModule",
             dependencies: [
-                .product(name: "AnthropicSwiftSDK_Bedrock", package: "AnthropicSwiftSDK")
+                .product(name: "AnthropicSwiftSDK-Bedrock", package: "AnthropicSwiftSDK")
             ]
         )
     ],
     dependencies: [
-        .package(url: "https://github.com/fumito-ito/AnthropicSwiftSDK.git", .upToNextMajor(from: "0.2.1"))
+        .package(url: "https://github.com/fumito-ito/AnthropicSwiftSDK.git", .upToNextMajor(from: "0.3.0"))
     ]
 )
 ```
@@ -134,6 +134,58 @@ for try await chunk in stream {
 }
 ```
 
+## Google Vertex AI
+
+This library provides support for the [Anthropic Vertex AI](https://cloud.google.com/blog/products/ai-machine-learning/announcing-anthropics-claude-3-models-in-google-cloud-vertex-ai?hl=en) through a separate package.
+
+```swift
+let package = Package(
+    name: "MyPackage",
+    products: [...],
+    targets: [
+        .target(
+            "YouAppModule",
+            dependencies: [
+                .product(name: "AnthropicSwiftSDK-VertexAI", package: "AnthropicSwiftSDK")
+            ]
+        )
+    ],
+    dependencies: [
+        .package(url: "https://github.com/fumito-ito/AnthropicSwiftSDK.git", .upToNextMajor(from: "0.3.0"))
+    ]
+)
+```
+
+To create an `AnthropicVertexAIClient` with a `Model` to access Claude on VertexAI.
+The API usage is the same as the normal AnthropicClient.
+
+```swift
+let anthropic = AnthropicVertexAIClient(projectId: "your-project-id", accessToken: "access-token-for-vertexai", region = .usCentral1)
+
+let response = try await anthropic.messages.createMessage(Message(role: .user, content: [.text("This is test text")]), maxTokens: 1024)
+for content in response.content {
+    switch content {
+    case .text(let text):
+        print(text)
+    case .image(let imageContent):
+        // handle base64 encoded image content
+    }
+}
+```
+
+Of course, `Streaming Message API` works in the same way.
+
+```swift
+let anthropic = AnthropicVertexAIClient(projectId: "your-project-id", accessToken: "access-token-for-vertexai", region = .usCentral1)
+
+let stream = try await anthropic.messages.streamMessage([Message(role: .user, content: [.text("This is test text")])], maxTokens: 1024)
+for try await chunk in stream {
+    switch chunk.type {
+    case .messageStart:
+        // handle message start object with casting chunk into `StreamingMessageStartResponse`
+    }
+}
+```
 
 ## Contributing
 
