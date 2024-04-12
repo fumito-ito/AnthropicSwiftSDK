@@ -7,6 +7,7 @@
 
 import Foundation
 
+/// The regions now supports Anthropic API on VertexAI
 public enum SupportedRegion: String {
     /// us-central1 region
     case usCentral1 = "us-central1"

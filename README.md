@@ -4,7 +4,7 @@ Yet another [Anthropic API](https://www.anthropic.com/api) client for Swift.
 
 ## Installation
 
-Swift Package Manager
+### Swift Package Manager
 
 Just add to your Package.swift under dependencies
 

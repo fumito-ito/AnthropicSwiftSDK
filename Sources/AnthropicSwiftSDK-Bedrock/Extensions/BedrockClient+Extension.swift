@@ -11,6 +11,7 @@ import AnthropicSwiftSDK
 
 public extension BedrockRuntimeClient {
     /// Create a client using Claude through Bedrock
+    /// 
     /// - Parameters:
     ///   - client: Bedrock runtime client
     ///   - model: Claude model, Bedrock supports Haiku or Sonnet instance type.
