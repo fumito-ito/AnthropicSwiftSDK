@@ -14,7 +14,7 @@ extension AnthropicSwiftSDK.Model {
         get throws {
             switch self {
             case .claude_3_Opus:
-                throw VertexAIClientError.notSupportedModel(self)
+                return "claude-3-opus@20240229"
             case .claude_3_Sonnet:
                 return "claude-3-sonnet@20240229"
             case .claude_3_Haiku:

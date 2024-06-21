@@ -15,7 +15,7 @@ extension AnthropicSwiftSDK.Model {
     var bedrockModelName: String? {
         switch self {
         case .claude_3_Opus:
-            return nil
+            return "anthropic.claude-3-opus-20240229-v1:0"
         case .claude_3_Sonnet:
             return "anthropic.claude-3-sonnet-20240229-v1:0"
         case .claude_3_Haiku:

@@ -20,7 +20,6 @@ final class AnthropicBedrockClientTests: XCTestCase {
         anthropic = BedrockRuntimeClient.useAnthropic(client, model: .claude_3_Sonnet)
         XCTAssertEqual(anthropic.messages.model.description, Model.claude_3_Sonnet.description)
 
-        // NOTE: Bedrock does not support `Opus` model yet.
         anthropic = BedrockRuntimeClient.useAnthropic(client, model: .claude_3_Opus)
         XCTAssertEqual(anthropic.messages.model.description, Model.claude_3_Opus.description)
 
