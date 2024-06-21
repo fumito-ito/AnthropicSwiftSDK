@@ -20,9 +20,11 @@ final class AnthropicBedrockClientTests: XCTestCase {
         anthropic = BedrockRuntimeClient.useAnthropic(client, model: .claude_3_Sonnet)
         XCTAssertEqual(anthropic.messages.model.description, Model.claude_3_Sonnet.description)
 
-        // NOTE: Bedrock does not support `Opus` model yet.
         anthropic = BedrockRuntimeClient.useAnthropic(client, model: .claude_3_Opus)
         XCTAssertEqual(anthropic.messages.model.description, Model.claude_3_Opus.description)
+
+        anthropic = BedrockRuntimeClient.useAnthropic(client, model: .claude_3_5_Sonnet)
+        XCTAssertEqual(anthropic.messages.model.description, Model.claude_3_5_Sonnet.description)
 
         anthropic = BedrockRuntimeClient.useAnthropic(client, model: .custom("custom-model"))
         XCTAssertEqual(anthropic.messages.model.description, "custom-model")
@@ -114,6 +116,8 @@ extension Model {
             return "claude_3_Sonnet"
         case .claude_3_Haiku:
             return "claude_3_Haiku"
+        case .claude_3_5_Sonnet:
+            return "claude_3_5_Sonnet"
         case .custom(let modelName):
             return modelName
         }

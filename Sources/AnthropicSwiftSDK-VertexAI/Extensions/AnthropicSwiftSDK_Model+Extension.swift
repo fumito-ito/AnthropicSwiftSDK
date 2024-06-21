@@ -14,11 +14,13 @@ extension AnthropicSwiftSDK.Model {
         get throws {
             switch self {
             case .claude_3_Opus:
-                throw VertexAIClientError.notSupportedModel(self)
+                return "claude-3-opus@20240229"
             case .claude_3_Sonnet:
                 return "claude-3-sonnet@20240229"
             case .claude_3_Haiku:
                 return "claude-3-haiku@20240307"
+            case .claude_3_5_Sonnet:
+                return "claude-3-5-sonnet@20240620"
             case let .custom(modelName):
                 return modelName
             }

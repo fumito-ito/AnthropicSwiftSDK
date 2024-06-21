@@ -17,9 +17,12 @@ public enum Model {
     /// Ideal balance of intelligence and speed for enterprise workloads
     // swiftlint:disable:next identifier_name
     case claude_3_Sonnet
-    /// Fastest and most compact model for near-instant responsiveness
+    /// Strong performance on highly complex tasks, such as math and coding.
     // swiftlint:disable:next identifier_name
     case claude_3_Haiku
+    /// Most intelligent model, combining top-tier performance with improved speed.
+    // swiftlint:disable:next identifier_name
+    case claude_3_5_Sonnet
     /// Custom Model
     case custom(String)
 
@@ -31,6 +34,8 @@ public enum Model {
             self = .claude_3_Sonnet
         case Model.claude_3_Haiku.stringfy:
             self = .claude_3_Haiku
+        case Model.claude_3_5_Sonnet.stringfy:
+            self = .claude_3_5_Sonnet
         default:
             self = .custom(modelName)
         }
@@ -46,6 +51,8 @@ extension Model {
             return "claude-3-sonnet-20240229"
         case .claude_3_Haiku:
             return "claude-3-haiku-20240307"
+        case .claude_3_5_Sonnet:
+            return "claude-3-5-sonnet-20240620"
         case let .custom(modelName):
             return modelName
         }

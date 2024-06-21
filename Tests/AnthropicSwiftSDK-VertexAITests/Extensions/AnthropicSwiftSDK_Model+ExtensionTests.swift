@@ -44,14 +44,4 @@ class AnthropicSwiftSDK_Model_ExtensionTests: XCTestCase {
         // Then
         XCTAssertEqual(modelName, customModelName, "Expected custom model name")
     }
-
-    func testVertexAIModelName_NotSupportedModel() {
-        // Given
-        let model = AnthropicSwiftSDK.Model.claude_3_Opus
-
-        // When & Then
-        XCTAssertThrowsError(try model.vertexAIModelName, "Expected not supported model error") { error in
-            XCTAssertTrue(error is VertexAIClientError, "Expected VertexAIClientError")
-        }
-    }
 }
