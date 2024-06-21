@@ -20,6 +20,8 @@ extension AnthropicSwiftSDK.Model {
             return "anthropic.claude-3-sonnet-20240229-v1:0"
         case .claude_3_Haiku:
             return "anthropic.claude-3-haiku-20240307-v1:0"
+        case .claude_3_5_Sonnet:
+            return "anthropic.claude-3-5-sonnet-20240620-v1:0"
         case let .custom(modelName):
             return modelName
         }
