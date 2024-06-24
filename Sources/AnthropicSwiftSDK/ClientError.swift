@@ -17,6 +17,8 @@ public enum ClientError: Error {
     case cannotHandleURLResponse(URLResponse)
     /// The DataLine string returned from Stream could not be cast to the Data attribute.
     case cannotHandleDataOfDataLine(String)
+    /// Failed to decode response as `ContentType`
+    case failedToParseContentType(String)
 
     /// Description of sdk internal errors.
     public var localizedDescription: String {
@@ -29,6 +31,8 @@ public enum ClientError: Error {
             return "Cannot cast \(response) to HTTPURLResponse."
         case let .cannotHandleDataOfDataLine(line):
             return "Cannot get Data object using `data(using: .utf8)` from \(line)"
+        case let .failedToParseContentType(contentTypeString):
+            return "Failed to parse content type from \(contentTypeString)"
         }
     }
 }
