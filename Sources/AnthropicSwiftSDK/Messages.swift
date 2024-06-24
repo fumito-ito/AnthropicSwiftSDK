@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import FunctionCallingService
 
 public struct Messages {
     private let apiKey: String
@@ -39,7 +40,9 @@ public struct Messages {
         stopSequence: [String]? = nil,
         temperature: Double? = nil,
         topP: Double? = nil,
-        topK: Int? = nil
+        topK: Int? = nil,
+        toolContainer: ToolContainer? = nil,
+        toolChoice: ToolChoice = .auto
     ) async throws -> MessagesResponse {
         try await createMessage(
             messages,
@@ -51,6 +54,8 @@ public struct Messages {
             temperature: temperature,
             topP: topP,
             topK: topK,
+            toolContainer: toolContainer,
+            toolChoice: toolChoice,
             anthropicHeaderProvider: DefaultAnthropicHeaderProvider(),
             authenticationHeaderProvider: APIKeyAuthenticationHeaderProvider(apiKey: apiKey)
         )
@@ -82,6 +87,8 @@ public struct Messages {
         temperature: Double? = nil,
         topP: Double? = nil,
         topK: Int? = nil,
+        toolContainer: ToolContainer? = nil,
+        toolChoice: ToolChoice = .auto,
         anthropicHeaderProvider: AnthropicHeaderProvider,
         authenticationHeaderProvider: AuthenticationHeaderProvider
     ) async throws -> MessagesResponse {
@@ -101,7 +108,9 @@ public struct Messages {
             stream: false,
             temperature: temperature,
             topP: topP,
-            topK: topK
+            topK: topK,
+            tools: toolContainer?.allTools,
+            toolChoice: toolChoice
         )
 
         let (data, response) = try await client.send(requestBody: requestBody)
@@ -140,7 +149,9 @@ public struct Messages {
         stopSequence: [String]? = nil,
         temperature: Double? = nil,
         topP: Double? = nil,
-        topK: Int? = nil
+        topK: Int? = nil,
+        toolContainer: ToolContainer? = nil,
+        toolChoice: ToolChoice = .auto
     ) async throws -> AsyncThrowingStream<StreamingResponse, Error> {
         try await streamMessage(
             messages,
@@ -152,6 +163,8 @@ public struct Messages {
             temperature: temperature,
             topP: topP,
             topK: topK,
+            toolContainer: toolContainer,
+            toolChoice: toolChoice,
             anthropicHeaderProvider: DefaultAnthropicHeaderProvider(),
             authenticationHeaderProvider: APIKeyAuthenticationHeaderProvider(apiKey: apiKey)
         )
@@ -183,6 +196,8 @@ public struct Messages {
         temperature: Double? = nil,
         topP: Double? = nil,
         topK: Int? = nil,
+        toolContainer: ToolContainer? = nil,
+        toolChoice: ToolChoice = .auto,
         anthropicHeaderProvider: AnthropicHeaderProvider,
         authenticationHeaderProvider: AuthenticationHeaderProvider
     ) async throws -> AsyncThrowingStream<StreamingResponse, Error> {
@@ -202,7 +217,9 @@ public struct Messages {
             stream: true,
             temperature: temperature,
             topP: topP,
-            topK: topK
+            topK: topK,
+            tools: toolContainer?.allTools,
+            toolChoice: toolChoice
         )
 
         let (data, response) = try await client.stream(requestBody: requestBody)
