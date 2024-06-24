@@ -135,11 +135,11 @@ extension BedrockRuntimeClientTypes.ResponseStream {
             throw AnthropicBedrockClientError.bedrockRuntimeClientGetsUnknownPayload(self)
         }
 
-        guard
-            let data = payload.bytes,
-            let line = String(data: data, encoding: .utf8) else {
+        guard let data = payload.bytes else {
             throw AnthropicBedrockClientError.cannotGetDataFromBedrockClientPayload(payload)
         }
+
+        let line = String(decoding: data, as: UTF8.self)
 
         return line
     }
