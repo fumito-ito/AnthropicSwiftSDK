@@ -62,16 +62,18 @@ extension Content: Decodable {
     public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
 
-        let type = try container.decode(String.self, forKey: .type)
+        let contentTypeString = try container.decode(String.self, forKey: .type)
+        let type = ContentType(rawValue: contentTypeString)
         switch type {
-        case ContentType.text.rawValue:
+        case .text:
             let text = try container.decode(String.self, forKey: .text)
             self = .text(text)
-        case ContentType.image.rawValue:
+        case .image:
             let image = try container.decode(ImageContent.self, forKey: .source)
             self = .image(image)
-        default:
             fatalError("Unknown content type detected")
+        case .none:
+            throw ClientError.failedToParseContentType(contentTypeString)
         }
     }
 }

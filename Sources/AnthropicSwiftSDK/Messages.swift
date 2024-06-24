@@ -7,8 +7,6 @@
 
 import Foundation
 
-// TODO: debuglog
-// TODO: できたらretryできるようにする
 public struct Messages {
     private let apiKey: String
     private let session: URLSession
