@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import FunctionCalling
 
 /// Request object for Messages API
 ///
@@ -47,6 +48,10 @@ public struct MessagesRequest: Encodable {
     /// Used to remove "long tail" low probability responses.
     /// Recommended for advanced use cases only. You usually only need to use temperature.
     public let topK: Int?
+    /// Definition of tools with names, descriptions, and input schemas in your API request.
+    public let tools: [Tool]?
+    /// Definition whether or not to force Claude to use the tool.
+    public let toolChoice: ToolChoice
 
     public init(
         model: Model = .claude_3_Opus,
@@ -58,7 +63,9 @@ public struct MessagesRequest: Encodable {
         stream: Bool = false,
         temperature: Double? = nil,
         topP: Double? = nil,
-        topK: Int? = nil
+        topK: Int? = nil,
+        tools: String? = nil,
+        toolChoice: ToolChoice = .auto
     ) {
         self.model = model
         self.messages = messages
@@ -70,6 +77,13 @@ public struct MessagesRequest: Encodable {
         self.temperature = temperature
         self.topP = topP
         self.topK = topK
+        let tool = tools?.replacingOccurrences(of: "\n", with: "")
+        if let data = tool?.data(using: .utf8) {
+            self.tools = try? anthropicJSONDecoder.decode([Tool].self, from: data)
+        } else {
+            self.tools = nil
+        }
+        self.toolChoice = toolChoice
     }
 }
 

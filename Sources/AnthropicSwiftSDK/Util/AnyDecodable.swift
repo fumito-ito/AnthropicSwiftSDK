@@ -41,7 +41,7 @@ extension KeyedDecodingContainer {
     }
 
     func decode(_ type: [String: Any].Type) throws -> [String: Any] {
-        var dictionary = [String: Any]()
+        var dictionary: [String: Any] = [:]
 
         allKeys.forEach { key in
             if (try? decodeNil(forKey: key)) == true {
