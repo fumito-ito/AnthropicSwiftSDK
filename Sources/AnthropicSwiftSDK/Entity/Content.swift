@@ -71,10 +71,9 @@ extension Content: Decodable {
         case .image:
             let image = try container.decode(ImageContent.self, forKey: .source)
             self = .image(image)
-        default:
-        case .none:
-            // TODO: errorを投げよう
             fatalError("Unknown content type detected")
+        case .none:
+            throw ClientError.failedToParseContentType(contentTypeString)
         }
     }
 }
