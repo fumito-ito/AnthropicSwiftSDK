@@ -19,6 +19,33 @@
       }
     },
     {
+      "identity" : "documentationcomment",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/fumito-ito/DocumentationComment.git",
+      "state" : {
+        "revision" : "90d3c5b9cccddb202c8adb99138733c868d7b082",
+        "version" : "0.0.6"
+      }
+    },
+    {
+      "identity" : "functioncalling",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/fumito-ito/FunctionCalling",
+      "state" : {
+        "revision" : "0cafcc55875342fe9d91fe00312b30cdca6742a0",
+        "version" : "0.3.0"
+      }
+    },
+    {
+      "identity" : "grmustache.swift",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/groue/GRMustache.swift",
+      "state" : {
+        "revision" : "6e9dcfb807959e19f2915be1928aeccf01babba5",
+        "version" : "4.2.0"
+      }
+    },
+    {
       "identity" : "smithy-swift",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/smithy-lang/smithy-swift",
@@ -28,12 +55,39 @@
       }
     },
     {
+      "identity" : "swift-cmark",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/apple/swift-cmark.git",
+      "state" : {
+        "revision" : "3bc2f3e25df0cecc5dc269f7ccae65d0f386f06a",
+        "version" : "0.4.0"
+      }
+    },
+    {
       "identity" : "swift-log",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/apple/swift-log.git",
       "state" : {
         "revision" : "e97a6fcb1ab07462881ac165fdbb37f067e205d5",
         "version" : "1.5.4"
+      }
+    },
+    {
+      "identity" : "swift-markdown",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/apple/swift-markdown.git",
+      "state" : {
+        "revision" : "4aae40bf6fff5286e0e1672329d17824ce16e081",
+        "version" : "0.4.0"
+      }
+    },
+    {
+      "identity" : "swift-syntax",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/apple/swift-syntax.git",
+      "state" : {
+        "revision" : "64889f0c732f210a935a0ad7cda38f77f876262d",
+        "version" : "509.1.1"
       }
     }
   ],

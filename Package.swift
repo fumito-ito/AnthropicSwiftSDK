@@ -6,7 +6,7 @@ import PackageDescription
 let package = Package(
     name: "AnthropicSwiftSDK",
     platforms: [
-        .iOS(.v16),
+        .iOS(.v17),
         .macOS(.v13)
     ],
     products: [
@@ -23,12 +23,16 @@ let package = Package(
     ],
     dependencies: [
         .package(url: "https://github.com/awslabs/aws-sdk-swift", from: "0.32.0"),
+        .package(url: "https://github.com/fumito-ito/FunctionCalling", from: "0.3.0")
     ],
     targets: [
         // Targets are the basic building blocks of a package, defining a module or a test suite.
         // Targets can depend on other targets in this package and products from dependencies.
         .target(
-            name: "AnthropicSwiftSDK"
+            name: "AnthropicSwiftSDK",
+            dependencies: [
+                .product(name: "FunctionCalling", package: "FunctionCalling")
+            ]
         ),
         .testTarget(
             name: "AnthropicSwiftSDKTests",
