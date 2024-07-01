@@ -74,7 +74,7 @@ public struct MessagesRequest: Encodable {
 }
 
 extension MessagesRequest {
-    public func encode(with appendingObject: [String: Any]) throws -> Data {
+    public func encode(with appendingObject: [String: Any], without removingObjectKeys: [String] = []) throws -> Data {
         let encoded = try anthropicJSONEncoder.encode(self)
         guard var dictionary = try JSONSerialization.jsonObject(with: encoded, options: []) as? [String: Any] else {
             return encoded
@@ -82,6 +82,10 @@ extension MessagesRequest {
 
         appendingObject.forEach { key, value in
             dictionary[key] = value
+        }
+
+        removingObjectKeys.forEach { key in
+            dictionary.removeValue(forKey: key)
         }
 
         return try JSONSerialization.data(withJSONObject: dictionary, options: [])

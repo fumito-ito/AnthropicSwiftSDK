@@ -37,17 +37,26 @@ final class AnthropicBedrockClientTests: XCTestCase {
         let requestData = try XCTUnwrap(invokeModel.body)
         let decodedRequestData = try anthropicJSONDecoder.decode(MessagesRequest.self, from: requestData)
 
-        XCTAssertEqual(request.model.description, decodedRequestData.model.description)
         XCTAssertEqual(request.messages.first?.role, decodedRequestData.messages.first?.role)
         XCTAssertEqual(request.messages.first?.content.first, decodedRequestData.messages.first?.content.first)
         XCTAssertEqual(request.system, decodedRequestData.system)
         XCTAssertEqual(request.maxTokens, decodedRequestData.maxTokens)
-        XCTAssertEqual(request.metaData?.userId, decodedRequestData.metaData?.userId)
         XCTAssertEqual(request.stopSequences, decodedRequestData.stopSequences)
-        XCTAssertEqual(request.stream, decodedRequestData.stream)
         XCTAssertEqual(request.temperature, decodedRequestData.temperature)
         XCTAssertEqual(request.topP, decodedRequestData.topP)
         XCTAssertEqual(request.topK, decodedRequestData.topK)
+    }
+
+    func testInvokeModelNotContainUnnecessaryParameters() throws {
+        let request = MessagesRequest(model: .claude_3_Haiku, messages: [Message(role: .user, content: [.text("Hello! Claude!")])], system: nil, maxTokens: 1024, metaData: MetaData(userId: "112234"), stopSequences: ["stop sequence"], stream: false, temperature: 0.4, topP: 1, topK: 2)
+        let invokeModel = try InvokeModelInput(accept: "application/json", request: request, contentType: "application/json")
+
+        let requestData = try XCTUnwrap(invokeModel.body)
+        let decodedJSON = try JSONSerialization.jsonObject(with: requestData, options: []) as! [String: Any]
+
+        UnnecessaryParameter.allCases.map { $0.rawValue }.forEach { key in
+            XCTAssertFalse(decodedJSON.keys.contains(key))
+        }
     }
 
     func testInvokeModelWithResponseStreamContainEncodedMessageRequest() throws {
@@ -57,18 +66,28 @@ final class AnthropicBedrockClientTests: XCTestCase {
         let requestData = try XCTUnwrap(invokeModel.body)
         let decodedRequestData = try anthropicJSONDecoder.decode(MessagesRequest.self, from: requestData)
 
-        XCTAssertEqual(request.model.description, decodedRequestData.model.description)
         XCTAssertEqual(request.messages.first?.role, decodedRequestData.messages.first?.role)
         XCTAssertEqual(request.messages.first?.content.first, decodedRequestData.messages.first?.content.first)
         XCTAssertEqual(request.system, decodedRequestData.system)
         XCTAssertEqual(request.maxTokens, decodedRequestData.maxTokens)
-        XCTAssertEqual(request.metaData?.userId, decodedRequestData.metaData?.userId)
         XCTAssertEqual(request.stopSequences, decodedRequestData.stopSequences)
-        XCTAssertEqual(request.stream, decodedRequestData.stream)
         XCTAssertEqual(request.temperature, decodedRequestData.temperature)
         XCTAssertEqual(request.topP, decodedRequestData.topP)
         XCTAssertEqual(request.topK, decodedRequestData.topK)
     }
+
+    func testInvokeModelWithResponseStreamNotContainUnnecessaryParameters() throws {
+        let request = MessagesRequest(model: .claude_3_Haiku, messages: [Message(role: .user, content: [.text("Hello! Claude!")])], system: nil, maxTokens: 1024, metaData: MetaData(userId: "112234"), stopSequences: ["stop sequence"], stream: false, temperature: 0.4, topP: 1, topK: 2)
+        let invokeModel = try InvokeModelWithResponseStreamInput(accept: "application/json", request: request, contentType: "application/json")
+
+        let requestData = try XCTUnwrap(invokeModel.body)
+        let decodedJSON = try JSONSerialization.jsonObject(with: requestData, options: []) as! [String: Any]
+
+        UnnecessaryParameter.allCases.map { $0.rawValue }.forEach { key in
+            XCTAssertFalse(decodedJSON.keys.contains(key))
+        }
+    }
+
 
     func testInvokeModelOutputShouldBeConvertToMessageResponse() throws {
         let json = """
@@ -142,9 +161,7 @@ extension MessagesRequest: Decodable {
         case messages
         case system
         case maxTokens
-        case metaData
         case stopSequences
-        case stream
         case temperature
         case topP
         case topK
@@ -153,13 +170,10 @@ extension MessagesRequest: Decodable {
     public init(from decoder: any Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         self.init(
-            model: try container.decode(Model.self, forKey: .model),
             messages: try container.decode([Message].self, forKey: .messages),
             system: try? container.decode(String.self, forKey: .system),
             maxTokens: try container.decode(Int.self, forKey: .maxTokens),
-            metaData: try container.decode(MetaData.self, forKey: .metaData),
             stopSequences: try container.decode([String].self, forKey: .stopSequences),
-            stream: try container.decode(Bool.self, forKey: .stream),
             temperature: try container.decode(Double.self, forKey: .temperature),
             topP: try container.decode(Double.self, forKey: .topP),
             topK: try container.decode(Int.self, forKey: .topK)
