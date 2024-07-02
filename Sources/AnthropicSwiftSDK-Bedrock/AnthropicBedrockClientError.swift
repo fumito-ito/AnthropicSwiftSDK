@@ -13,4 +13,5 @@ public enum AnthropicBedrockClientError: Error {
     case cannotGetDataFromBedrockStreamResponse(InvokeModelWithResponseStreamOutput)
     case bedrockRuntimeClientGetsUnknownPayload(BedrockRuntimeClientTypes.ResponseStream)
     case cannotGetDataFromBedrockClientPayload(BedrockRuntimeClientTypes.PayloadPart)
+    case bedrockRuntimeClientGetsErrorInStream(String)
 }
