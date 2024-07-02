@@ -125,7 +125,7 @@ public struct Messages {
             throw AnthropicBedrockClientError.cannotGetDataFromBedrockStreamResponse(response)
         }
 
-        return try await AnthropicStreamingParser.parse(stream: responseStream.map { try $0.toString() })
+        return try await AnthropicStreamingParser.parseBedrockStream(responseStream)
     }
 }
 
@@ -135,12 +135,10 @@ extension BedrockRuntimeClientTypes.ResponseStream {
             throw AnthropicBedrockClientError.bedrockRuntimeClientGetsUnknownPayload(self)
         }
 
-        guard
-            let data = payload.bytes,
-            let line = String(data: data, encoding: .utf8) else {
+        guard let data = payload.bytes else {
             throw AnthropicBedrockClientError.cannotGetDataFromBedrockClientPayload(payload)
         }
 
-        return line
+        return String(decoding: data, as: UTF8.self)
     }
 }
