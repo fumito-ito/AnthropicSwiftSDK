@@ -99,7 +99,7 @@ public struct Messages {
         topP: Double? = nil,
         topK: Int? = nil
     ) async throws -> AsyncThrowingStream<StreamingResponse, Error> {
-        // In the inference call, fill the body field with a JSON object that conforms the type call you want to make [Anthropic Claude Messages API](https://docs.aws.amazon.com/bedrock/latest/userguide/model-parameters-anthropic-claude-messages.html).
+        // In the inference call, fill the body field with a JSON object that conforms the type call you want to make [Anthropic Claude Messages API](https://docs.aws.amazon.com/bedrock/latest/userguide/model-parameters-anthropic-claude-messages.html ).
         let requestBody = MessagesRequest(
             model: model,
             messages: messages,
@@ -135,12 +135,10 @@ extension BedrockRuntimeClientTypes.ResponseStream {
             throw AnthropicBedrockClientError.bedrockRuntimeClientGetsUnknownPayload(self)
         }
 
-        guard
-            let data = payload.bytes,
-            let line = String(data: data, encoding: .utf8) else {
+        guard let data = payload.bytes else {
             throw AnthropicBedrockClientError.cannotGetDataFromBedrockClientPayload(payload)
         }
 
-        return line
+        return String(decoding: data, as: UTF8.self)
     }
 }
