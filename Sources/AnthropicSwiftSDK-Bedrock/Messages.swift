@@ -125,7 +125,7 @@ public struct Messages {
             throw AnthropicBedrockClientError.cannotGetDataFromBedrockStreamResponse(response)
         }
 
-        return try await AnthropicStreamingParser.parse(stream: responseStream.map { try $0.toString() })
+        return try await AnthropicStreamingParser.parseBedrockStream(responseStream)
     }
 }
 
