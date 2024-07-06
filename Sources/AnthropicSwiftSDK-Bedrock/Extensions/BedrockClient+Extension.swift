@@ -19,4 +19,13 @@ public extension BedrockRuntimeClient {
     static func useAnthropic(_ client: BedrockRuntimeClient, model: Model) -> AnthropicBedrockClient {
         AnthropicBedrockClient(client: client, model: model)
     }
+
+    /// Create a client using Claude through Bedrock
+    ///
+    /// - Parameters:
+    ///   - model: Claude model, Bedrock supports Haiku or Sonnet instance type.
+    /// - Returns: Client using Claude through Bedrock
+    func useAnthropic(model: Model) -> AnthropicBedrockClient {
+        AnthropicBedrockClient(client: self, model: model)
+    }
 }
