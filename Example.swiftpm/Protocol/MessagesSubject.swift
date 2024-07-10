@@ -1,0 +1,61 @@
+//
+//  MessagesSubject.swift
+//  Example
+//
+//  Created by Fumito Ito on 2024/07/04.
+//
+
+import Foundation
+import SwiftUI
+import AnthropicSwiftSDK
+
+protocol MessagesSubject {
+    var messages: [ChatMessage] { get }
+    var errorMessage: String { get }
+    var isShowingError: Bool { get set }
+    var isLoading: Bool { get }
+    var title: String { get }
+
+    func cancel()
+    func clear()
+}
+
+protocol SendMessagesSubject: MessagesSubject {
+    init(messageHandler: MessageSendable, title: String)
+
+    func sendMessage(text: String) async throws
+}
+
+protocol StreamMessagesSubject: MessagesSubject {
+    init(messageHandler: MessageStreamable, title: String)
+
+    func streamMessage(text: String) async throws
+}
+
+protocol MessageSendable {
+    func createMessage(
+        _ messages: [Message],
+        model: Model,
+        system: String?,
+        maxTokens: Int,
+        metaData: MetaData?,
+        stopSequence: [String]?,
+        temperature: Double?,
+        topP: Double?,
+        topK: Int?
+    ) async throws -> MessagesResponse
+}
+
+protocol MessageStreamable {
+    func streamMessage(
+        _ messages: [Message],
+        model: Model,
+        system: String?,
+        maxTokens: Int,
+        metaData: MetaData?,
+        stopSequence: [String]?,
+        temperature: Double?,
+        topP: Double?,
+        topK: Int?
+    ) async throws -> AsyncThrowingStream<StreamingResponse, Error>
+}

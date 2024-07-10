@@ -31,6 +31,9 @@ let package = Package(
                 .landscapeRight,
                 .landscapeLeft,
                 .portraitUpsideDown(.when(deviceFamilies: [.pad]))
+            ],
+            capabilities: [
+                .outgoingNetworkConnections()
             ]
         )
     ],
@@ -41,7 +44,9 @@ let package = Package(
         .executableTarget(
             name: "AppModule",
             dependencies: [
-                .product(name: "AnthropicSwiftSDK", package: "AnthropicSwiftSDK")
+                .product(name: "AnthropicSwiftSDK", package: "AnthropicSwiftSDK"),
+                .product(name: "AnthropicSwiftSDK-Bedrock", package: "AnthropicSwiftSDK"),
+                .product(name: "AnthropicSwiftSDK-VertexAI", package: "AnthropicSwiftSDK")
             ],
             path: "."
         )
