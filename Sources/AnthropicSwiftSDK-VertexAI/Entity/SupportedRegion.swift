@@ -19,4 +19,12 @@ public enum SupportedRegion: String {
     ///
     /// This region supports only Claude 3 Haiku
     case europeWest4 = "europe-west4"
+    /// europe-west1 region
+    ///
+    /// This region supports only Claude 3.5 Sonnet
+    case europeWest1 = "europe-west1"
+    /// us-east5 region
+    ///
+    /// This region supports only Claude 3.5 Sonnet
+    case usEast5 = "us-east5"
 }

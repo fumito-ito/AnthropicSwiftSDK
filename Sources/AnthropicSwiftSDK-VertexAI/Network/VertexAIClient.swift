@@ -80,7 +80,10 @@ struct VertexAIClient {
             request.setValue(value, forHTTPHeaderField: key)
         }
         request.httpMethod = method.rawValue
-        request.httpBody = try requestBody.encode(with: ["anthropic_version": anthropicVersion])
+        request.httpBody = try requestBody.encode(
+            with: ["anthropic_version": anthropicVersion],
+            without: UnnecessaryParameter.allCases.map { $0.rawValue }
+        )
 
         return try await session.data(for: request)
     }
@@ -91,7 +94,10 @@ struct VertexAIClient {
             request.setValue(value, forHTTPHeaderField: key)
         }
         request.httpMethod = method.rawValue
-        request.httpBody = try requestBody.encode(with: ["anthropic_version": anthropicVersion])
+        request.httpBody = try requestBody.encode(
+            with: ["anthropic_version": anthropicVersion],
+            without: UnnecessaryParameter.allCases.map { $0.rawValue }
+        )
 
         return try await session.bytes(for: request)
     }
