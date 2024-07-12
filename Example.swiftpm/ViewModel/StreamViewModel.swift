@@ -11,6 +11,7 @@ import AnthropicSwiftSDK
 @Observable class StreamViewModel: StreamMessagesSubject {
     private let messageHandler: MessageStreamable
     let title: String
+    let model: Model
 
     var messages: [ChatMessage] = []
 
@@ -26,9 +27,10 @@ import AnthropicSwiftSDK
 
     private var task: Task<Void, Never>? = nil
 
-    required init(messageHandler: any MessageStreamable, title: String) {
+    required init(messageHandler: any MessageStreamable, title: String, model: Model = .claude_3_5_Sonnet) {
         self.messageHandler = messageHandler
         self.title = title
+        self.model = model
     }
     
     func streamMessage(text: String) async throws {
@@ -40,7 +42,7 @@ import AnthropicSwiftSDK
                 isLoading = true
                 let stream = try await messageHandler.streamMessage(
                     [message],
-                    model: .claude_3_5_Sonnet,
+                    model: model,
                     system: nil,
                     maxTokens: 1024,
                     metaData: nil,

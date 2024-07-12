@@ -82,12 +82,12 @@ struct ContentView: View {
 
                     NavigationLink {
                         let bedrockClient = try! BedrockRuntimeClient(region: bedrockRegion)
-                        let claude = BedrockRuntimeClient.useAnthropic(bedrockClient, model: .claude_3_Opus)
+                        let claude = bedrockClient.useAnthropic()
                         if isStreamBedrock {
-                            let observable = StreamViewModel(messageHandler: claude.messages, title: "Stream \\w Bedrock")
+                            let observable = StreamViewModel(messageHandler: claude.messages, title: "Stream \\w Bedrock", model: .claude_3_Opus)
                             StreamView(observable: observable)
                         } else {
-                            let observable = SendViewModel(messageHandler: claude.messages, title: "Message \\w Bedrock")
+                            let observable = SendViewModel(messageHandler: claude.messages, title: "Message \\w Bedrock", model: .claude_3_Opus)
                             SendView(observable: observable)
                         }
                     } label: {

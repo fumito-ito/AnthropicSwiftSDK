@@ -21,13 +21,13 @@ protocol MessagesSubject {
 }
 
 protocol SendMessagesSubject: MessagesSubject {
-    init(messageHandler: MessageSendable, title: String)
+    init(messageHandler: MessageSendable, title: String, model: Model)
 
     func sendMessage(text: String) async throws
 }
 
 protocol StreamMessagesSubject: MessagesSubject {
-    init(messageHandler: MessageStreamable, title: String)
+    init(messageHandler: MessageStreamable, title: String, model: Model)
 
     func streamMessage(text: String) async throws
 }
