@@ -105,8 +105,8 @@ To create an `AnthropicBedrockClient` from a `BedrockRuntimeClient` with a `Mode
 The API usage is the same as the normal AnthropicClient.
 
 ```swift
-let client = try BedrockRuntimeClient(region: "USEast1")
-let anthropic = BedrockRuntimeClient.useAnthropic(client, model: .claude_3_Haiku)
+let client = try BedrockRuntimeClient(region: "us-west-2")
+let anthropic = client.useAnthropic()
 
 let response = try await anthropic.messages.createMessage(Message(role: .user, content: [.text("This is test text")]), maxTokens: 1024)
 for content in response.content {
@@ -122,8 +122,8 @@ for content in response.content {
 Of course, `Streaming Message API` works in the same way.
 
 ```swift
-let client = try BedrockRuntimeClient(region: "USEast1")
-let anthropic = BedrockRuntimeClient.useAnthropic(client, model: .claude_3_Haiku)
+let client = try BedrockRuntimeClient(region: "us-west-2")
+let anthropic = client.useAnthropic()
 
 let stream = try await anthropic.messages.streamMessage([Message(role: .user, content: [.text("This is test text")])], maxTokens: 1024)
 for try await chunk in stream {

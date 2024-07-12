@@ -9,6 +9,12 @@ import Foundation
 import AnthropicSwiftSDK
 
 @Observable class MockViewModel: StreamMessagesSubject, SendMessagesSubject {
+    required init(messageHandler: any MessageStreamable, title: String, model: AnthropicSwiftSDK.Model) {
+    }
+    
+    required init(messageHandler: any MessageSendable, title: String, model: AnthropicSwiftSDK.Model) {
+    }
+    
     required init(messageHandler: any MessageStreamable, title: String) {
     }
     
