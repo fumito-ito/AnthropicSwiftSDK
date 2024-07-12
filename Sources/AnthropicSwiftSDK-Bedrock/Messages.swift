@@ -16,12 +16,9 @@ public struct Messages {
     public let requestContentType = "application/json"
     /// Bedrock API Client
     public let client: BedrockRuntimeClient
-    /// Claude model for this client
-    public let model: Model
 
-    init(client: BedrockRuntimeClient, model: Model) {
+    init(client: BedrockRuntimeClient) {
         self.client = client
-        self.model = model
     }
 
     /// Creates a message using the specified parameters and sends a request to the Anthropic API asynchronously.

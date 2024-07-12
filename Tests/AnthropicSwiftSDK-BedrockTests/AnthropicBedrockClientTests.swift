@@ -11,25 +11,6 @@ import AnthropicSwiftSDK
 import AWSBedrockRuntime
 
 final class AnthropicBedrockClientTests: XCTestCase {
-    func testClientUsePassedAnthropicModel() throws {
-        let client = try BedrockRuntimeClient(region: "US")
-
-        var anthropic = BedrockRuntimeClient.useAnthropic(client, model: .claude_3_Haiku)
-        XCTAssertEqual(anthropic.messages.model.description, Model.claude_3_Haiku.description)
-
-        anthropic = BedrockRuntimeClient.useAnthropic(client, model: .claude_3_Sonnet)
-        XCTAssertEqual(anthropic.messages.model.description, Model.claude_3_Sonnet.description)
-
-        anthropic = BedrockRuntimeClient.useAnthropic(client, model: .claude_3_Opus)
-        XCTAssertEqual(anthropic.messages.model.description, Model.claude_3_Opus.description)
-
-        anthropic = BedrockRuntimeClient.useAnthropic(client, model: .claude_3_5_Sonnet)
-        XCTAssertEqual(anthropic.messages.model.description, Model.claude_3_5_Sonnet.description)
-
-        anthropic = BedrockRuntimeClient.useAnthropic(client, model: .custom("custom-model"))
-        XCTAssertEqual(anthropic.messages.model.description, "custom-model")
-    }
-
     func testInvokeModelContainEncodedMessageRequest() throws {
         let request = MessagesRequest(model: .claude_3_Haiku, messages: [Message(role: .user, content: [.text("Hello! Claude!")])], system: nil, maxTokens: 1024, metaData: MetaData(userId: "112234"), stopSequences: ["stop sequence"], stream: false, temperature: 0.4, topP: 1, topK: 2)
         let invokeModel = try InvokeModelInput(accept: "application/json", request: request, contentType: "application/json")

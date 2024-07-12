@@ -18,7 +18,7 @@ public final class AnthropicBedrockClient {
         AnthropicVersion.custom("bedrock-2023-05-31").stringfy
     }
 
-    init(client: BedrockRuntimeClient, model: Model) {
-        self.messages = .init(client: client, model: model)
+    init(client: BedrockRuntimeClient) {
+        self.messages = .init(client: client)
     }
 }
