@@ -70,7 +70,7 @@ final class StreamingDataLineParserTests: XCTestCase {
 
         XCTAssertEqual(result.type, .contentBlockDelta)
         XCTAssertEqual(result.index, 0)
-        XCTAssertEqual(result.delta.type, "text_delta")
+        XCTAssertEqual(result.delta.type, .text)
         XCTAssertEqual(result.delta.text, "Hello")
     }
 
