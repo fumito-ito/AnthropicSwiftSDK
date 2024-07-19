@@ -197,7 +197,7 @@ extension Content: Equatable {
                 return (
                     lhsContent.id == rhsContent.id
                     && lhsContent.name == rhsContent.name
-                    && lhsContent.input == rhsContent.input
+                    && lhsContent.input.keys == rhsContent.input.keys
                 )
             case .toolResult:
                 return false
