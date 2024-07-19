@@ -211,7 +211,7 @@ final class ContentTests: XCTestCase {
 
         XCTAssertEqual(toolUseContent.id, "toolu_01A09q90qw90lq917835lq9")
         XCTAssertEqual(toolUseContent.name, "get_weather")
-        XCTAssertEqual(toolUseContent.input["location"], "San Francisco, CA")
+        XCTAssertEqual(toolUseContent.input["location"] as! String, "San Francisco, CA")
     }
 }
 

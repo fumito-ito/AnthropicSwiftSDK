@@ -14,7 +14,23 @@ public struct ToolUseContent {
     /// The name of the tool being used.
     public let name: String
     /// An object containing the input being passed to the tool, conforming to the tool’s `input_schema`.
-    public let input: [String: String]
+    public let input: [String: Any]
 }
 
-extension ToolUseContent: Decodable {}
+extension ToolUseContent: Decodable {
+    public init(from decoder: any Decoder) throws {
+        let container = try decoder.container(keyedBy: AnyCodingKeys.self)
+        let dictionary = try container.decode([String: Any].self)
+
+        guard
+            let id = dictionary["id"] as? String,
+            let name = dictionary["name"] as? String,
+            let input = dictionary["input"] as? [String: Any] else {
+            fatalError("TODO: throw error")
+        }
+
+        self.id = id
+        self.name = name
+        self.input = input
+    }
+}
