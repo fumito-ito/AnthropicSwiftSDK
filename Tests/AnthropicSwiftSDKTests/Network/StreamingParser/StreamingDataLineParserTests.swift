@@ -58,8 +58,11 @@ final class StreamingDataLineParserTests: XCTestCase {
 
         XCTAssertEqual(result.type, .contentBlockStart)
         XCTAssertEqual(result.index, 0)
-        XCTAssertEqual(result.contentBlock.type, "text")
-        XCTAssertEqual(result.contentBlock.text, "")
+        if case .text(let text) = result.contentBlock {
+            XCTAssertEqual(text, "")
+        } else {
+            XCTFail()
+        }
     }
 
     func testParseContentBlockDeltaDataLine() throws {

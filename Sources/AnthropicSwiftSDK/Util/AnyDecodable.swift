@@ -50,7 +50,7 @@ extension KeyedDecodingContainer {
                 dictionary[key.stringValue] = value
             } else if let value = try? decode(String.self, forKey: key) {
                 dictionary[key.stringValue] = value
-            } else if let value = try? decode(Int64.self, forKey: key) {
+            } else if let value = try? decode(Int.self, forKey: key) {
                 dictionary[key.stringValue] = value
             } else if let value = try? decode(Double.self, forKey: key) {
                 dictionary[key.stringValue] = value
