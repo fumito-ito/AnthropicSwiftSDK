@@ -63,8 +63,30 @@ final class AnthropicBedrockMessagesResponseParserTests: XCTestCase {
 
         XCTAssertEqual(result.type, .contentBlockStart)
         XCTAssertEqual(result.index, 0)
-        XCTAssertEqual(result.contentBlock.type, "text")
-        XCTAssertEqual(result.contentBlock.text, "")
+        if case .text(let text) = result.contentBlock {
+            XCTAssertEqual(text, "")
+        } else {
+            XCTFail()
+        }
+    }
+
+    func testParseContentBlockStartToolUseData() throws {
+        let data = """
+        {"type":"content_block_start","index":0,"content_block":{"type":"tool_use","id":"toolu_01T1x1fJ34qAmk2tNTrN7Up6","name":"get_weather","input":{"foo":"bar","hoge":1}}}
+        """
+        let response = BedrockRuntimeClientTypes.ResponseStream.chunk(.init(bytes: data.data(using: .utf8)))
+        let result = try AnthropicStreamingParser.parse(responseStream: response) as! StreamingContentBlockStartResponse
+
+        XCTAssertEqual(result.type, .contentBlockStart)
+        XCTAssertEqual(result.index, 0)
+        if case .toolUse(let toolUseContent) = result.contentBlock {
+            XCTAssertEqual(toolUseContent.id, "toolu_01T1x1fJ34qAmk2tNTrN7Up6")
+            XCTAssertEqual(toolUseContent.name, "get_weather")
+            XCTAssertEqual(toolUseContent.input["foo"] as! String, "bar")
+            XCTAssertEqual(toolUseContent.input["hoge"] as! Int, 1)
+        } else {
+            XCTFail()
+        }
     }
 
     func testParseContentBlockDeltaData() throws {

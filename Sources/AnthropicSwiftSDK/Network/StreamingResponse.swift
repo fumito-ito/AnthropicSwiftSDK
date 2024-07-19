@@ -33,7 +33,7 @@ public struct StreamingMessageStopResponse: StreamingResponse {
 public struct StreamingContentBlockStartResponse: StreamingResponse {
     public let type: StreamingEvent
     public let index: Int
-    public let contentBlock: ContentBlock
+    public let contentBlock: Content
 }
 
 public struct StreamingContentBlockDeltaResponse: StreamingResponse {
