@@ -8,6 +8,7 @@
 import Foundation
 
 public struct ContentBlockDelta: Decodable {
-    public let type: String
-    public let text: String
+    public let type: ContentBlockDeltaType
+    public let text: String?
+    public let partialJson: String?
 }
