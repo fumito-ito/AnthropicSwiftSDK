@@ -319,25 +319,25 @@ public struct Messages {
             throw AnthropicAPIError(fromHttpStatusCode: httpResponse.statusCode)
         }
 
-        return try await AnthropicStreamingParser.parse(stream: data.lines)
+        return try await AnthropicStreamingParser.parse(stream: data.lines).accumulated()
     }
-
-    // TODO: Streamingの方は既存のインターフェースは変えずに `AsyncThrowingStream<StreamingResponse, Error>` を受け取って `StreamingResponse` を返す & `input_json_delta` の場合は集約して"type":"message_delta","delta":{"stop_reason":"tool_use"のタイミングで `ToolUseContent` を返すやつを追加する
-    // stream -> accumulated -> toolUseがあったら -> stream
 }
 
 extension AsyncThrowingStream where Element == StreamingResponse {
-    func accumulated() throws -> AsyncThrowingStream<JSONDeltaAccumulator.AccumulatedResult, Error> {
-        let accumulator = JSONDeltaAccumulator()
+    func accumulated() throws -> AsyncThrowingStream<StreamingResponse, Error> {
+        let accumulator = InputJSONDeltaAccumulator()
         let accumulatedStream = accumulator.getAccumulatedStream()
 
         Task {
             do {
+                defer {
+                    accumulator.finish()
+                }
+
                 for try await value in self {
                     try accumulator.accumulateIfNeeded(value)
                 }
             } catch {
-                accumulator.finish()
                 throw error
             }
         }
@@ -346,38 +346,63 @@ extension AsyncThrowingStream where Element == StreamingResponse {
     }
 }
 
-class JSONDeltaAccumulator {
-    typealias AccumulatedResult = (StreamingResponse, ToolUseContent?)
-    private var jsonDelta: [StreamingContentBlockDeltaResponse] = []
-    private var streamingResponseStream: AsyncThrowingStream<AccumulatedResult, Error>.Continuation?
+extension StreamingMessageDeltaResponse {
+    func added(toolUseContent: ToolUseContent) -> Self {
+        StreamingMessageDeltaResponse(
+            type: type,
+            delta: delta,
+            usage: usage,
+            toolUseContent: toolUseContent
+        )
+    }
+}
 
-    // TODO: rename
+class InputJSONDeltaAccumulator {
+    private var partialJson: [StreamingContentBlockDeltaResponse] = []
+    private var toolUseInfo: StreamingContentBlockStartResponse?
+    private var streamingResponseStream: AsyncThrowingStream<StreamingResponse, Error>.Continuation?
+
     func accumulateIfNeeded(_ response: StreamingResponse) throws {
-        var toolUseContent: ToolUseContent?
+        var modifiedResponse = response
 
         switch response {
-        case let res as StreamingContentBlockDeltaResponse:
-            // TODO: define delta type and content
-            if res.delta.type == .inputJSON {
-                jsonDelta.append(res)
+        case let contentBlockStart as StreamingContentBlockStartResponse:
+            if case .toolUse = contentBlockStart.contentBlock {
+                toolUseInfo = contentBlockStart
             }
-        case let res as StreamingMessageDeltaResponse:
-            if res.delta.stopReason == .toolUse {
-                toolUseContent = try createToolUseContent(from: jsonDelta)
+        case let contentBlockDelta as StreamingContentBlockDeltaResponse:
+            if contentBlockDelta.delta.type == .inputJSON {
+                partialJson.append(contentBlockDelta)
+            }
+        case let messageDelta as StreamingMessageDeltaResponse:
+            if messageDelta.delta.stopReason == .toolUse {
+                let toolUseContent = try createToolUseContent(from: partialJson, with: toolUseInfo)
+                modifiedResponse = messageDelta.added(toolUseContent: toolUseContent)
             }
         default:
             break
         }
 
-        streamingResponseStream?.yield((response, toolUseContent))
+        streamingResponseStream?.yield(modifiedResponse)
     }
 
+    // TODO: rename
+    func createToolUseContent(from delta: [StreamingContentBlockDeltaResponse], with toolUseInfo: StreamingContentBlockStartResponse?) throws -> ToolUseContent {
+        guard case .toolUse(let toolUse) = toolUseInfo?.contentBlock else {
+            fatalError("TODO: throw error")
+        }
 
-    func createToolUseContent(from delta: [StreamingContentBlockDeltaResponse]) throws -> ToolUseContent {
-        fatalError("TODO: ")
+        guard
+            let jsonData = delta.compactMap({ $0.delta.partialJson }).joined().data(using: .utf8),
+            let input = try JSONSerialization.jsonObject(with: jsonData, options: []) as? [String: Any] else {
+            fatalError("TODO: throw error")
+        }
+
+        return ToolUseContent(id: toolUse.id, name: toolUse.name, input: input)
     }
 
-    func getAccumulatedStream() -> AsyncThrowingStream<AccumulatedResult, Error> {
+    // TODO: rename
+    func getAccumulatedStream() -> AsyncThrowingStream<StreamingResponse, Error> {
         AsyncThrowingStream { continuation in
             self.streamingResponseStream = continuation
         }
