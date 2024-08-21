@@ -10,6 +10,7 @@ import AnthropicSwiftSDK
 
 @Observable class SendViewModel: SendMessagesSubject {
     private let messageHandler: MessageSendable
+    private let functionTools = FunctionTools()
     let title: String
     let model: Model
 
@@ -49,7 +50,9 @@ import AnthropicSwiftSDK
                     stopSequence: nil,
                     temperature: nil,
                     topP: nil,
-                    topK: nil
+                    topK: nil,
+                    toolContainer: functionTools,
+                    toolChoice: .auto
                 )
 
                 if case let .text(reply) = result.content.first {
