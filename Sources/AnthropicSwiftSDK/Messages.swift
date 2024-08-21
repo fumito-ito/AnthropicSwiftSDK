@@ -5,9 +5,12 @@
 //  Created by Fumito Ito on 2024/03/17.
 //
 
-import Foundation
-import FunctionCallingService
+// swiftlint:disable file_length
 
+import Foundation
+import FunctionCalling
+
+// swiftlint:disable:next type_body_length
 public struct Messages {
     private let apiKey: String
     private let session: URLSession
@@ -29,6 +32,8 @@ public struct Messages {
     ///   - temperature: The temperature parameter controls the randomness of the generated text. Default is `nil`.
     ///   - topP: The nucleus sampling parameter. Default is `nil`.
     ///   - topK: The top-k sampling parameter. Default is `nil`.
+    ///   - toolContainer: The tool provider for `tool_use`. Default is `nil`
+    ///   - toolChoice: The parameter for tool choice. Default is `.auto`
     /// - Returns: A `MessagesResponse` object representing the response from the Anthropic API.
     /// - Throws: An error if the request fails or if there's an issue decoding the response.
     public func createMessage(
@@ -73,6 +78,8 @@ public struct Messages {
     ///   - temperature: The temperature parameter controls the randomness of the generated text. Default is `nil`.
     ///   - topP: The nucleus sampling parameter. Default is `nil`.
     ///   - topK: The top-k sampling parameter. Default is `nil`.
+    ///   - toolContainer: The tool provider for `tool_use`. Default is `nil`
+    ///   - toolChoice: The parameter for tool choice. Default is `.auto`
     ///   - anthropicHeaderProvider: The provider for the anthropic header NOT required for API authentication.
     ///   - authenticationHeaderProvider: The provider for the authentication header required for API authentication.
     /// - Returns: A `MessagesResponse` object representing the response from the Anthropic API.
@@ -160,6 +167,8 @@ public struct Messages {
     ///   - temperature: The temperature parameter controls the randomness of the generated text. Default is `nil`.
     ///   - topP: The nucleus sampling parameter. Default is `nil`.
     ///   - topK: The top-k sampling parameter. Default is `nil`.
+    ///   - toolContainer: The tool provider for `tool_use`. Default is `nil`
+    ///   - toolChoice: The parameter for tool choice. Default is `.auto`
     ///   - anthropicHeaderProvider: The provider for the anthropic header NOT required for API authentication.
     ///   - authenticationHeaderProvider: The provider for the authentication header required for API authentication.
     /// - Returns: A `MessagesResponse` object representing the response from the Anthropic API.
@@ -180,7 +189,7 @@ public struct Messages {
         anthropicHeaderProvider: AnthropicHeaderProvider,
         authenticationHeaderProvider: AuthenticationHeaderProvider
     ) async throws -> MessagesResponse {
-        // TODO: write tests
+        // If a `tool_use` response is returned with no `ToolContainer` specified, `tool_use_result` cannot be returned because any tool does not exist.
         guard let toolContainer else {
             throw ClientError.anyToolsAreDefined
         }
@@ -224,6 +233,8 @@ public struct Messages {
     ///   - temperature: The temperature parameter controls the randomness of the generated text. Default is `nil`.
     ///   - topP: The nucleus sampling parameter. Default is `nil`.
     ///   - topK: The top-k sampling parameter. Default is `nil`.
+    ///   - toolContainer: The tool provider for `tool_use`. Default is `nil`
+    ///   - toolChoice: The parameter for tool choice. Default is `.auto`
     /// - Returns: An asynchronous throwing stream of `StreamingResponse` objects representing the streaming response from the Anthropic API.
     /// - Throws: An error if the request fails or if there's an issue parsing the streaming response.
     public func streamMessage(
@@ -268,6 +279,8 @@ public struct Messages {
     ///   - temperature: The temperature parameter controls the randomness of the generated text. Default is `nil`.
     ///   - topP: The nucleus sampling parameter. Default is `nil`.
     ///   - topK: The top-k sampling parameter. Default is `nil`.
+    ///   - toolContainer: The tool provider for `tool_use`. Default is `nil`
+    ///   - toolChoice: The parameter for tool choice. Default is `.auto`
     ///   - anthropicHeaderProvider: The provider for the anthropic header NOT required for API authentication.
     ///   - authenticationHeaderProvider: The provider for the authentication header required for API authentication.
     /// - Returns: An asynchronous throwing stream of `StreamingResponse` objects representing the streaming response from the Anthropic API.
@@ -318,96 +331,104 @@ public struct Messages {
             throw AnthropicAPIError(fromHttpStatusCode: httpResponse.statusCode)
         }
 
-        return try await AnthropicStreamingParser.parse(stream: data.lines).accumulated()
-    }
-}
-
-extension AsyncThrowingStream where Element == StreamingResponse {
-    func accumulated() throws -> AsyncThrowingStream<StreamingResponse, Error> {
-        let accumulator = InputJSONDeltaAccumulator()
-        let accumulativeStream = accumulator.createAccumulativeStream()
-
-        Task {
-            do {
-                defer {
-                    accumulator.finish()
-                }
-
-                for try await value in self {
-                    try accumulator.accumulateIfNeeded(value)
-                }
-            } catch {
-                throw error
-            }
-        }
-
-        return accumulativeStream
-    }
-}
-
-// TODO: write tests
-extension StreamingMessageDeltaResponse {
-    func added(toolUseContent: ToolUseContent) -> Self {
-        StreamingMessageDeltaResponse(
-            type: type,
-            delta: delta,
-            usage: usage,
-            toolUseContent: toolUseContent
+        return resendStreamMessageIfClaudeRequestsToolUse(
+            try await AnthropicStreamingParser.parse(stream: data.lines).accumulated(),
+            messages: messages,
+            model: model,
+            system: system,
+            maxTokens: maxTokens,
+            metaData: metaData,
+            stopSequence: stopSequence,
+            temperature: temperature,
+            topP: topP,
+            topK: topK,
+            toolContainer: toolContainer,
+            toolChoice: toolChoice,
+            anthropicHeaderProvider: anthropicHeaderProvider,
+            authenticationHeaderProvider: authenticationHeaderProvider
         )
     }
-}
 
-// TODO: write tests
-class InputJSONDeltaAccumulator {
-    private var partialJson: [StreamingContentBlockDeltaResponse] = []
-    private var toolUseInfo: StreamingContentBlockStartResponse?
-    private var accumulativeStream: AsyncThrowingStream<StreamingResponse, Error>.Continuation?
-
-    func accumulateIfNeeded(_ response: StreamingResponse) throws {
-        var modifiedResponse = response
-
-        switch response {
-        case let contentBlockStart as StreamingContentBlockStartResponse:
-            if case .toolUse = contentBlockStart.contentBlock {
-                toolUseInfo = contentBlockStart
-            }
-        case let contentBlockDelta as StreamingContentBlockDeltaResponse:
-            if contentBlockDelta.delta.type == .inputJSON {
-                partialJson.append(contentBlockDelta)
-            }
-        case let messageDelta as StreamingMessageDeltaResponse:
-            if messageDelta.delta.stopReason == .toolUse {
-                let toolUseContent = try aggregateToolUseContent(from: partialJson, with: toolUseInfo)
-                modifiedResponse = messageDelta.added(toolUseContent: toolUseContent)
-            }
-        default:
-            break
-        }
-
-        accumulativeStream?.yield(modifiedResponse)
-    }
-
-    func aggregateToolUseContent(from delta: [StreamingContentBlockDeltaResponse], with toolUseInfo: StreamingContentBlockStartResponse?) throws -> ToolUseContent {
-        guard case .toolUse(let toolUse) = toolUseInfo?.contentBlock else {
-            throw ClientError.cannotFindToolUseContentFromContentBlockStart(toolUseInfo?.contentBlock)
-        }
-
-        guard
-            let jsonData = delta.compactMap({ $0.delta.partialJson }).joined().data(using: .utf8),
-            let input = try JSONSerialization.jsonObject(with: jsonData, options: []) as? [String: Any] else {
-            throw ClientError.failedToAggregatePartialJSONStringIntoJSONObject(delta.compactMap({ $0.delta.partialJson }).joined())
-        }
-
-        return ToolUseContent(id: toolUse.id, name: toolUse.name, input: input)
-    }
-
-    func createAccumulativeStream() -> AsyncThrowingStream<StreamingResponse, Error> {
+    /// Receive response from Claude in Stream format.
+    ///
+    /// If there is a response related to `tool_use`, the information is compiled and streamed.
+    ///
+    /// - Parameters:
+    ///   - stream: response stream from Claude Stream API
+    ///   - messages: An array of Message objects representing the input prompt for message generation.
+    ///   - model: The model to be used for generating the message. Default is `.claude_3_Opus`.
+    ///   - system: The system identifier. Default is `nil`.
+    ///   - maxTokens: The maximum number of tokens in the generated message.
+    ///   - metaData: Additional metadata for the request. Default is `nil`.
+    ///   - stopSequence: An array of strings representing sequences where the message generation should stop.
+    ///   - temperature: The temperature parameter controls the randomness of the generated text. Default is `nil`.
+    ///   - topP: The nucleus sampling parameter. Default is `nil`.
+    ///   - topK: The top-k sampling parameter. Default is `nil`.
+    ///   - toolContainer: The tool provider for `tool_use`. Default is `nil`
+    ///   - toolChoice: The parameter for tool choice. Default is `.auto`
+    ///   - anthropicHeaderProvider: The provider for the anthropic header NOT required for API authentication.
+    ///   - authenticationHeaderProvider: The provider for the authentication header required for API authentication.
+    /// - Returns: Claude Stream API response stream. If `stream` returns `tool_use` content, this method returns re-request new stream.
+    // swiftlint:disable:next function_parameter_count
+    func resendStreamMessageIfClaudeRequestsToolUse(
+        _ stream: AsyncThrowingStream<StreamingResponse, Error>,
+        messages: [Message],
+        model: Model,
+        system: String?,
+        maxTokens: Int,
+        metaData: MetaData?,
+        stopSequence: [String]?,
+        temperature: Double?,
+        topP: Double?,
+        topK: Int?,
+        toolContainer: ToolContainer?,
+        toolChoice: ToolChoice,
+        anthropicHeaderProvider: AnthropicHeaderProvider,
+        authenticationHeaderProvider: AuthenticationHeaderProvider
+    ) -> AsyncThrowingStream<StreamingResponse, Error> {
         AsyncThrowingStream { continuation in
-            self.accumulativeStream = continuation
+            Task {
+                do {
+                    for try await response in stream {
+                        if
+                            let toolContainer,
+                            let deltaResponse = response as? StreamingMessageDeltaResponse,
+                            let toolUseContent = deltaResponse.toolUseContent,
+                            let toolResultContent = await deltaResponse.getToolResultContent(from: toolContainer),
+                            response.isToolUse {
+                            let streamWithToolResult = try await streamMessage(
+                                messages + [
+                                    .init(role: .assistant, content: [.toolUse(toolUseContent)]),
+                                    .init(role: .user, content: [toolResultContent])
+                                ],
+                                model: model,
+                                system: system,
+                                maxTokens: maxTokens,
+                                metaData: metaData,
+                                stopSequence: stopSequence,
+                                temperature: temperature,
+                                topP: topP,
+                                topK: topK,
+                                toolContainer: toolContainer,
+                                toolChoice: toolChoice,
+                                anthropicHeaderProvider: anthropicHeaderProvider,
+                                authenticationHeaderProvider: authenticationHeaderProvider
+                            )
+
+                            for try await responseWithToolResult in streamWithToolResult {
+                                continuation.yield(responseWithToolResult)
+                            }
+                        } else {
+                            continuation.yield(response)
+                        }
+                    }
+                    continuation.finish()
+                } catch {
+                    continuation.finish(throwing: error)
+                }
+            }
         }
     }
-
-    func finish() {
-        accumulativeStream?.finish()
-    }
 }
+
+// swiftlint:enable file_length

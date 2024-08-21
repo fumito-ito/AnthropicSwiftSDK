@@ -24,8 +24,10 @@ public enum ClientError: Error {
     /// Claude API returns `tool_use` response but any tool_use contents are not defined in response
     case cannotFindToolUseContentFromResponse(MessagesResponse)
     /// Claude API returns `tool_use` response but any tool_use contents are not defined in content_block_start chunk
+    // swiftlint:disable:next identifier_name
     case cannotFindToolUseContentFromContentBlockStart(Content?)
     /// SDK tries to aggregate partial json string into JSON object but failed
+    // swiftlint:disable:next identifier_name
     case failedToAggregatePartialJSONStringIntoJSONObject(String)
     /// SDK failed to decode tool_use content
     case failedToDecodeToolUseContent
