@@ -182,12 +182,11 @@ public struct Messages {
     ) async throws -> MessagesResponse {
         // TODO: write tests
         guard let toolContainer else {
-            // TODO: Throw error
-            fatalError("Claude returns tool_use but any tools are defined")
+            throw ClientError.anyToolsAreDefined
         }
 
         guard case .toolUse(let toolUseContent) = toolUseRequest.content.first(where: { $0.contentType == .toolUse }) else {
-            fatalError("TODO: Throw error")
+            throw ClientError.cannotFindToolUseContentFromResponse(toolUseRequest)
         }
 
         let toolResult = await toolContainer.execute(methodName: toolUseContent.name, parameters: toolUseContent.input)
@@ -390,13 +389,13 @@ class InputJSONDeltaAccumulator {
 
     func aggregateToolUseContent(from delta: [StreamingContentBlockDeltaResponse], with toolUseInfo: StreamingContentBlockStartResponse?) throws -> ToolUseContent {
         guard case .toolUse(let toolUse) = toolUseInfo?.contentBlock else {
-            fatalError("TODO: throw error")
+            throw ClientError.cannotFindToolUseContentFromContentBlockStart(toolUseInfo?.contentBlock)
         }
 
         guard
             let jsonData = delta.compactMap({ $0.delta.partialJson }).joined().data(using: .utf8),
             let input = try JSONSerialization.jsonObject(with: jsonData, options: []) as? [String: Any] else {
-            fatalError("TODO: throw error")
+            throw ClientError.failedToAggregatePartialJSONStringIntoJSONObject(delta.compactMap({ $0.delta.partialJson }).joined())
         }
 
         return ToolUseContent(id: toolUse.id, name: toolUse.name, input: input)

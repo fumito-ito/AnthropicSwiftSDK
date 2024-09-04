@@ -26,7 +26,7 @@ extension ToolUseContent: Decodable {
             let id = dictionary["id"] as? String,
             let name = dictionary["name"] as? String,
             let input = dictionary["input"] as? [String: Any] else {
-            fatalError("TODO: throw error")
+            throw ClientError.failedToDecodeToolUseContent
         }
 
         self.id = id
