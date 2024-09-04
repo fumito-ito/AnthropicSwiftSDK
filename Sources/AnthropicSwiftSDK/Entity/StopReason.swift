@@ -15,4 +15,6 @@ public enum StopReason: String, Decodable {
     case maxTokens = "max_tokens"
     /// one of your provided custom `stop_sequences` was generated
     case stopSequence = "stop_sequence"
+    /// the model invoked one or more tools
+    case toolUse = "tool_use"
 }

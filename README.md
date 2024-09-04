@@ -21,7 +21,7 @@ let package = Package(
         )
     ],
     dependencies: [
-        .package(url: "https://github.com/fumito-ito/AnthropicSwiftSDK.git", .upToNextMajor(from: "0.3.0"))
+        .package(url: "https://github.com/fumito-ito/AnthropicSwiftSDK.git", .upToNextMajor(from: "0.5.0"))
     ]
 )
 ```
@@ -79,6 +79,33 @@ for try await chunk in stream {
 }
 ```
 
+### [Tool Use](https://docs.anthropic.com/en/docs/build-with-claude/tool-use)
+
+Claude is capable of interacting with external client-side tools and functions, allowing you to equip Claude with your own custom tools to perform a wider variety of tasks.
+
+AnthropicSwiftSDK supports `Tool Use` in conjunction with the [`@FunctionCalling`](https://github.com/fumito-ito/FunctionCalling) macro. You can easily handle `Tool Use` with the following code.
+
+```swift
+@FunctionCalling(service: .claude)
+struct MyFunctionTools: ToolContainer {
+    @CallableFunction
+    /// Get the current stock price for a given ticker symbol
+    ///
+    /// - Parameter: The stock ticker symbol, e.g. AAPL for Apple Inc.
+    func getStockPrice(ticker: String) async throws -> String {
+        // code to return stock price of passed ticker
+    }
+}
+
+
+let result = try await Anthropic(apiKey: "your_claude_api_key")
+    .createMessage(
+        [message],
+        maxTokens: 1024,
+        toolContainer: MyFunctionTools() // <= pass tool container here
+    )
+```
+
 ## Amazon Web Services Bedrock
 
 This library provides support for the [Anthropic Bedrock API](https://aws.amazon.com/bedrock/claude/) through a separate package.
@@ -96,7 +123,7 @@ let package = Package(
         )
     ],
     dependencies: [
-        .package(url: "https://github.com/fumito-ito/AnthropicSwiftSDK.git", .upToNextMajor(from: "0.3.0"))
+        .package(url: "https://github.com/fumito-ito/AnthropicSwiftSDK.git", .upToNextMajor(from: "0.5.0"))
     ]
 )
 ```
@@ -151,7 +178,7 @@ let package = Package(
         )
     ],
     dependencies: [
-        .package(url: "https://github.com/fumito-ito/AnthropicSwiftSDK.git", .upToNextMajor(from: "0.3.0"))
+        .package(url: "https://github.com/fumito-ito/AnthropicSwiftSDK.git", .upToNextMajor(from: "0.5.0"))
     ]
 )
 ```

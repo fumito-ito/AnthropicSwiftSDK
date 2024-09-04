@@ -24,6 +24,7 @@ public struct StreamingMessageDeltaResponse: StreamingResponse {
     public let type: StreamingEvent
     public let delta: MessageDelta
     public let usage: TokenUsage
+    public let toolUseContent: ToolUseContent?
 }
 
 public struct StreamingMessageStopResponse: StreamingResponse {
@@ -33,7 +34,7 @@ public struct StreamingMessageStopResponse: StreamingResponse {
 public struct StreamingContentBlockStartResponse: StreamingResponse {
     public let type: StreamingEvent
     public let index: Int
-    public let contentBlock: ContentBlock
+    public let contentBlock: Content
 }
 
 public struct StreamingContentBlockDeltaResponse: StreamingResponse {

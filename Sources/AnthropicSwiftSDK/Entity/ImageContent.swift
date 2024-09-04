@@ -40,4 +40,18 @@ public struct ImageContent {
     }
 }
 
-extension ImageContent: Codable {}
+extension ImageContent: Codable {
+    enum CodingKeys: String, CodingKey {
+        case type
+        case mediaType = "media_type"
+        case data
+    }
+
+    public init(from decoder: any Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+
+        self.type = try container.decode(ImageContentType.self, forKey: .type)
+        self.mediaType = try container.decode(ImageContentMediaType.self, forKey: .mediaType)
+        self.data = try container.decode(String.self, forKey: .data).data(using: .utf8) ?? Data()
+    }
+}

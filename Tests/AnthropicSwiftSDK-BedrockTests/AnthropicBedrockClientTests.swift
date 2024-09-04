@@ -171,6 +171,10 @@ extension Content: Equatable {
                 return lhsText == rhsText
             case .image:
                 return false
+            case .toolUse:
+                return false
+            case .toolResult:
+                return false
             }
         case .image(let lhsContent):
             switch rhs {
@@ -178,6 +182,41 @@ extension Content: Equatable {
                 return false
             case .image(let rhsContent):
                 return lhsContent.data == rhsContent.data
+            case .toolUse:
+                return false
+            case .toolResult(_):
+                return false
+            }
+        case .toolUse(let lhsContent):
+            switch rhs {
+            case .text:
+                return false
+            case .image:
+                return false
+            case .toolUse(let rhsContent):
+                return (
+                    lhsContent.id == rhsContent.id
+                    && lhsContent.name == rhsContent.name
+                    && lhsContent.input.keys == rhsContent.input.keys
+                )
+            case .toolResult:
+                return false
+            }
+
+        case .toolResult(let lhsContent):
+            switch rhs {
+            case .text:
+                return false
+            case .image:
+                return false
+            case .toolUse:
+                return false
+            case .toolResult(let rhsContent):
+                return (
+                    lhsContent.toolUseId == rhsContent.toolUseId
+                    && lhsContent.content == rhsContent.content
+                    && lhsContent.isError == rhsContent.isError
+                )
             }
         }
     }

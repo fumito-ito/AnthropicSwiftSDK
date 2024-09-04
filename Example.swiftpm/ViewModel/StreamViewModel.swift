@@ -10,6 +10,7 @@ import AnthropicSwiftSDK
 
 @Observable class StreamViewModel: StreamMessagesSubject {
     private let messageHandler: MessageStreamable
+    private let functionTools = FunctionTools()
     let title: String
     let model: Model
 
@@ -40,7 +41,7 @@ import AnthropicSwiftSDK
         task = Task {
             do {
                 isLoading = true
-                let stream = try await messageHandler.streamMessage(
+                let stream = try await self.messageHandler.streamMessage(
                     [message],
                     model: model,
                     system: nil,
@@ -49,13 +50,15 @@ import AnthropicSwiftSDK
                     stopSequence: nil,
                     temperature: nil,
                     topP: nil,
-                    topK: nil
+                    topK: nil,
+                    toolContainer: functionTools,
+                    toolChoice: .auto
                 )
                 for try await chunk in stream {
                     switch chunk.type {
                     case .contentBlockDelta:
                         if let response = chunk as? StreamingContentBlockDeltaResponse {
-                            messages.append(.init(user: .assistant, text: response.delta.text))
+                            messages.append(.init(user: .assistant, text: response.delta.text ?? ""))
                         }
                     default:
                         break

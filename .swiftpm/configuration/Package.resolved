@@ -28,15 +28,6 @@
       }
     },
     {
-      "identity" : "functioncalling",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/fumito-ito/FunctionCalling",
-      "state" : {
-        "revision" : "0cafcc55875342fe9d91fe00312b30cdca6742a0",
-        "version" : "0.3.0"
-      }
-    },
-    {
       "identity" : "grmustache.swift",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/groue/GRMustache.swift",
