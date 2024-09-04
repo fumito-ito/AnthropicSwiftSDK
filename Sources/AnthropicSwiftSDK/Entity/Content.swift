@@ -78,8 +78,12 @@ extension Content: Encodable {
             var container = encoder.container(keyedBy: CodingKeys.self)
             try container.encode(self.contentType.rawValue, forKey: .type)
             try container.encode(image, forKey: .source)
-        case .toolUse:
-            fatalError("ContentType: `tool_use` is only used by assistant, not by user")
+        case let .toolUse(toolUse):
+            var container = encoder.container(keyedBy: ToolUseCodingKeys.self)
+            try container.encode(self.contentType.rawValue, forKey: .type)
+            try container.encode(toolUse.id, forKey: .id)
+            try container.encode(toolUse.name, forKey: .name)
+            try container.encode(toolUse.inputForEncode, forKey: .input)
         case let .toolResult(toolResult):
             var container = encoder.container(keyedBy: ToolUseResultCodingKeys.self)
             try container.encode(self.contentType.rawValue, forKey: .type)

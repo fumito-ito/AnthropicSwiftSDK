@@ -15,6 +15,16 @@ public struct ToolUseContent {
     public let name: String
     /// An object containing the input being passed to the tool, conforming to the tool’s `input_schema`.
     public let input: [String: Any]
+
+    var inputForEncode: [String: String] {
+        get throws {
+            if let object = input as? [String: String] {
+                return object
+            }
+
+            throw ClientError.failedToMakeEncodableToolUseInput(input)
+        }
+    }
 }
 
 extension ToolUseContent: Decodable {
