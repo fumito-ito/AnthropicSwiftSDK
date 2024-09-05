@@ -24,7 +24,7 @@ extension SystemPrompt: Encodable {
 
     public func encode(to encoder: any Encoder) throws {
         guard case let .text(text, cacheControl) = self else {
-            fatalError()
+            throw ClientError.failedToEncodeSystemPrompt
         }
 
         var container = encoder.container(keyedBy: CodingKeys.self)

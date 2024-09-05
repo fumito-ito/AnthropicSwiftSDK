@@ -33,6 +33,8 @@ public enum ClientError: Error {
     case failedToDecodeToolUseContent
     /// SDK failed to make `ToolUse.input` encodable
     case failedToMakeEncodableToolUseInput([String: Any])
+    /// SDK failed to encode `SystemPrompt` object
+    case failedToEncodeSystemPrompt
 
     /// Description of sdk internal errors.
     public var localizedDescription: String {
@@ -59,6 +61,8 @@ public enum ClientError: Error {
             return "Failed to decode into tool use content"
         case .failedToMakeEncodableToolUseInput:
             return "Failed to make ToolUse.input object Encodable"
+        case .failedToEncodeSystemPrompt:
+            return "Failed to encode `SystemPrompt` object"
         }
     }
 }
