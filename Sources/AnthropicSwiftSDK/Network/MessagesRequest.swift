@@ -19,7 +19,7 @@ public struct MessagesRequest: Encodable {
     /// System prompt.
     ///
     /// A system prompt is a way of providing context and instructions to Claude, such as specifying a particular goal or role.
-    public let system: String?
+    public let system: [SystemPrompt]
     /// The maximum number of tokens to generate before stopping.
     ///
     /// Note that our models may stop before reaching this maximum. This parameter only specifies the absolute maximum number of tokens to generate.
@@ -56,7 +56,7 @@ public struct MessagesRequest: Encodable {
     public init(
         model: Model = .claude_3_Opus,
         messages: [Message],
-        system: String? = nil,
+        system: [SystemPrompt] = [],
         maxTokens: Int,
         metaData: MetaData? = nil,
         stopSequences: [String]? = nil,
