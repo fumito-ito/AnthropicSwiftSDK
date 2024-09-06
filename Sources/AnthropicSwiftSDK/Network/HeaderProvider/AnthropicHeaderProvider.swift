@@ -20,7 +20,7 @@ struct DefaultAnthropicHeaderProvider: AnthropicHeaderProvider {
     /// content type of response, now only support JSON
     let contentType = "application/json"
 
-    private let betaDescription = "messages-2023-12-15"
+    private let betaDescription = "prompt-caching-2024-07-31"
 
     func getAnthropicAPIHeaders() -> [String: String] {
         var headers: [String: String] = [
