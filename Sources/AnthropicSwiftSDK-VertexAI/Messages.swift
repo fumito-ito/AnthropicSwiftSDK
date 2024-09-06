@@ -38,7 +38,7 @@ public struct Messages {
     public func createMessage(
         _ messages: [Message],
         model: Model = .claude_3_Haiku,
-        system: String? = nil,
+        system: [SystemPrompt] = [],
         maxTokens: Int,
         metaData: MetaData? = nil,
         stopSequence: [String]? = nil,
@@ -92,7 +92,7 @@ public struct Messages {
     public func streamMessage(
         _ messages: [Message],
         model: Model = .claude_3_Haiku,
-        system: String? = nil,
+        system: [SystemPrompt] = [],
         maxTokens: Int,
         metaData: MetaData? = nil,
         stopSequence: [String]? = nil,

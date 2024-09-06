@@ -39,7 +39,7 @@ public struct Messages {
     public func createMessage(
         _ messages: [Message],
         model: Model = .claude_3_Opus,
-        system: String? = nil,
+        system: [SystemPrompt] = [],
         maxTokens: Int,
         metaData: MetaData? = nil,
         stopSequence: [String]? = nil,
@@ -87,7 +87,7 @@ public struct Messages {
     public func createMessage(
         _ messages: [Message],
         model: Model = .claude_3_Opus,
-        system: String? = nil,
+        system: [SystemPrompt] = [],
         maxTokens: Int,
         metaData: MetaData? = nil,
         stopSequence: [String]? = nil,
@@ -177,7 +177,7 @@ public struct Messages {
         forToolUseRequest toolUseRequest: MessagesResponse,
         priviousMessages messages: [Message],
         model: Model = .claude_3_Opus,
-        system: String? = nil,
+        system: [SystemPrompt] = [],
         maxTokens: Int,
         metaData: MetaData? = nil,
         stopSequence: [String]? = nil,
@@ -240,7 +240,7 @@ public struct Messages {
     public func streamMessage(
         _ messages: [Message],
         model: Model = .claude_3_Opus,
-        system: String? = nil,
+        system: [SystemPrompt] = [],
         maxTokens: Int,
         metaData: MetaData? = nil,
         stopSequence: [String]? = nil,
@@ -288,7 +288,7 @@ public struct Messages {
     public func streamMessage(
         _ messages: [Message],
         model: Model = .claude_3_Opus,
-        system: String? = nil,
+        system: [SystemPrompt] = [],
         maxTokens: Int,
         metaData: MetaData? = nil,
         stopSequence: [String]? = nil,
@@ -374,7 +374,7 @@ public struct Messages {
         _ stream: AsyncThrowingStream<StreamingResponse, Error>,
         messages: [Message],
         model: Model,
-        system: String?,
+        system: [SystemPrompt] = [],
         maxTokens: Int,
         metaData: MetaData?,
         stopSequence: [String]?,

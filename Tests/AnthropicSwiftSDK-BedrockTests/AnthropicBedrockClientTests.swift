@@ -12,7 +12,7 @@ import AWSBedrockRuntime
 
 final class AnthropicBedrockClientTests: XCTestCase {
     func testInvokeModelContainEncodedMessageRequest() throws {
-        let request = MessagesRequest(model: .claude_3_Haiku, messages: [Message(role: .user, content: [.text("Hello! Claude!")])], system: nil, maxTokens: 1024, metaData: MetaData(userId: "112234"), stopSequences: ["stop sequence"], stream: false, temperature: 0.4, topP: 1, topK: 2)
+        let request = MessagesRequest(model: .claude_3_Haiku, messages: [Message(role: .user, content: [.text("Hello! Claude!")])], system: [], maxTokens: 1024, metaData: MetaData(userId: "112234"), stopSequences: ["stop sequence"], stream: false, temperature: 0.4, topP: 1, topK: 2)
         let invokeModel = try InvokeModelInput(accept: "application/json", request: request, contentType: "application/json")
 
         let requestData = try XCTUnwrap(invokeModel.body)
@@ -29,7 +29,7 @@ final class AnthropicBedrockClientTests: XCTestCase {
     }
 
     func testInvokeModelNotContainUnnecessaryParameters() throws {
-        let request = MessagesRequest(model: .claude_3_Haiku, messages: [Message(role: .user, content: [.text("Hello! Claude!")])], system: nil, maxTokens: 1024, metaData: MetaData(userId: "112234"), stopSequences: ["stop sequence"], stream: false, temperature: 0.4, topP: 1, topK: 2)
+        let request = MessagesRequest(model: .claude_3_Haiku, messages: [Message(role: .user, content: [.text("Hello! Claude!")])], system: [], maxTokens: 1024, metaData: MetaData(userId: "112234"), stopSequences: ["stop sequence"], stream: false, temperature: 0.4, topP: 1, topK: 2)
         let invokeModel = try InvokeModelInput(accept: "application/json", request: request, contentType: "application/json")
 
         let requestData = try XCTUnwrap(invokeModel.body)
@@ -41,7 +41,7 @@ final class AnthropicBedrockClientTests: XCTestCase {
     }
 
     func testInvokeModelWithResponseStreamContainEncodedMessageRequest() throws {
-        let request = MessagesRequest(model: .claude_3_Haiku, messages: [Message(role: .user, content: [.text("Hello! Claude!")])], system: nil, maxTokens: 1024, metaData: MetaData(userId: "112234"), stopSequences: ["stop sequence"], stream: false, temperature: 0.4, topP: 1, topK: 2)
+        let request = MessagesRequest(model: .claude_3_Haiku, messages: [Message(role: .user, content: [.text("Hello! Claude!")])], system: [], maxTokens: 1024, metaData: MetaData(userId: "112234"), stopSequences: ["stop sequence"], stream: false, temperature: 0.4, topP: 1, topK: 2)
         let invokeModel = try InvokeModelWithResponseStreamInput(accept: "application/json", request: request, contentType: "application/json")
 
         let requestData = try XCTUnwrap(invokeModel.body)
@@ -58,7 +58,7 @@ final class AnthropicBedrockClientTests: XCTestCase {
     }
 
     func testInvokeModelWithResponseStreamNotContainUnnecessaryParameters() throws {
-        let request = MessagesRequest(model: .claude_3_Haiku, messages: [Message(role: .user, content: [.text("Hello! Claude!")])], system: nil, maxTokens: 1024, metaData: MetaData(userId: "112234"), stopSequences: ["stop sequence"], stream: false, temperature: 0.4, topP: 1, topK: 2)
+        let request = MessagesRequest(model: .claude_3_Haiku, messages: [Message(role: .user, content: [.text("Hello! Claude!")])], system: [], maxTokens: 1024, metaData: MetaData(userId: "112234"), stopSequences: ["stop sequence"], stream: false, temperature: 0.4, topP: 1, topK: 2)
         let invokeModel = try InvokeModelWithResponseStreamInput(accept: "application/json", request: request, contentType: "application/json")
 
         let requestData = try XCTUnwrap(invokeModel.body)
@@ -152,7 +152,7 @@ extension MessagesRequest: Decodable {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         self.init(
             messages: try container.decode([Message].self, forKey: .messages),
-            system: try? container.decode(String.self, forKey: .system),
+            system: try container.decode([SystemPrompt].self, forKey: .system),
             maxTokens: try container.decode(Int.self, forKey: .maxTokens),
             stopSequences: try container.decode([String].self, forKey: .stopSequences),
             temperature: try container.decode(Double.self, forKey: .temperature),
@@ -221,3 +221,32 @@ extension Content: Equatable {
         }
     }
 }
+
+extension SystemPrompt: Equatable {
+    public static func == (lhs: SystemPrompt, rhs: SystemPrompt) -> Bool {
+        guard case let .text(lhsText, lhsCacheControl) = lhs,
+              case let .text(rhsText, rhsCacheControl) = rhs else {
+            return false
+        }
+
+        return lhsText == rhsText && lhsCacheControl == rhsCacheControl
+    }
+}
+
+extension SystemPrompt: Decodable {
+    enum CodingKeys: CodingKey {
+        case text
+        case cacheControl
+    }
+
+    public init(from decoder: any Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+
+        self = .text(
+            try container.decode(String.self, forKey: .text),
+            try? container.decode(CacheControl.self, forKey: .cacheControl)
+        )
+    }
+}
+
+extension CacheControl: Decodable {}
