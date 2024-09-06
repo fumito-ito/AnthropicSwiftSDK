@@ -35,10 +35,10 @@ public enum SystemPrompt {
 }
 
 extension SystemPrompt: Encodable {
-    enum CodingKeys: CodingKey {
+    enum CodingKeys: String, CodingKey {
         case type
         case text
-        case cache_control
+        case cacheControl = "cache_control"
     }
 
     public func encode(to encoder: any Encoder) throws {
@@ -50,7 +50,7 @@ extension SystemPrompt: Encodable {
         try container.encode(type, forKey: .type)
         try container.encode(text, forKey: .text)
         if let cacheControl {
-            try container.encode(cacheControl, forKey: .cache_control)
+            try container.encode(cacheControl, forKey: .cacheControl)
         }
     }
 }
