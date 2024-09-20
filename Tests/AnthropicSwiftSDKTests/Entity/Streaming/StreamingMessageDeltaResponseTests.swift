@@ -66,12 +66,20 @@ final class StreamingMessageDeltaResponseTests: XCTestCase {
 
     func testToolContainerIsExecutedByResponse() async throws {
         struct MockToolContiner: ToolContainer {
+            var allToolsJSONString: String {
+                ""
+            }
+            
+            var service: FunctionCallingService {
+                .claude
+            }
+            
             func execute(methodName name: String, parameters: [String : Any]) async -> String {
                 return "executed,\(name),\(parameters.keys.first ?? "")"
             }
             
-            var allTools: String {
-                ""
+            var allTools: [Tool]? {
+                nil
             }
         }
 

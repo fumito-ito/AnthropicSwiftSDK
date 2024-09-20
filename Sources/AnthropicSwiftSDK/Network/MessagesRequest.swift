@@ -64,7 +64,7 @@ public struct MessagesRequest: Encodable {
         temperature: Double? = nil,
         topP: Double? = nil,
         topK: Int? = nil,
-        tools: String? = nil,
+        tools: [Tool]? = nil,
         toolChoice: ToolChoice = .auto
     ) {
         self.model = model
@@ -77,12 +77,7 @@ public struct MessagesRequest: Encodable {
         self.temperature = temperature
         self.topP = topP
         self.topK = topK
-        let tool = tools?.replacingOccurrences(of: "\n", with: "")
-        if let data = tool?.data(using: .utf8) {
-            self.tools = try? anthropicJSONDecoder.decode([Tool].self, from: data)
-        } else {
-            self.tools = nil
-        }
+        self.tools = tools
         self.toolChoice = toolChoice
     }
 }
