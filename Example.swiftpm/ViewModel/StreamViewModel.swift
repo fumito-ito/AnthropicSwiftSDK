@@ -44,7 +44,7 @@ import AnthropicSwiftSDK
                 let stream = try await self.messageHandler.streamMessage(
                     [message],
                     model: model,
-                    system: nil,
+                    system: [],
                     maxTokens: 1024,
                     metaData: nil,
                     stopSequence: nil,

@@ -5,8 +5,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/awslabs/aws-crt-swift",
       "state" : {
-        "revision" : "b6380f683b31072d77b601c88674461c11bcad5a",
-        "version" : "0.30.0"
+        "revision" : "7b42e0343f28b3451aab20840dc670abd12790bd",
+        "version" : "0.36.0"
       }
     },
     {
@@ -14,8 +14,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/awslabs/aws-sdk-swift",
       "state" : {
-        "revision" : "3c20e0be8c8246de8b8e04372404ef1f90be71b6",
-        "version" : "0.46.0"
+        "revision" : "192bc5984cb765a88f8a59d0678aeb85a888a9f5",
+        "version" : "1.0.8"
       }
     },
     {
@@ -32,8 +32,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/fumito-ito/FunctionCalling",
       "state" : {
-        "revision" : "0cafcc55875342fe9d91fe00312b30cdca6742a0",
-        "version" : "0.3.0"
+        "revision" : "24c07c25d57a66b0e34af8d1ffb1192c2b1313a3",
+        "version" : "0.4.0"
       }
     },
     {
@@ -41,8 +41,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/groue/GRMustache.swift",
       "state" : {
-        "revision" : "6e9dcfb807959e19f2915be1928aeccf01babba5",
-        "version" : "4.2.0"
+        "revision" : "c4ee40ef49ae523b06fa470b8d27185ec027330d",
+        "version" : "5.0.1"
       }
     },
     {
@@ -50,8 +50,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/smithy-lang/smithy-swift",
       "state" : {
-        "revision" : "b2322a067f85c230f17c80be8a67dd543454b081",
-        "version" : "0.51.0"
+        "revision" : "c5242d4e06e721293ee91c7affd1d527912f596d",
+        "version" : "0.76.0"
       }
     },
     {
@@ -86,8 +86,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/apple/swift-syntax.git",
       "state" : {
-        "revision" : "64889f0c732f210a935a0ad7cda38f77f876262d",
-        "version" : "509.1.1"
+        "revision" : "0687f71944021d616d34d922343dcef086855920",
+        "version" : "600.0.1"
       }
     }
   ],

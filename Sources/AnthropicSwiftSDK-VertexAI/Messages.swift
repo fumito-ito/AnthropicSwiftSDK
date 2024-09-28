@@ -7,6 +7,7 @@
 
 import Foundation
 import AnthropicSwiftSDK
+import FunctionCalling
 
 public struct Messages {
     let projectId: String
@@ -33,6 +34,8 @@ public struct Messages {
     ///   - temperature: The temperature parameter controls the randomness of the generated text. Default is `nil`.
     ///   - topP: The nucleus sampling parameter. Default is `nil`.
     ///   - topK: The top-k sampling parameter. Default is `nil`.
+    ///   - toolContainer: The tool provider for `tool_use`. Default is `nil`. This property is defined but not used for VertexAI.
+    ///   - toolChoice: The parameter for tool choice. Default is `.auto`.  This property is defined but not used for VertexAI.
     /// - Returns: A `MessagesResponse` object representing the response from the Anthropic API.
     /// - Throws: An error if the request fails or if there's an issue decoding the response.
     public func createMessage(
@@ -44,7 +47,9 @@ public struct Messages {
         stopSequence: [String]? = nil,
         temperature: Double? = nil,
         topP: Double? = nil,
-        topK: Int? = nil
+        topK: Int? = nil,
+        toolContainer: ToolContainer? = nil,
+        toolChoice: ToolChoice = .auto
     ) async throws -> MessagesResponse {
         let modelName = try model.vertexAIModelName
         let client = VertexAIClient(projectId: projectId, accessToken: accessToken, region: region, modelName: modelName, session: session)
@@ -87,6 +92,8 @@ public struct Messages {
     ///   - temperature: The temperature parameter controls the randomness of the generated text. Default is `nil`.
     ///   - topP: The nucleus sampling parameter. Default is `nil`.
     ///   - topK: The top-k sampling parameter. Default is `nil`.
+    ///   - toolContainer: The tool provider for `tool_use`. Default is `nil`. This property is defined but not used for VertexAI.
+    ///   - toolChoice: The parameter for tool choice. Default is `.auto`.  This property is defined but not used for VertexAI.
     /// - Returns: An asynchronous throwing stream of `StreamingResponse` objects representing the streaming response from the Anthropic API.
     /// - Throws: An error if the request fails or if there's an issue parsing the streaming response.
     public func streamMessage(
@@ -98,7 +105,9 @@ public struct Messages {
         stopSequence: [String]? = nil,
         temperature: Double? = nil,
         topP: Double? = nil,
-        topK: Int? = nil
+        topK: Int? = nil,
+        toolContainer: ToolContainer? = nil,
+        toolChoice: ToolChoice = .auto
     ) async throws -> AsyncThrowingStream<StreamingResponse, Error> {
         let modelName = try model.vertexAIModelName
         let client = VertexAIClient(projectId: projectId, accessToken: accessToken, region: region, modelName: modelName, session: session)

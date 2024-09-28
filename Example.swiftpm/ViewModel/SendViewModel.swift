@@ -44,7 +44,7 @@ import AnthropicSwiftSDK
                 let result = try await messageHandler.createMessage(
                     [message],
                     model: model,
-                    system: nil,
+                    system: [],
                     maxTokens: 1024,
                     metaData: nil,
                     stopSequence: nil,
