@@ -50,8 +50,8 @@ public struct MessagesRequest: Encodable {
     public let topK: Int?
     /// Definition of tools with names, descriptions, and input schemas in your API request.
     public let tools: [Tool]?
-    /// Definition whether or not to force Claude to use the tool.
-    public let toolChoice: ToolChoice
+    /// Definition whether or not to force Claude to use the tool. ToolChoice should be set if tools are specified.
+    public let toolChoice: ToolChoice?
 
     public init(
         model: Model = .claude_3_Opus,
@@ -78,7 +78,7 @@ public struct MessagesRequest: Encodable {
         self.topP = topP
         self.topK = topK
         self.tools = tools
-        self.toolChoice = toolChoice
+        self.toolChoice = tools == nil ? nil : toolChoice // ToolChoice should be set if tools are specified.
     }
 }
 
