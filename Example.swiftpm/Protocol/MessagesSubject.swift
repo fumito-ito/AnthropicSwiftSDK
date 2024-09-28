@@ -37,7 +37,7 @@ protocol MessageSendable {
     func createMessage(
         _ messages: [Message],
         model: Model,
-        system: String?,
+        system: [SystemPrompt],
         maxTokens: Int,
         metaData: MetaData?,
         stopSequence: [String]?,
@@ -53,7 +53,7 @@ protocol MessageStreamable {
     func streamMessage(
         _ messages: [Message],
         model: Model,
-        system: String?,
+        system: [SystemPrompt],
         maxTokens: Int,
         metaData: MetaData?,
         stopSequence: [String]?,
