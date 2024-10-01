@@ -22,7 +22,7 @@ let package = Package(
             targets: ["AnthropicSwiftSDK-VertexAI"]),
     ],
     dependencies: [
-        .package(url: "https://github.com/awslabs/aws-sdk-swift", from: "1.0.8"),
+        .package(url: "https://github.com/awslabs/aws-sdk-swift", from: "1.0.9"),
         .package(url: "https://github.com/fumito-ito/FunctionCalling", from: "0.4.0")
     ],
     targets: [
