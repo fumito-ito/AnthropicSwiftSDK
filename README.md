@@ -111,8 +111,7 @@ let result = try await Anthropic(apiKey: "your_claude_api_key")
 By introducing an extension Swift package, it is possible to access the Anthropic Claude API through AWS Bedrock and Vertex AI. The supported services are as follows:
 
 - [Amazon Web Services Bedrock](https://github.com/fumito-ito/AnthropicSwiftSDK-Bedrock)
-- VertexAI
-    - T.B.D.
+- [Google VertexAI](https://github.com/fumito-ito/AnthropicSwiftSDK-VertexAI)
 
 ## Contributing
 
