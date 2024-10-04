@@ -15,14 +15,10 @@ let package = Package(
             name: "AnthropicSwiftSDK",
             targets: ["AnthropicSwiftSDK"]),
         .library(
-            name: "AnthropicSwiftSDK-Bedrock",
-            targets: ["AnthropicSwiftSDK-Bedrock"]),
-        .library(
             name: "AnthropicSwiftSDK-VertexAI",
             targets: ["AnthropicSwiftSDK-VertexAI"]),
     ],
     dependencies: [
-        .package(url: "https://github.com/awslabs/aws-sdk-swift", from: "1.0.9"),
         .package(url: "https://github.com/fumito-ito/FunctionCalling", from: "0.4.0")
     ],
     targets: [
@@ -39,17 +35,6 @@ let package = Package(
             dependencies: [
                 "AnthropicSwiftSDK",
                 "AnthropicSwiftSDK-TestUtils"
-            ]),
-        .target(
-            name: "AnthropicSwiftSDK-Bedrock",
-            dependencies: [
-                "AnthropicSwiftSDK",
-                .product(name: "AWSBedrockRuntime", package: "aws-sdk-swift")
-            ]),
-        .testTarget(
-            name: "AnthropicSwiftSDK-BedrockTests",
-            dependencies: [
-                "AnthropicSwiftSDK-Bedrock"
             ]),
         .target(
             name: "AnthropicSwiftSDK-VertexAI",
