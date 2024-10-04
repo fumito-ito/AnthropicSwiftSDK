@@ -14,9 +14,6 @@ let package = Package(
         .library(
             name: "AnthropicSwiftSDK",
             targets: ["AnthropicSwiftSDK"]),
-        .library(
-            name: "AnthropicSwiftSDK-VertexAI",
-            targets: ["AnthropicSwiftSDK-VertexAI"]),
     ],
     dependencies: [
         .package(url: "https://github.com/fumito-ito/FunctionCalling", from: "0.4.0")
@@ -35,17 +32,6 @@ let package = Package(
             dependencies: [
                 "AnthropicSwiftSDK",
                 "AnthropicSwiftSDK-TestUtils"
-            ]),
-        .target(
-            name: "AnthropicSwiftSDK-VertexAI",
-            dependencies: [
-                "AnthropicSwiftSDK",
-            ]),
-        .testTarget(
-            name: "AnthropicSwiftSDK-VertexAITests",
-            dependencies: [
-                "AnthropicSwiftSDK-VertexAI",
-                "AnthropicSwiftSDK-TestUtils",
             ]),
         .target(
             name: "AnthropicSwiftSDK-TestUtils",
