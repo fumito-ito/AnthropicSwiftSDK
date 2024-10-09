@@ -82,6 +82,7 @@ public struct MessagesRequest: Encodable {
     }
 }
 
+// TODO: remove this extension if it is not needed.
 extension MessagesRequest {
     public func encode(with appendingObject: [String: Any], without removingObjectKeys: [String] = []) throws -> Data {
         let encoded = try anthropicJSONEncoder.encode(self)
