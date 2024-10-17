@@ -20,10 +20,10 @@ final class AnthropicAPIClientTests: XCTestCase {
     }
 
     func testAPITypeProvidesCorrectMethodAndPathForSend() async throws {
-        let client = AnthropicAPIClient(
+        let client = APIClient(
+            session: session,
             anthropicHeaderProvider: DefaultAnthropicHeaderProvider(),
-            authenticationHeaderProvider: APIKeyAuthenticationHeaderProvider(apiKey: ""),
-            session: session
+            authenticationHeaderProvider: APIKeyAuthenticationHeaderProvider(apiKey: "")
         )
         let expectation = XCTestExpectation(description: "APIType.message should `/v1/messages` path and `POST` method.")
 
@@ -34,15 +34,15 @@ final class AnthropicAPIClientTests: XCTestCase {
             expectation.fulfill()
         })
 
-        let _ = try await client.send(requestBody: .nop)
+        let _ = try await client.send(request: NopRequest())
         await fulfillment(of: [expectation], timeout: 1.0)
     }
 
     func testAPITypeProvidesCorrectMethodAndPathForStream() async throws {
-        let client = AnthropicAPIClient(
+        let client = APIClient(
+            session: session,
             anthropicHeaderProvider: DefaultAnthropicHeaderProvider(),
-            authenticationHeaderProvider: APIKeyAuthenticationHeaderProvider(apiKey: ""),
-            session: session
+            authenticationHeaderProvider: APIKeyAuthenticationHeaderProvider(apiKey: "")
         )
         let expectation = XCTestExpectation(description: "APIType.message should `/v1/messages` path and `POST` method.")
 
@@ -53,15 +53,15 @@ final class AnthropicAPIClientTests: XCTestCase {
             expectation.fulfill()
         })
 
-        let _ = try await client.stream(requestBody: .nop)
+        let _ = try await client.stream(request: NopRequest())
         await fulfillment(of: [expectation], timeout: 1.0)
     }
 
     func testHeaderProviderProvidesCorrectHeadersForSend() async throws {
-        let client = AnthropicAPIClient(
+        let client = APIClient(
+            session: session,
             anthropicHeaderProvider: DefaultAnthropicHeaderProvider(),
-            authenticationHeaderProvider: APIKeyAuthenticationHeaderProvider(apiKey: "test-api-key"),
-            session: session
+            authenticationHeaderProvider: APIKeyAuthenticationHeaderProvider(apiKey: "test-api-key")
         )
         let expectation = XCTestExpectation(description: "API request should have headers `x-api-key`, `anthropic-version`, `content-type` and `anthropic-beta`.")
 
@@ -74,15 +74,15 @@ final class AnthropicAPIClientTests: XCTestCase {
             expectation.fulfill()
         })
 
-        let _ = try await client.send(requestBody: .nop)
+        let _ = try await client.send(request: NopRequest())
         await fulfillment(of: [expectation], timeout: 1.0)
     }
 
     func testHeaderProviderProvidesCorrectHeadersForStream() async throws {
-        let client = AnthropicAPIClient(
+        let client = APIClient(
+            session: session,
             anthropicHeaderProvider: DefaultAnthropicHeaderProvider(),
-            authenticationHeaderProvider: APIKeyAuthenticationHeaderProvider(apiKey: "test-api-key"),
-            session: session
+            authenticationHeaderProvider: APIKeyAuthenticationHeaderProvider(apiKey: "test-api-key")
         )
         let expectation = XCTestExpectation(description: "API request should have headers `x-api-key`, `anthropic-version`, `content-type` and `anthropic-beta`.")
 
@@ -95,7 +95,7 @@ final class AnthropicAPIClientTests: XCTestCase {
             expectation.fulfill()
         })
 
-        let _ = try await client.stream(requestBody: .nop)
+        let _ = try await client.stream(request: NopRequest())
         await fulfillment(of: [expectation], timeout: 1.0)
 
     }
