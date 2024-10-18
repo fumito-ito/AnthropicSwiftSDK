@@ -10,14 +10,7 @@ struct CancelMessageBatchRequest: Request {
     var path: String {
         "\(RequestType.batches.basePath)/\(batchId)/cancel"
     }
-    let queries: [String: CustomStringConvertible]?
+    let queries: [String: CustomStringConvertible]? = nil
     let body: Never? = nil
-
-    enum Parameter: String {
-        case beforeId
-        case afterId
-        case limit
-    }
-
     let batchId: String
 }
