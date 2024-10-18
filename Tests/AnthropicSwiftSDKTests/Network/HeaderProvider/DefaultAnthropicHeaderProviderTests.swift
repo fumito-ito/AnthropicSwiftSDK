@@ -29,7 +29,7 @@ final class DefaultAnthropicHeaderProviderTests: XCTestCase {
         let provider = DefaultAnthropicHeaderProvider(useBeta: true)
         let headers = provider.getAnthropicAPIHeaders()
 
-        XCTAssertEqual(headers["anthropic-beta"], "prompt-caching-2024-07-31")
+        XCTAssertEqual(headers["anthropic-beta"], "message-batches-2024-09-24")
     }
 
     func testBetaHeaderShouldNotBeProvidedIfUseBeta() {
