@@ -7,6 +7,11 @@
 
 import Foundation
 
+public enum HttpMethod: String {
+    case post = "POST"
+    case get = "GET"
+}
+
 enum RequestType {
     case messages
     case batches

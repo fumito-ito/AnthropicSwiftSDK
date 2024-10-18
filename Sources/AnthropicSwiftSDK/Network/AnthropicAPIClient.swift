@@ -65,8 +65,3 @@ struct APIClient {
         return try await session.bytes(for: urlRequest)
     }
 }
-
-public enum HttpMethod: String {
-    case post = "POST"
-    case get = "GET"
-}
