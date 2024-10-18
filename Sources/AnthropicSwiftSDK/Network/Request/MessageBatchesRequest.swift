@@ -17,13 +17,13 @@ struct MessageBatchesRequest: Request {
 // MARK: Request Body
 
 /// https://docs.anthropic.com/en/api/creating-message-batches
-public struct MessageBatchesRequestBody: Encodable {
+struct MessageBatchesRequestBody: Encodable {
     /// List of requests for prompt completion. Each is an individual request to create a Message.
     let requests: [Batch]
 }
 
 /// https://docs.anthropic.com/en/api/creating-message-batches
-public struct Batch: Encodable {
+struct Batch: Encodable {
     /// Developer-provided ID created for each request in a Message Batch. Useful for matching results to requests, as results may be given out of request order.
     ///
     /// Must be unique for each request within the Message Batch.
