@@ -5,7 +5,7 @@
 //  Created by 伊藤史 on 2024/10/09.
 //
 
-struct BatchRequestCounts: Decodable {
+public struct BatchRequestCounts: Decodable {
     let processing: Int
     let succeeeded: Int
     let errored: Int

@@ -6,13 +6,13 @@
 //
 
 /// https://docs.anthropic.com/en/api/listing-message-batches
-struct BatchListResponse {
+public struct BatchListResponse: Decodable {
     /// List of `BatchResponse` object.
-    let data: [BatchResponse]
+    public let data: [BatchResponse]
     /// Indicates if there are more results in the requested page direction.
-    let hasMore: Bool
+    public let hasMore: Bool
     /// First ID in the `data` list. Can be used as the `before_id` for the previous page.
-    let firstId: String?
+    public let firstId: String?
     /// Last ID in the `data` list. Can be used as the `after_id` for the next page.
-    let lastId: String?
+    public let lastId: String?
 }

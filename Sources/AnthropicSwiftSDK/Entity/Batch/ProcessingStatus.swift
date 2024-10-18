@@ -6,7 +6,7 @@
 //
 
 /// https://docs.anthropic.com/en/api/retrieving-message-batches
-enum ProcessingStatus: String, RawRepresentable, Decodable {
+public enum ProcessingStatus: String, RawRepresentable, Decodable {
     case inProgress = "in_progress"
     case canceling
     case ended
