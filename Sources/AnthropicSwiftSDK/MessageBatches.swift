@@ -24,7 +24,7 @@ public struct MessageBatches {
             authenticationHeaderProvider: APIKeyAuthenticationHeaderProvider(apiKey: apiKey)
         )
     }
-    
+
     public func createBatches(
         batches: [MessageBatch],
         anthropicHeaderProvider: AnthropicHeaderProvider,
@@ -57,7 +57,7 @@ public struct MessageBatches {
             authenticationHeaderProvider: APIKeyAuthenticationHeaderProvider(apiKey: apiKey)
         )
     }
-    
+
     public func retrieve(
         batchId: String,
         anthropicHeaderProvider: AnthropicHeaderProvider,
@@ -90,7 +90,7 @@ public struct MessageBatches {
             authenticationHeaderProvider: APIKeyAuthenticationHeaderProvider(apiKey: apiKey)
         )
     }
-    
+
     public func results(
         of batchId: String,
         anthropicHeaderProvider: AnthropicHeaderProvider,
@@ -115,7 +115,7 @@ public struct MessageBatches {
 
         return try anthropicJSONDecoder.decode([BatchResultResponse].self, from: data)
     }
-    
+
     public func results(streamOf batchId: String) async throws -> AsyncThrowingStream<BatchResultResponse, Error> {
         try await results(
             streamOf: batchId,
@@ -123,7 +123,7 @@ public struct MessageBatches {
             authenticationHeaderProvider: APIKeyAuthenticationHeaderProvider(apiKey: apiKey)
         )
     }
-    
+
     public func results(
         streamOf batchId: String,
         anthropicHeaderProvider: AnthropicHeaderProvider,
@@ -145,14 +145,14 @@ public struct MessageBatches {
         guard httpResponse.statusCode == 200 else {
             throw AnthropicAPIError(fromHttpStatusCode: httpResponse.statusCode)
         }
-        
+
         return AsyncThrowingStream.init { continuation in
             let task = Task {
                 for try await line in data.lines {
                     guard let data = line.data(using: .utf8) else {
                         return
                     }
-                    
+
                     continuation.yield(try anthropicJSONDecoder.decode(BatchResultResponse.self, from: data))
                 }
                 continuation.finish()
@@ -172,7 +172,7 @@ public struct MessageBatches {
             authenticationHeaderProvider: APIKeyAuthenticationHeaderProvider(apiKey: apiKey)
         )
     }
-    
+
     public func list(
         beforeId: String?,
         afterId: String?,
@@ -194,7 +194,7 @@ public struct MessageBatches {
             if let afterId {
                 queries[ListMessageBatchesRequest.Parameter.afterId.rawValue] = afterId
             }
-            
+
             return queries
         }()
 
@@ -219,7 +219,7 @@ public struct MessageBatches {
             authenticationHeaderProvider: APIKeyAuthenticationHeaderProvider(apiKey: apiKey)
         )
     }
-    
+
     public func cancel(
         batchId: String,
         anthropicHeaderProvider: AnthropicHeaderProvider,
@@ -243,6 +243,5 @@ public struct MessageBatches {
         }
 
         return try anthropicJSONDecoder.decode(BatchResponse.self, from: data)
-
     }
 }

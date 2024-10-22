@@ -53,4 +53,3 @@ public struct BatchParameter {
         self.toolChoice = toolChoice
     }
 }
-

@@ -11,7 +11,7 @@ import Foundation
 public final class Anthropic {
     /// Messages API Interface
     public let messages: Messages
-    
+
     /// MessageBatches API Interface
     public let messageBatches: MessageBatches
 

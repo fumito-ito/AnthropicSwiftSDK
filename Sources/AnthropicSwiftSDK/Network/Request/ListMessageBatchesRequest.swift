@@ -10,7 +10,7 @@ struct ListMessageBatchesRequest: Request {
     let path: String = RequestType.batches.basePath
     let queries: [String: CustomStringConvertible]?
     let body: Never? = nil
-    
+
     enum Parameter: String {
         case beforeId = "before_id"
         case afterId = "after_id"

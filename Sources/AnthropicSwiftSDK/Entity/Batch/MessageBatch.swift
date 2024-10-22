@@ -8,7 +8,7 @@
 public struct MessageBatch {
     public let customId: String
     public let parameter: BatchParameter
-    
+
     public init(customId: String, parameter: BatchParameter) {
         self.customId = customId
         self.parameter = parameter

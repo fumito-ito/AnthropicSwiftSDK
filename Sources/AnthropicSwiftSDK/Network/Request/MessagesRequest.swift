@@ -91,7 +91,7 @@ struct MessagesRequestBody: Encodable {
         self.tools = tools
         self.toolChoice = tools == nil ? nil : toolChoice // ToolChoice should be set if tools are specified.
     }
-    
+
     init(from parameter: BatchParameter) {
         self.model = parameter.model
         self.messages = parameter.messages

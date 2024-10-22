@@ -20,7 +20,7 @@ struct MessageBatchesRequest: Request {
 struct MessageBatchesRequestBody: Encodable {
     /// List of requests for prompt completion. Each is an individual request to create a Message.
     let requests: [Batch]
-    
+
     init(from batches: [MessageBatch]) {
         self.requests = batches.map { Batch(from: $0) }
     }
@@ -36,7 +36,7 @@ struct Batch: Encodable {
     ///
     /// See the [Messages API reference](https://docs.anthropic.com/en/api/messages) for full documentation on available parameters.
     let params: MessagesRequestBody
-    
+
     init(from batch: MessageBatch) {
         self.customId = batch.customId
         self.params = MessagesRequestBody(from: batch.parameter)
