@@ -6,7 +6,7 @@
 //
 
 /// https://docs.anthropic.com/en/docs/build-with-claude/message-batches#retrieving-batch-results
-public enum BatchResultType: Decodable {
+public enum BatchResultType: String, Decodable {
     case succeeded // include the message result as jsonl
     case errored
     case cancelled

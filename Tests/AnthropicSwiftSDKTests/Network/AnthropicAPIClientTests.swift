@@ -32,7 +32,7 @@ final class AnthropicAPIClientTests: XCTestCase {
             XCTAssertEqual(request.httpMethod, "POST")
 
             expectation.fulfill()
-        })
+        }, nil)
 
         let _ = try await client.send(request: NopRequest())
         await fulfillment(of: [expectation], timeout: 1.0)
@@ -51,7 +51,7 @@ final class AnthropicAPIClientTests: XCTestCase {
             XCTAssertEqual(request.httpMethod, "POST")
 
             expectation.fulfill()
-        })
+        }, nil)
 
         let _ = try await client.stream(request: NopRequest())
         await fulfillment(of: [expectation], timeout: 1.0)
@@ -72,7 +72,7 @@ final class AnthropicAPIClientTests: XCTestCase {
             XCTAssertEqual(headers!["anthropic-beta"], "message-batches-2024-09-24")
 
             expectation.fulfill()
-        })
+        }, nil)
 
         let _ = try await client.send(request: NopRequest())
         await fulfillment(of: [expectation], timeout: 1.0)
@@ -93,7 +93,7 @@ final class AnthropicAPIClientTests: XCTestCase {
             XCTAssertEqual(headers!["anthropic-beta"], "message-batches-2024-09-24")
 
             expectation.fulfill()
-        })
+        }, nil)
 
         let _ = try await client.stream(request: NopRequest())
         await fulfillment(of: [expectation], timeout: 1.0)

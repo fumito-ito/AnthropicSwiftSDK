@@ -7,11 +7,11 @@
 
 public struct BatchResult: Decodable {
     public let type: BatchResultType
-    public let message: MessagesResponse
+    public let message: MessagesResponse?
+    public let error: StreamingError?
 }
 
 public struct BatchResultResponse: Decodable {
     public let customId: String
     public let result: BatchResult?
-    public let error: StreamingError?
 }

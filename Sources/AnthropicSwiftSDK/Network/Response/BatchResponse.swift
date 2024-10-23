@@ -34,5 +34,5 @@ public struct BatchResponse: Decodable {
     /// URL to a .jsonl file containing the results of the Message Batch requests. Specified only once processing ends.
     ///
     /// Results in the file are not guaranteed to be in the same order as requests. Use the custom_id field to match results to requests.
-    public let resultsURL: String?
+    public let resultsUrl: String?
 }
