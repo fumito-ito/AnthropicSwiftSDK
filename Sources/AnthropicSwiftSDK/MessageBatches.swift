@@ -7,6 +7,7 @@
 
 import Foundation
 import FunctionCalling
+import SwiftyJSONLines
 
 public struct MessageBatches {
     private let apiKey: String
@@ -113,7 +114,7 @@ public struct MessageBatches {
             throw AnthropicAPIError(fromHttpStatusCode: httpResponse.statusCode)
         }
 
-        return try anthropicJSONDecoder.decode([BatchResultResponse].self, from: data)
+        return try JSONLines(data: data).toObjects(with: anthropicJSONDecoder)
     }
 
     public func results(streamOf batchId: String) async throws -> AsyncThrowingStream<BatchResultResponse, Error> {
