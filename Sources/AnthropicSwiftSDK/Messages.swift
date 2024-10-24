@@ -99,28 +99,30 @@ public struct Messages {
         anthropicHeaderProvider: AnthropicHeaderProvider,
         authenticationHeaderProvider: AuthenticationHeaderProvider
     ) async throws -> MessagesResponse {
-        let client = AnthropicAPIClient(
+        let client = APIClient(
+            session: session,
             anthropicHeaderProvider: anthropicHeaderProvider,
-            authenticationHeaderProvider: authenticationHeaderProvider,
-            session: session
+            authenticationHeaderProvider: authenticationHeaderProvider
         )
 
-        let requestBody = MessagesRequest(
-            model: model,
-            messages: messages,
-            system: system,
-            maxTokens: maxTokens,
-            metaData: metaData,
-            stopSequences: stopSequence,
-            stream: false,
-            temperature: temperature,
-            topP: topP,
-            topK: topK,
-            tools: toolContainer?.allTools,
-            toolChoice: toolChoice
+        let request = MessagesRequest(
+            body: .init(
+                model: model,
+                messages: messages,
+                system: system,
+                maxTokens: maxTokens,
+                metaData: metaData,
+                stopSequences: stopSequence,
+                stream: false,
+                temperature: temperature,
+                topP: topP,
+                topK: topK,
+                tools: toolContainer?.allTools,
+                toolChoice: toolChoice
+            )
         )
 
-        let (data, response) = try await client.send(requestBody: requestBody)
+        let (data, response) = try await client.send(request: request)
 
         guard let httpResponse = response as? HTTPURLResponse else {
             throw ClientError.cannotHandleURLResponse(response)
@@ -300,28 +302,30 @@ public struct Messages {
         anthropicHeaderProvider: AnthropicHeaderProvider,
         authenticationHeaderProvider: AuthenticationHeaderProvider
     ) async throws -> AsyncThrowingStream<StreamingResponse, Error> {
-        let client = AnthropicAPIClient(
+        let client = APIClient(
+            session: session,
             anthropicHeaderProvider: anthropicHeaderProvider,
-            authenticationHeaderProvider: authenticationHeaderProvider,
-            session: session
+            authenticationHeaderProvider: authenticationHeaderProvider
         )
 
-        let requestBody = MessagesRequest(
-            model: model,
-            messages: messages,
-            system: system,
-            maxTokens: maxTokens,
-            metaData: metaData,
-            stopSequences: stopSequence,
-            stream: true,
-            temperature: temperature,
-            topP: topP,
-            topK: topK,
-            tools: toolContainer?.allTools,
-            toolChoice: toolChoice
+        let request = MessagesRequest(
+            body: .init(
+                model: model,
+                messages: messages,
+                system: system,
+                maxTokens: maxTokens,
+                metaData: metaData,
+                stopSequences: stopSequence,
+                stream: true,
+                temperature: temperature,
+                topP: topP,
+                topK: topK,
+                tools: toolContainer?.allTools,
+                toolChoice: toolChoice
+            )
         )
 
-        let (data, response) = try await client.stream(requestBody: requestBody)
+        let (data, response) = try await client.stream(request: request)
 
         guard let httpResponse = response as? HTTPURLResponse else {
             throw ClientError.cannotHandleURLResponse(response)

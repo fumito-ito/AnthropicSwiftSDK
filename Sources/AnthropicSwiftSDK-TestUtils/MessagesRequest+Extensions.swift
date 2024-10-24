@@ -8,8 +8,17 @@
 import Foundation
 import AnthropicSwiftSDK
 
-extension MessagesRequest {
-    public static var nop: Self {
-        MessagesRequest(messages: [], maxTokens: 1024)
+public struct NopRequest: Request {
+    public let method: HttpMethod
+    public let path: String
+    public let queries: [String : any CustomStringConvertible]? = nil
+    public let body: Never? = nil
+
+    public init(
+        method: HttpMethod = .post,
+        path: String = "/v1/messages"
+    ) {
+        self.method = method
+        self.path = path
     }
 }
