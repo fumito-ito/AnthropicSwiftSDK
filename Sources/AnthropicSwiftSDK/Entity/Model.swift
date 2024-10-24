@@ -23,6 +23,9 @@ public enum Model {
     /// Most intelligent model, combining top-tier performance with improved speed.
     // swiftlint:disable:next identifier_name
     case claude_3_5_Sonnet
+    /// Most intelligent model, combining top-tier performance with improved speed.
+    // swiftlint:disable:next identifier_name
+    case claude_3_5_Haiku
     /// Custom Model
     case custom(String)
 
@@ -36,6 +39,8 @@ public enum Model {
             self = .claude_3_Haiku
         case Model.claude_3_5_Sonnet.stringfy:
             self = .claude_3_5_Sonnet
+        case Model.claude_3_5_Haiku.stringfy:
+            self = .claude_3_5_Haiku
         default:
             self = .custom(modelName)
         }
@@ -52,7 +57,9 @@ extension Model {
         case .claude_3_Haiku:
             return "claude-3-haiku-20240307"
         case .claude_3_5_Sonnet:
-            return "claude-3-5-sonnet-20240620"
+            return "claude-3-5-sonnet-20241022"
+        case .claude_3_5_Haiku:
+            return "claude-3-5-haiku-20241029"
         case let .custom(modelName):
             return modelName
         }
