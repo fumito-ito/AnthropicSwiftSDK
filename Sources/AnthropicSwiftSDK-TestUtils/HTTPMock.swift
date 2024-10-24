@@ -12,6 +12,7 @@ public enum MockInspectType {
     case request((URLRequest) -> Void, String?)
     case requestHeader(([String: String]?) -> Void, String?)
     case response(String)
+    case error(String)
 }
 
 public class HTTPMock: URLProtocol {
@@ -35,20 +36,33 @@ public class HTTPMock: URLProtocol {
         }
 
         if let url = request.url,
-           let response = HTTPURLResponse(url: url, statusCode: 200, httpVersion: "HTTP/2", headerFields: nil) {
-            client?.urlProtocol(self, didReceive: response, cacheStoragePolicy: .notAllowed)
+           let succeedResponse = HTTPURLResponse(url: url, statusCode: 200, httpVersion: "HTTP/2", headerFields: nil),
+           let errorResponse = HTTPURLResponse(url: url, statusCode: 400, httpVersion: "HTTP/2", headerFields: nil) {
 
             switch Self.inspectType {
             case .none:
+                client?.urlProtocol(self, didReceive: succeedResponse, cacheStoragePolicy: .notAllowed)
                 client?.urlProtocol(self, didLoad: getBasicJSONStringData())
+            case .request(_, nil), .requestHeader(_, nil):
+                client?.urlProtocol(self, didReceive: succeedResponse, cacheStoragePolicy: .notAllowed)
             case .request(_, let jsonString), .requestHeader(_, let jsonString):
+                client?.urlProtocol(self, didReceive: succeedResponse, cacheStoragePolicy: .notAllowed)
                 guard let jsonString, let data = jsonString.data(using: .utf8) else {
                     client?.urlProtocol(self, didLoad: getBasicJSONStringData())
                     return
                 }
                 client?.urlProtocol(self, didLoad: data)
             case .response(let jsonString):
+                client?.urlProtocol(self, didReceive: succeedResponse, cacheStoragePolicy: .notAllowed)
                 guard let data = jsonString.data(using: .utf8) else {
+                    client?.urlProtocol(self, didLoad: getBasicJSONStringData())
+                    return
+                }
+                client?.urlProtocol(self, didLoad: data)
+            case .error(let responseJSON):
+                client?.urlProtocol(self, didReceive: errorResponse, cacheStoragePolicy: .notAllowed)
+                guard
+                    let data = responseJSON.data(using: .utf8) else {
                     client?.urlProtocol(self, didLoad: getBasicJSONStringData())
                     return
                 }

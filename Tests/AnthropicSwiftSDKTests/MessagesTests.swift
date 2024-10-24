@@ -26,7 +26,26 @@ final class MessagesTests: XCTestCase {
         HTTPMock.inspectType = .requestHeader({ headers in
             XCTAssertEqual(headers!["x-api-key"], "This-is-test-API-key")
             expectation.fulfill()
-        }, nil)
+        }, """
+        {
+          "id": "msg_01XFDUDYJgAACzvnptvVoYEL",
+          "type": "message",
+          "role": "assistant",
+          "content": [
+            {
+              "type": "text",
+              "text": "Hello!"
+            }
+          ],
+          "model": "claude-2.1",
+          "stop_reason": "end_turn",
+          "stop_sequence": null,
+          "usage": {
+            "input_tokens": 12,
+            "output_tokens": 6
+          }
+        }
+        """)
 
         let message = Message(role: .user, content: [.text("This is test text")])
         let _ = try await messages.createMessage([message], maxTokens: 1024)
