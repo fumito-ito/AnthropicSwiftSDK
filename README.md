@@ -106,6 +106,27 @@ let result = try await Anthropic(apiKey: "your_claude_api_key")
     )
 ```
 
+### [Prompt Caching (beta)](https://docs.anthropic.com/en/docs/build-with-claude/prompt-caching)
+
+Prompt caching is a powerful feature that optimizes your API usage by allowing resuming from specific prefixes in your prompts.
+
+You can cache large text content, e.g. “Pride and Prejudice”,  using the cache_control parameter. This enables reuse of this large text across multiple API calls without reprocessing it each time. Changing only the user message allows you to ask various questions about the book while utilizing the cached content, leading to faster responses and improved efficiency.
+
+Here’s an example of how to implement prompt caching with the Messages API using a cache_control block:
+
+```swift
+let anthropic = Anthropic(apiKey: "YOUR_OWN_API_KEY")
+
+let message = Message(role: .user, content: [.text("Analyze the major themes in Pride and Prejudice.")])
+let response = try await anthropic.messages.createMessage(
+    [message],
+    system: [
+        .text("You are an AI assistant tasked with analyzing literary works. Your goal is to provide insightful commentary on themes, characters, and writing style.\n", nil),
+        .text("<the entire contents of Pride and Prejudice>", .ephemeral)
+    ],
+    maxTokens: 1024
+)
+```
 ## Extensions
 
 By introducing an extension Swift package, it is possible to access the Anthropic Claude API through AWS Bedrock and Vertex AI. The supported services are as follows:
