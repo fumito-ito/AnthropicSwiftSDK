@@ -33,6 +33,12 @@ protocol StreamMessagesSubject: MessagesSubject {
     func streamMessage(text: String) async throws
 }
 
+protocol SendMessageBatchesSubject: MessagesSubject {
+    init(messageHandler: MessageBatchSendable, title: String, model: Model)
+    
+    func sendMessageBatch(text: String) async throws
+}
+
 protocol MessageSendable {
     func createMessage(
         _ messages: [Message],
@@ -47,6 +53,12 @@ protocol MessageSendable {
         toolContainer: ToolContainer?,
         toolChoice: ToolChoice
     ) async throws -> MessagesResponse
+}
+
+protocol MessageBatchSendable {
+    func createBatches(batches: [MessageBatch]) async throws -> BatchResponse
+    
+    func results(streamOf batchId: String) async throws -> AsyncThrowingStream<BatchResultResponse, Error>
 }
 
 protocol MessageStreamable {

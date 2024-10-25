@@ -1,26 +1,13 @@
 import SwiftUI
-import AnthropicSwiftSDK_VertexAI
 import AnthropicSwiftSDK
-import AWSBedrockRuntime
-import AnthropicSwiftSDK_Bedrock
 
 struct ContentView: View {
     // MARK: Properties for Claude
     @State private var claudeAPIKey = ""
-    @State private var isStreamClaude: Bool = false
-
-    // MARK: Properties for Bedrock
-    @State private var bedrockRegion = ""
-    @State private var isStreamBedrock: Bool = false
-
-    // MARK: Properties for Vertex
-    @State private var vertexProjectID = ""
-    @State private var vertexAuthToken = ""
-    @State private var isStreamVertex: Bool = false
 
     var body: some View {
         TabView {
-            // MARK: Claude
+            // MARK: Claude Messages API
             NavigationStack {
                 VStack {
                     Spacer()
@@ -29,20 +16,10 @@ struct ContentView: View {
                     .padding()
                     .textFieldStyle(.roundedBorder)
 
-                    Toggle(isOn: $isStreamClaude) {
-                        Text("Enable Stream API")
-                    }
-                    .padding()
-
                     NavigationLink {
                         let claude = Anthropic(apiKey: claudeAPIKey)
-                        if isStreamClaude {
-                            let observable = StreamViewModel(messageHandler: claude.messages, title: "Stream \\w Claude")
-                            StreamView(observable: observable)
-                        } else {
-                            let observable = SendViewModel(messageHandler: claude.messages, title: "Message \\w Claude")
-                            SendView(observable: observable)
-                        }
+                        let observable = SendViewModel(messageHandler: claude.messages, title: "Message \\w Claude")
+                        SendView(observable: observable)
                     } label: {
                         Text("Continue")
                         .frame(maxWidth: .infinity, minHeight: 48)
@@ -59,37 +36,26 @@ struct ContentView: View {
 
                     Spacer()
                 }
-                .navigationTitle("Claude Demo")
+                .navigationTitle("Claude Send Message Demo")
             }
             .tabItem {
                 Image(systemName: "pencil.and.scribble")
-                Text("Claude")
+                Text("Send Message")
             }
-
-            // MARK: Bedrock
+            
+            // MARK: Claude Stream Messages API
             NavigationStack {
                 VStack {
                     Spacer()
 
-                    TextField("Enter Region Code", text: $bedrockRegion)
+                    TextField("Enter API Key", text: $claudeAPIKey)
                     .padding()
                     .textFieldStyle(.roundedBorder)
 
-                    Toggle(isOn: $isStreamBedrock) {
-                        Text("Enable Stream API")
-                    }
-                    .padding()
-
                     NavigationLink {
-                        let bedrockClient = try! BedrockRuntimeClient(region: bedrockRegion)
-                        let claude = bedrockClient.useAnthropic()
-                        if isStreamBedrock {
-                            let observable = StreamViewModel(messageHandler: claude.messages, title: "Stream \\w Bedrock", model: .claude_3_Opus)
-                            StreamView(observable: observable)
-                        } else {
-                            let observable = SendViewModel(messageHandler: claude.messages, title: "Message \\w Bedrock", model: .claude_3_Opus)
-                            SendView(observable: observable)
-                        }
+                        let claude = Anthropic(apiKey: claudeAPIKey)
+                        let observable = StreamViewModel(messageHandler: claude.messages, title: "Stream \\w Claude")
+                        StreamView(observable: observable)
                     } label: {
                         Text("Continue")
                         .frame(maxWidth: .infinity, minHeight: 48)
@@ -97,49 +63,35 @@ struct ContentView: View {
                         .background(
                             Capsule()
                             .foregroundColor(
-                                bedrockRegion.isEmpty ? .gray.opacity(0.2) : .blue
+                                claudeAPIKey.isEmpty ? .gray.opacity(0.2) : .blue
                             )
                         )
                     }
                     .padding()
-                    .disabled(bedrockRegion.isEmpty)
+                    .disabled(claudeAPIKey.isEmpty)
 
                     Spacer()
                 }
-                .navigationTitle("Bedrock Demo")
+                .navigationTitle("Claude Stream Message Demo")
             }
             .tabItem {
-                Image(systemName: "globe.americas.fill")
-                Text("Bedrock")
+                Image(systemName: "pencil.and.scribble")
+                Text("Stream Message")
             }
 
-            // MARK: Vertex
+            // MARK: Claude Send Message Batches API
             NavigationStack {
                 VStack {
                     Spacer()
 
-                    TextField("Enter Project ID", text: $vertexProjectID)
+                    TextField("Enter API Key", text: $claudeAPIKey)
                     .padding()
                     .textFieldStyle(.roundedBorder)
-
-                    TextField("Enter Auth Token", text: $vertexAuthToken)
-                    .padding()
-                    .textFieldStyle(.roundedBorder)
-
-                    Toggle(isOn: $isStreamVertex) {
-                        Text("Enable Stream API")
-                    }
-                    .padding()
 
                     NavigationLink {
-                        let claude = AnthropicVertexAIClient(projectId: vertexProjectID, accessToken: vertexAuthToken, region: .europeWest1)
-                        if isStreamVertex {
-                            let observable = StreamViewModel(messageHandler: claude.messages, title: "Stream \\w Vertex")
-                            StreamView(observable: observable)
-                        } else {
-                            let observable = SendViewModel(messageHandler: claude.messages, title: "Message \\w Vertex")
-                            SendView(observable: observable)
-                        }
+                        let claude = Anthropic(apiKey: claudeAPIKey)
+                        let observable = SendMessageBatchesViewModel(messageHandler: claude.messageBatches, title: "Batch \\w Claude")
+                        SendMessageBatchView(observable: observable)
                     } label: {
                         Text("Continue")
                         .frame(maxWidth: .infinity, minHeight: 48)
@@ -147,20 +99,20 @@ struct ContentView: View {
                         .background(
                             Capsule()
                             .foregroundColor(
-                                vertexProjectID.isEmpty || vertexAuthToken.isEmpty ? .gray.opacity(0.2) : .blue
+                                claudeAPIKey.isEmpty ? .gray.opacity(0.2) : .blue
                             )
                         )
                     }
                     .padding()
-                    .disabled(vertexProjectID.isEmpty || vertexAuthToken.isEmpty)
+                    .disabled(claudeAPIKey.isEmpty)
 
                     Spacer()
                 }
-                .navigationTitle("VertexAI Demo")
+                .navigationTitle("Claude Batch Message Demo")
             }
             .tabItem {
-                Image(systemName: "mountain.2.fill")
-                Text("Vertex")
+                Image(systemName: "pencil.and.scribble")
+                Text("Batch Message")
             }
 
         }

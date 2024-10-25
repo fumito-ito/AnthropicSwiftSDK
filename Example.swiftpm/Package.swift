@@ -17,7 +17,7 @@ let package = Package(
             name: "Example",
             targets: ["AppModule"],
             bundleIdentifier: "com.github.fumito-ito.AnthropicSwiftSDK.Example",
-            teamIdentifier: "L8LPZ499U7",
+            teamIdentifier: "K489QY5CFD",
             displayVersion: "1.0",
             bundleVersion: "1",
             appIcon: .placeholder(icon: .clock),
@@ -44,9 +44,7 @@ let package = Package(
         .executableTarget(
             name: "AppModule",
             dependencies: [
-                .product(name: "AnthropicSwiftSDK", package: "AnthropicSwiftSDK"),
-                .product(name: "AnthropicSwiftSDK-Bedrock", package: "AnthropicSwiftSDK"),
-                .product(name: "AnthropicSwiftSDK-VertexAI", package: "AnthropicSwiftSDK")
+                .product(name: "AnthropicSwiftSDK", package: "AnthropicSwiftSDK")
             ],
             path: "."
         )
