@@ -127,6 +127,37 @@ let response = try await anthropic.messages.createMessage(
     maxTokens: 1024
 )
 ```
+
+### [Message Batches (beta)](https://docs.anthropic.com/en/docs/build-with-claude/message-batches)
+
+The Message Batches API is a powerful, cost-effective way to asynchronously process large volumes of [Messages](https://docs.anthropic.com/en/api/messages) requests. This approach is well-suited to tasks that do not require immediate responses, reducing costs by 50% while increasing throughput.
+
+This is especially useful for bulk operations that don’t require immediate results.
+
+Here's an example of how to process many messages with the Message Bathches API:
+
+```swift
+let anthropic = Anthropic(apiKey: "YOUR_OWN_API_KEY")
+
+let messages = [
+    Message(role: .user, content: [.text("Write a haiku about robots.")]),
+    Message(role: .user, content: [.text("Write a haiku about robots. Skip the preamble; go straight into the poem.")]),
+    Message(role: .user, content: [.text("Who is the best basketball player of all time?")]),
+    Message(role: .user, content: [.text("Who is the best basketball player of all time? Yes, there are differing opinions, but if you absolutely had to pick one player, who would it be?")])
+    // ....
+]
+
+let batch = MessageBatch(
+    customId: "my-first-batch-request",
+    parameter: .init(
+        messages: messages,
+        maxTokens: 1024
+    )
+)
+
+let response = try await anthropic.messageBatches.createBatches(batches: [batch])
+```
+
 ## Extensions
 
 By introducing an extension Swift package, it is possible to access the Anthropic Claude API through AWS Bedrock and Vertex AI. The supported services are as follows:
