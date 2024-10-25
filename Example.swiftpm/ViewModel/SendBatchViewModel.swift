@@ -43,8 +43,9 @@ import AnthropicSwiftSDK
         messages.append(.init(user: .user, text: text))
         
         let message = Message(role: .user, content: [.text(text)])
-        let batch = MessageBatch(customId: text, parameter: .init(messages: [message], maxTokens: 1024))
-        
+        let customId = UUID().uuidString
+        let batch = MessageBatch(customId: customId, parameter: .init(messages: [message], maxTokens: 1024))
+
         task = Task {
             do {
                 isLoading = true
