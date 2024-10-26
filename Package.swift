@@ -17,7 +17,7 @@ let package = Package(
     ],
     dependencies: [
         .package(url: "https://github.com/fumito-ito/FunctionCalling", from: "0.4.0"),
-        .package(url: "https://github.com/fumito-ito/SwiftyJSONLines.git", from: "0.0.2")
+        .package(url: "https://github.com/fumito-ito/SwiftyJSONLines.git", from: "0.0.3")
     ],
     targets: [
         // Targets are the basic building blocks of a package, defining a module or a test suite.
