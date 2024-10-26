@@ -1,24 +1,6 @@
 {
   "pins" : [
     {
-      "identity" : "aws-crt-swift",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/awslabs/aws-crt-swift",
-      "state" : {
-        "revision" : "7b42e0343f28b3451aab20840dc670abd12790bd",
-        "version" : "0.36.0"
-      }
-    },
-    {
-      "identity" : "aws-sdk-swift",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/awslabs/aws-sdk-swift",
-      "state" : {
-        "revision" : "192bc5984cb765a88f8a59d0678aeb85a888a9f5",
-        "version" : "1.0.8"
-      }
-    },
-    {
       "identity" : "documentationcomment",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/fumito-ito/DocumentationComment.git",
@@ -46,30 +28,12 @@
       }
     },
     {
-      "identity" : "smithy-swift",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/smithy-lang/smithy-swift",
-      "state" : {
-        "revision" : "c5242d4e06e721293ee91c7affd1d527912f596d",
-        "version" : "0.76.0"
-      }
-    },
-    {
       "identity" : "swift-cmark",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/apple/swift-cmark.git",
       "state" : {
         "revision" : "3bc2f3e25df0cecc5dc269f7ccae65d0f386f06a",
         "version" : "0.4.0"
-      }
-    },
-    {
-      "identity" : "swift-log",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/apple/swift-log.git",
-      "state" : {
-        "revision" : "9cb486020ebf03bfa5b5df985387a14a98744537",
-        "version" : "1.6.1"
       }
     },
     {
@@ -88,6 +52,15 @@
       "state" : {
         "revision" : "0687f71944021d616d34d922343dcef086855920",
         "version" : "600.0.1"
+      }
+    },
+    {
+      "identity" : "swiftyjsonlines",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/fumito-ito/SwiftyJSONLines.git",
+      "state" : {
+        "revision" : "ae30455420897b2c45621a88b3ae3f052a8b5f3d",
+        "version" : "0.0.2"
       }
     }
   ],
