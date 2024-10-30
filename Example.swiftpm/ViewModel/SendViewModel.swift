@@ -10,7 +10,6 @@ import AnthropicSwiftSDK
 
 @Observable class SendViewModel: SendMessagesSubject {
     private let messageHandler: MessageSendable
-    private let functionTools = FunctionTools()
     let title: String
     let model: Model
 
@@ -51,7 +50,7 @@ import AnthropicSwiftSDK
                     temperature: nil,
                     topP: nil,
                     topK: nil,
-                    toolContainer: functionTools,
+                    tools: nil,
                     toolChoice: .auto
                 )
 

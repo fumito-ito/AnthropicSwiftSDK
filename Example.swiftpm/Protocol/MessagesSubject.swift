@@ -8,7 +8,6 @@
 import Foundation
 import SwiftUI
 import AnthropicSwiftSDK
-import FunctionCalling
 
 protocol MessagesSubject {
     var messages: [ChatMessage] { get }
@@ -50,7 +49,7 @@ protocol MessageSendable {
         temperature: Double?,
         topP: Double?,
         topK: Int?,
-        toolContainer: ToolContainer?,
+        tools: [Tool]?,
         toolChoice: ToolChoice
     ) async throws -> MessagesResponse
 }
@@ -72,7 +71,7 @@ protocol MessageStreamable {
         temperature: Double?,
         topP: Double?,
         topK: Int?,
-        toolContainer: ToolContainer?,
+        tools: [Tool]?,
         toolChoice: ToolChoice
     ) async throws -> AsyncThrowingStream<StreamingResponse, Error>
 }

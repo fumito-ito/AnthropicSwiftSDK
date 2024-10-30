@@ -11,7 +11,6 @@ import AnthropicSwiftSDK
 @Observable class SendMessageBatchesViewModel: SendMessageBatchesSubject {
     
     private let messageHandler: MessageBatchSendable
-    private let functionTools = FunctionTools()
     let title: String
     let model: Model
 
