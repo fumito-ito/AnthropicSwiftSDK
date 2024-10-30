@@ -69,7 +69,7 @@ final class AnthropicAPIClientTests: XCTestCase {
             XCTAssertEqual(headers!["x-api-key"], "test-api-key")
             XCTAssertEqual(headers!["anthropic-version"], "2023-06-01")
             XCTAssertEqual(headers!["Content-Type"], "application/json")
-            XCTAssertEqual(headers!["anthropic-beta"], "message-batches-2024-09-24")
+            XCTAssertEqual(headers!["anthropic-beta"], "message-batches-2024-09-24,computer-use-2024-10-22,prompt-caching-2024-07-31")
 
             expectation.fulfill()
         }, nil)
@@ -90,7 +90,7 @@ final class AnthropicAPIClientTests: XCTestCase {
             XCTAssertEqual(headers!["x-api-key"], "test-api-key")
             XCTAssertEqual(headers!["anthropic-version"], "2023-06-01")
             XCTAssertEqual(headers!["Content-Type"], "application/json")
-            XCTAssertEqual(headers!["anthropic-beta"], "message-batches-2024-09-24")
+            XCTAssertEqual(headers!["anthropic-beta"], "message-batches-2024-09-24,computer-use-2024-10-22,prompt-caching-2024-07-31")
 
             expectation.fulfill()
         }, nil)
