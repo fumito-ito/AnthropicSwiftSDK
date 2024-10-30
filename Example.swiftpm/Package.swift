@@ -17,7 +17,7 @@ let package = Package(
             name: "Example",
             targets: ["AppModule"],
             bundleIdentifier: "com.github.fumito-ito.AnthropicSwiftSDK.Example",
-            teamIdentifier: "K489QY5CFD",
+            teamIdentifier: "L8LPZ499U7",
             displayVersion: "1.0",
             bundleVersion: "1",
             appIcon: .placeholder(icon: .clock),
