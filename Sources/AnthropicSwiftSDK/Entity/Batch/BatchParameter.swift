@@ -5,8 +5,6 @@
 //  Created by 伊藤史 on 2024/10/18.
 //
 
-import FunctionCalling
-
 public struct BatchParameter {
     /// Input messages.
     public let messages: [Message]
@@ -38,7 +36,7 @@ public struct BatchParameter {
     /// Only sample from the top K options for each subsequent token.
     public let topK: Int?
     /// Definitions of tools that the model may use.
-    public let toolContainer: ToolContainer?
+    public let tools: [Tool]?
     /// How the model should use the provided tools. The model can use a specific tool, any available tool, or decide by itself.
     public let toolChoice: ToolChoice
 
@@ -52,7 +50,7 @@ public struct BatchParameter {
         temperature: Double? = nil,
         topP: Double? = nil,
         topK: Int? = nil,
-        toolContainer: ToolContainer? = nil,
+        tools: [Tool]? = nil,
         toolChoice: ToolChoice = .auto
     ) {
         self.messages = messages
@@ -64,7 +62,7 @@ public struct BatchParameter {
         self.temperature = temperature
         self.topP = topP
         self.topK = topK
-        self.toolContainer = toolContainer
+        self.tools = tools
         self.toolChoice = toolChoice
     }
 }

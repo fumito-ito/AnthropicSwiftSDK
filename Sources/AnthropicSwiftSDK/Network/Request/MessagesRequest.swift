@@ -6,7 +6,6 @@
 //
 
 import Foundation
-import FunctionCalling
 
 struct MessagesRequest: Request {
     typealias Body = MessagesRequestBody
@@ -103,7 +102,7 @@ struct MessagesRequestBody: Encodable {
         self.temperature = parameter.temperature
         self.topP = parameter.topP
         self.topK = parameter.topK
-        self.tools = parameter.toolContainer?.allTools
-        self.toolChoice = parameter.toolContainer?.allTools == nil ? nil : parameter.toolChoice
+        self.tools = parameter.tools
+        self.toolChoice = parameter.tools == nil ? nil : parameter.toolChoice
     }
 }

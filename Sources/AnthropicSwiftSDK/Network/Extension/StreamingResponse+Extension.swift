@@ -5,8 +5,6 @@
 //  Created by 伊藤史 on 2024/08/22.
 //
 
-import FunctionCalling
-
 extension StreamingResponse {
     /// True if `stop_reason` of this StreamingResponse is `tool_use`
     var isToolUse: Bool {
@@ -23,27 +21,6 @@ extension StreamingMessageDeltaResponse {
     /// True if `stop_reason` is `tool_use`
     var isToolUse: Bool {
         toolUseContent != nil && delta.stopReason == .toolUse
-    }
-
-    /// If this response contains the `tool_use` property, the result of the `Tool` call is obtained using the `ToolContainer` given in the argument.
-    /// - Parameter toolContainer: Takes the `tool_use` in the response and returns the result.
-    /// - Returns: The result of tool use
-    func getToolResultContent(from toolContainer: ToolContainer) async -> Content? {
-        guard let toolUseContent else {
-            return nil
-        }
-
-        let result = await toolContainer.execute(methodName: toolUseContent.name, parameters: toolUseContent.input)
-
-        return .toolResult(
-            .init(
-                toolUseId: toolUseContent.id,
-                content: [
-                    .text(result)
-                ],
-                isError: false
-            )
-        )
     }
 }
 
