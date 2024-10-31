@@ -7,7 +7,7 @@
 
 extension StreamingResponse {
     /// True if `stop_reason` of this StreamingResponse is `tool_use`
-    var isToolUse: Bool {
+    public var isToolUse: Bool {
         switch self {
         case let deltaResponse as StreamingMessageDeltaResponse:
             return deltaResponse.isToolUse
