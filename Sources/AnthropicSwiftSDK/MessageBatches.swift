@@ -6,7 +6,6 @@
 //
 
 import Foundation
-import FunctionCalling
 import SwiftyJSONLines
 
 /// A class responsible for managing message batches in the Anthropic API.

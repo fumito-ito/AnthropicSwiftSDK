@@ -83,7 +83,7 @@ for try await chunk in stream {
 
 Claude is capable of interacting with external client-side tools and functions, allowing you to equip Claude with your own custom tools to perform a wider variety of tasks.
 
-AnthropicSwiftSDK supports `Tool Use` in conjunction with the [`@FunctionCalling`](https://github.com/fumito-ito/FunctionCalling) macro. You can easily handle `Tool Use` with the following code.
+AnthropicSwiftSDK supports `Tool Use` in conjunction with the [`@FunctionCalling`](https://github.com/fumito-ito/FunctionCalling) macro and [FunctionCalling-AnthropicSwiftSDK](https://github.com/FunctionCalling/FunctionCalling-AnthropicSwiftSDK.git) extension. You can easily handle `Tool Use` with the following code.
 
 ```swift
 @FunctionCalling(service: .claude)
@@ -102,7 +102,7 @@ let result = try await Anthropic(apiKey: "your_claude_api_key")
     .createMessage(
         [message],
         maxTokens: 1024,
-        toolContainer: MyFunctionTools() // <= pass tool container here
+        tools: MyFunctionTools().anthropicSwiftTools // <= pass tool container here
     )
 ```
 
@@ -156,6 +156,26 @@ let batch = MessageBatch(
 )
 
 let response = try await anthropic.messageBatches.createBatches(batches: [batch])
+```
+
+### [Computer Use (beta)](https://docs.anthropic.com/en/docs/build-with-claude/computer-use#computer-tool)
+
+The upgraded Claude 3.5 Sonnet model is capable of interacting with tools that can manipulate a computer desktop environment.
+
+By implementing the following code, you can instruct Claude to return commands for executing tasks on a computer
+
+```swift
+let anthropic = Anthropic(apiKey: "YOUR_OWN_API_KEY")
+
+let message = Message(role: .user, content: [.text("Find flights from San Francisco to a place with warmer weather.")])
+let response = try await anthropic.messages.createMessage(
+    [message],
+    maxTokens: 1024,
+    tools: [
+        .computer(.init(name: "my_computer", displayWidthPx: 1024, displayHeightPx: 768, displayNumber: 1),
+        .bash(.init(name: "bash"))
+    ]
+)
 ```
 
 ## Extensions

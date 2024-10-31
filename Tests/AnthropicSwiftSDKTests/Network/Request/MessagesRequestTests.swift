@@ -74,7 +74,7 @@ final class MessagesRequestTests: XCTestCase {
             temperature: 0.7,
             topP: 0.9,
             topK: 10,
-            toolContainer: nil,
+            tools: nil,
             toolChoice: .auto
         )
         

@@ -10,7 +10,6 @@ import AnthropicSwiftSDK
 
 @Observable class StreamViewModel: StreamMessagesSubject {
     private let messageHandler: MessageStreamable
-    private let functionTools = FunctionTools()
     let title: String
     let model: Model
 
@@ -51,7 +50,7 @@ import AnthropicSwiftSDK
                     temperature: nil,
                     topP: nil,
                     topK: nil,
-                    toolContainer: functionTools,
+                    tools: nil,
                     toolChoice: .auto
                 )
                 for try await chunk in stream {
