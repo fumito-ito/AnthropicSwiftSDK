@@ -56,4 +56,17 @@ public enum Tool {
     case function(FunctionTool)
 }
 
-extension Tool: Encodable {}
+extension Tool: Encodable {
+    public func encode(to encoder: any Encoder) throws {
+        switch self {
+        case .computer(let tool):
+            try tool.encode(to: encoder)
+        case .textEditor(let tool):
+            try tool.encode(to: encoder)
+        case .bash(let tool):
+            try tool.encode(to: encoder)
+        case .function(let tool):
+            try tool.encode(to: encoder)
+        }
+    }
+}
