@@ -52,7 +52,7 @@ extension Model {
         case .claude_3_Haiku:
             return "claude-3-haiku-20240307"
         case .claude_3_5_Sonnet:
-            return "claude-3-5-sonnet-20240620"
+            return "claude-3-5-sonnet-20241022"
         case let .custom(modelName):
             return modelName
         }

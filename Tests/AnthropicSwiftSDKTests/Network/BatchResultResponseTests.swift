@@ -11,7 +11,7 @@ import XCTest
 final class BatchResultResponseTests: XCTestCase {
     func testDecodeBatchResultResponseSucceeded() throws {
         let json = """
-        {"custom_id":"request_123","result":{"type":"succeeded","message":{"id":"msg_123456","type":"message","role":"assistant","model":"claude-3-5-sonnet-20240620","content":[{"type":"text","text":"Hello again! It's nice to see you. How can I assist you today? Is there anything specific you'd like to chat about or any questions you have?"}],"stop_reason":"end_turn","stop_sequence":null,"usage":{"input_tokens":11,"output_tokens":36}}}}
+        {"custom_id":"request_123","result":{"type":"succeeded","message":{"id":"msg_123456","type":"message","role":"assistant","model":"claude-3-5-sonnet-20241022","content":[{"type":"text","text":"Hello again! It's nice to see you. How can I assist you today? Is there anything specific you'd like to chat about or any questions you have?"}],"stop_reason":"end_turn","stop_sequence":null,"usage":{"input_tokens":11,"output_tokens":36}}}}
         """
         
         let jsonData = json.data(using: .utf8)!
