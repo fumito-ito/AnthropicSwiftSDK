@@ -106,4 +106,136 @@ final class MessagesRequestTests: XCTestCase {
         XCTAssertNil(request.body?.tools)
         XCTAssertNil(request.body?.toolChoice)
     }
+
+    func testEncoding() throws {
+        // Prepare test data
+        let message = Message(role: .user, content: [.text("Hello")])
+        let systemPrompt: SystemPrompt = .text("You are a helpful assistant", nil)
+
+        // Define various tools for testing
+        let tools = [
+            // Computer tool
+            Tool.computer(.init(
+                name: "computer",
+                displayWidthPx: 1024,
+                displayHeightPx: 768,
+                displayNumber: 1
+            )),
+
+            // Text editor tool
+            Tool.textEditor(.init(
+                name: "str_replace_editor"
+            )),
+
+            // Bash tool
+            Tool.bash(.init(
+                name: "bash"
+            )),
+
+            // Function tool (weather)
+            Tool.function(.init(
+                name: "get_weather",
+                description: "Get weather information",
+                inputSchema: .init(
+                    type: .object,
+                    format: nil,
+                    description: "Weather query parameters",
+                    nullable: nil,
+                    enumValues: nil,
+                    items: nil,
+                    properties: [
+                        "location": .init(
+                            type: .string,
+                            format: nil,
+                            description: "City name",
+                            nullable: nil,
+                            enumValues: nil,
+                            items: nil,
+                            properties: nil,
+                            requiredProperties: nil
+                        )
+                    ],
+                    requiredProperties: ["location"]
+                )
+            ))
+        ]
+
+        let sut = MessagesRequestBody(
+            model: .claude_3_Opus,
+            messages: [message],
+            system: [systemPrompt],
+            maxTokens: 1000,
+            metaData: .init(userId: "test-user"),
+            stopSequences: ["STOP"],
+            stream: true,
+            temperature: 0.7,
+            topP: 0.9,
+            topK: 10,
+            tools: tools,
+            toolChoice: .auto
+        )
+
+        // Encode to JSON
+        let data = try anthropicJSONEncoder.encode(sut)
+        let json = try JSONSerialization.jsonObject(with: data) as! [String: Any]
+
+        // Verify basic properties
+        XCTAssertEqual(json["model"] as? String, "claude-3-opus-20240229")
+        XCTAssertEqual((json["messages"] as? [[String: Any]])?.count, 1)
+        XCTAssertEqual((json["system"] as? [[String: Any]])?.count, 1)
+        XCTAssertEqual(json["max_tokens"] as? Int, 1000)
+        XCTAssertNotNil(json["meta_data"])
+        XCTAssertEqual((json["stop_sequences"] as? [String]), ["STOP"])
+        XCTAssertEqual(json["stream"] as? Bool, true)
+        XCTAssertEqual(json["temperature"] as? Double, 0.7)
+        XCTAssertEqual(json["top_p"] as? Double, 0.9)
+        XCTAssertEqual(json["top_k"] as? Int, 10)
+
+        // Verify tools array
+        let encodedTools = json["tools"] as? [[String: Any]]
+        XCTAssertEqual(encodedTools?.count, 4)
+
+        // Verify computer tool
+        let computerTool = encodedTools?[0]
+        XCTAssertEqual(computerTool?["type"] as? String, "computer_20241022")
+        XCTAssertEqual(computerTool?["name"] as? String, "computer")
+        XCTAssertEqual(computerTool?["display_width_px"] as? Int, 1024)
+        XCTAssertEqual(computerTool?["display_height_px"] as? Int, 768)
+
+        // Verify text editor tool
+        let textEditorTool = encodedTools?[1]
+        XCTAssertEqual(textEditorTool?["type"] as? String, "textEditor_20241022")
+        XCTAssertEqual(textEditorTool?["name"] as? String, "str_replace_editor")
+
+        // Verify bash tool
+        let bashTool = encodedTools?[2]
+        XCTAssertEqual(bashTool?["type"] as? String, "bash_20241022")
+        XCTAssertEqual(bashTool?["name"] as? String, "bash")
+
+        // Verify function tool
+        let functionTool = encodedTools?[3]
+        XCTAssertEqual(functionTool?["name"] as? String, "get_weather")
+        XCTAssertNotNil(functionTool?["description"])
+        XCTAssertNotNil(functionTool?["input_schema"])
+
+        XCTAssertNotNil(json["tool_choice"])
+    }
+
+    func testEncodingWithMinimalParameters() throws {
+        // Test with only required parameters
+        let message = Message(role: .user, content: [.text("Hello")])
+        let sut = MessagesRequestBody(
+            messages: [message],
+            maxTokens: 1000
+        )
+
+        let data = try anthropicJSONEncoder.encode(sut)
+        let json = try JSONSerialization.jsonObject(with: data) as! [String: Any]
+
+        // Verify minimal configuration
+        XCTAssertEqual(json["model"] as? String, "claude-3-opus-20240229")
+        XCTAssertEqual((json["messages"] as? [[String: Any]])?.count, 1)
+        XCTAssertEqual(json["max_tokens"] as? Int, 1000)
+        XCTAssertNil(json["tool_choice"])
+    }
 }
