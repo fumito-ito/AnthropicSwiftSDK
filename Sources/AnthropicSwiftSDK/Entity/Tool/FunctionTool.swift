@@ -87,7 +87,7 @@ public class InputSchema {
         /// A true/false value
         case boolean
         /// A list of values
-        case arrray
+        case array
         /// A complex object with properties
         case object
     }
