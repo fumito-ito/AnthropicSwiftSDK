@@ -40,6 +40,26 @@ final class ContentTests: XCTestCase {
         )
     }
 
+    func testEncodeContentDocument() throws {
+        let expect = Content.document(
+            .init(
+                type: .base64,
+                mediaType: .pdf,
+                data: "data".data(using: .utf8)!
+            )
+        )
+
+        let dictionary = try XCTUnwrap(expect.toDictionary(encoder))
+        XCTAssertEqual(dictionary["type"] as! String, "document")
+        let source = try XCTUnwrap(dictionary["source"] as? [String: Any])
+        XCTAssertEqual(source["type"] as! String, "base64")
+        XCTAssertEqual(source["media_type"] as! String, "application/pdf")
+        XCTAssertEqual(
+            source["data"] as! String,
+            "data".data(using: .utf8)!.base64EncodedString()
+        )
+    }
+
     func testEncodeContentToolResult() throws {
         let expect = Content.toolResult(
             .init(
