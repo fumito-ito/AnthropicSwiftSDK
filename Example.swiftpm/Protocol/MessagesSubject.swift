@@ -8,7 +8,6 @@
 import Foundation
 import SwiftUI
 import AnthropicSwiftSDK
-import FunctionCalling
 
 protocol MessagesSubject {
     var messages: [ChatMessage] { get }
@@ -33,6 +32,12 @@ protocol StreamMessagesSubject: MessagesSubject {
     func streamMessage(text: String) async throws
 }
 
+protocol SendMessageBatchesSubject: MessagesSubject {
+    init(messageHandler: MessageBatchSendable, title: String, model: Model)
+    
+    func sendMessageBatch(text: String) async throws
+}
+
 protocol MessageSendable {
     func createMessage(
         _ messages: [Message],
@@ -44,9 +49,15 @@ protocol MessageSendable {
         temperature: Double?,
         topP: Double?,
         topK: Int?,
-        toolContainer: ToolContainer?,
+        tools: [Tool]?,
         toolChoice: ToolChoice
     ) async throws -> MessagesResponse
+}
+
+protocol MessageBatchSendable {
+    func createBatches(batches: [MessageBatch]) async throws -> BatchResponse
+    
+    func results(streamOf batchId: String) async throws -> AsyncThrowingStream<BatchResultResponse, Error>
 }
 
 protocol MessageStreamable {
@@ -60,7 +71,7 @@ protocol MessageStreamable {
         temperature: Double?,
         topP: Double?,
         topK: Int?,
-        toolContainer: ToolContainer?,
+        tools: [Tool]?,
         toolChoice: ToolChoice
     ) async throws -> AsyncThrowingStream<StreamingResponse, Error>
 }

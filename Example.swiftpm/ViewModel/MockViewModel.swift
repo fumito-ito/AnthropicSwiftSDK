@@ -7,7 +7,6 @@
 
 import Foundation
 import AnthropicSwiftSDK
-import FunctionCalling
 
 @Observable class MockViewModel: StreamMessagesSubject, SendMessagesSubject {
     required init(messageHandler: any MessageStreamable, title: String, model: AnthropicSwiftSDK.Model) {
@@ -72,13 +71,13 @@ import FunctionCalling
 }
 
 struct MockMessageStreamable: MessageStreamable {
-    func streamMessage(_ messages: [AnthropicSwiftSDK.Message], model: AnthropicSwiftSDK.Model, system: [AnthropicSwiftSDK.SystemPrompt], maxTokens: Int, metaData: AnthropicSwiftSDK.MetaData?, stopSequence: [String]?, temperature: Double?, topP: Double?, topK: Int?, toolContainer: (any FunctionCalling.ToolContainer)?, toolChoice: AnthropicSwiftSDK.ToolChoice) async throws -> AsyncThrowingStream<any AnthropicSwiftSDK.StreamingResponse, any Error> {
+    func streamMessage(_ messages: [AnthropicSwiftSDK.Message], model: AnthropicSwiftSDK.Model, system: [AnthropicSwiftSDK.SystemPrompt], maxTokens: Int, metaData: AnthropicSwiftSDK.MetaData?, stopSequence: [String]?, temperature: Double?, topP: Double?, topK: Int?, tools: [Tool]?, toolChoice: AnthropicSwiftSDK.ToolChoice) async throws -> AsyncThrowingStream<any AnthropicSwiftSDK.StreamingResponse, any Error> {
         fatalError()
     }
 }
 
 struct MockMessagesSendable: MessageSendable {
-    func createMessage(_ messages: [Message], model: Model, system: [SystemPrompt], maxTokens: Int, metaData: MetaData?, stopSequence: [String]?, temperature: Double?, topP: Double?, topK: Int?, toolContainer: (any ToolContainer)?, toolChoice: ToolChoice) async throws -> MessagesResponse {
+    func createMessage(_ messages: [Message], model: Model, system: [SystemPrompt], maxTokens: Int, metaData: MetaData?, stopSequence: [String]?, temperature: Double?, topP: Double?, topK: Int?, tools: [Tool]?, toolChoice: ToolChoice) async throws -> MessagesResponse {
         fatalError()
     }
 }

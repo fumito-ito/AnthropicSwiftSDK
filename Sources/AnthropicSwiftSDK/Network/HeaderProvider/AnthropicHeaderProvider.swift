@@ -20,7 +20,9 @@ struct DefaultAnthropicHeaderProvider: AnthropicHeaderProvider {
     /// content type of response, now only support JSON
     let contentType = "application/json"
 
-    private let betaDescription = "prompt-caching-2024-07-31"
+    private var betaDescription: String {
+        BetaFeatures.allCases.map { $0.rawValue }.joined(separator: ",")
+    }
 
     func getAnthropicAPIHeaders() -> [String: String] {
         var headers: [String: String] = [
@@ -40,4 +42,20 @@ struct DefaultAnthropicHeaderProvider: AnthropicHeaderProvider {
         self.version = version
         self.useBeta = useBeta
     }
+}
+
+/// Anthropic API beta features supported by this library
+public enum BetaFeatures: String, CaseIterable {
+    /// Message Batches (beta)
+    ///
+    /// https://docs.anthropic.com/en/docs/build-with-claude/message-batches
+    case messageBatches = "message-batches-2024-09-24"
+    /// Computer use (beta)
+    ///
+    /// https://docs.anthropic.com/en/docs/build-with-claude/computer-use
+    case computerUse = "computer-use-2024-10-22"
+    /// Prompt caching (beta)
+    ///
+    /// https://docs.anthropic.com/en/docs/build-with-claude/prompt-caching
+    case promptCaching = "prompt-caching-2024-07-31"
 }

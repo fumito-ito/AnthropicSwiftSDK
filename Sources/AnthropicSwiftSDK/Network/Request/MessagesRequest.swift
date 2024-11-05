@@ -6,54 +6,64 @@
 //
 
 import Foundation
-import FunctionCalling
+
+struct MessagesRequest: Request {
+    typealias Body = MessagesRequestBody
+
+    let method: HttpMethod = .post
+    let path: String = RequestType.messages.basePath
+    let queries: [String: CustomStringConvertible]? = nil
+    let body: Body?
+}
+
+// MARK: Request Body
 
 /// Request object for Messages API
 ///
 /// a structured list of input messages with text and/or image content, and the model will generate the next message in the conversation.
-public struct MessagesRequest: Encodable {
+struct MessagesRequestBody: Encodable {
     /// The model that will complete your prompt.
-    public let model: Model
+    let model: Model
     /// Input messages.
-    public let messages: [Message]
+    let messages: [Message]
     /// System prompt.
     ///
     /// A system prompt is a way of providing context and instructions to Claude, such as specifying a particular goal or role.
-    public let system: [SystemPrompt]
+    let system: [SystemPrompt]
     /// The maximum number of tokens to generate before stopping.
     ///
     /// Note that our models may stop before reaching this maximum. This parameter only specifies the absolute maximum number of tokens to generate.
     /// Different models have different maximum values for this parameter.
-    public let maxTokens: Int
+    let maxTokens: Int
     /// An object describing metadata about the request.
-    public let metaData: MetaData?
+    let metaData: MetaData?
     /// Custom text sequences that will cause the model to stop generating.
-    public let stopSequences: [String]?
+    let stopSequences: [String]?
     /// Whether to incrementally stream the response using server-sent events.
     ///
     /// see [streaming](https://docs.anthropic.com/claude/reference/messages-streaming) for more detail.
-    public let stream: Bool
+    let stream: Bool
     /// Amount of randomness injected into the response.
     ///
     /// Defaults to 1.0. Ranges from 0.0 to 1.0. Use temperature closer to 0.0 for analytical / multiple choice, and closer to 1.0 for creative and generative tasks.
     /// Note that even with temperature of 0.0, the results will not be fully deterministic.
-    public let temperature: Double?
+    let temperature: Double?
     /// Use nucleus sampling.
     ///
     /// In nucleus sampling, we compute the cumulative distribution over all the options for each subsequent token in decreasing probability order and cut it off once it reaches a particular probability specified by top_p. You should either alter temperature or top_p, but not both.
     /// Recommended for advanced use cases only. You usually only need to use temperature.
-    public let topP: Double?
+    let topP: Double?
     /// Only sample from the top K options for each subsequent token.
     ///
     /// Used to remove "long tail" low probability responses.
     /// Recommended for advanced use cases only. You usually only need to use temperature.
-    public let topK: Int?
+    let topK: Int?
     /// Definition of tools with names, descriptions, and input schemas in your API request.
-    public let tools: [Tool]?
+    let tools: [Tool]?
     /// Definition whether or not to force Claude to use the tool. ToolChoice should be set if tools are specified.
-    public let toolChoice: ToolChoice?
+    let toolChoice: ToolChoice?
 
-    public init(
+    init(
         model: Model = .claude_3_Opus,
         messages: [Message],
         system: [SystemPrompt] = [],
@@ -80,23 +90,19 @@ public struct MessagesRequest: Encodable {
         self.tools = tools
         self.toolChoice = tools == nil ? nil : toolChoice // ToolChoice should be set if tools are specified.
     }
-}
 
-extension MessagesRequest {
-    public func encode(with appendingObject: [String: Any], without removingObjectKeys: [String] = []) throws -> Data {
-        let encoded = try anthropicJSONEncoder.encode(self)
-        guard var dictionary = try JSONSerialization.jsonObject(with: encoded, options: []) as? [String: Any] else {
-            return encoded
-        }
-
-        appendingObject.forEach { key, value in
-            dictionary[key] = value
-        }
-
-        removingObjectKeys.forEach { key in
-            dictionary.removeValue(forKey: key)
-        }
-
-        return try JSONSerialization.data(withJSONObject: dictionary, options: [])
+    init(from parameter: BatchParameter) {
+        self.model = parameter.model
+        self.messages = parameter.messages
+        self.system = parameter.system
+        self.maxTokens = parameter.maxTokens
+        self.metaData = parameter.metaData
+        self.stopSequences = parameter.stopSequence
+        self.stream = parameter.stream
+        self.temperature = parameter.temperature
+        self.topP = parameter.topP
+        self.topK = parameter.topK
+        self.tools = parameter.tools
+        self.toolChoice = parameter.tools == nil ? nil : parameter.toolChoice
     }
 }

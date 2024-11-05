@@ -44,9 +44,7 @@ let package = Package(
         .executableTarget(
             name: "AppModule",
             dependencies: [
-                .product(name: "AnthropicSwiftSDK", package: "AnthropicSwiftSDK"),
-                .product(name: "AnthropicSwiftSDK-Bedrock", package: "AnthropicSwiftSDK"),
-                .product(name: "AnthropicSwiftSDK-VertexAI", package: "AnthropicSwiftSDK")
+                .product(name: "AnthropicSwiftSDK", package: "AnthropicSwiftSDK")
             ],
             path: "."
         )

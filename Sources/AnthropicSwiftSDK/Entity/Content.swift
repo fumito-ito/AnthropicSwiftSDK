@@ -8,7 +8,7 @@
 import Foundation
 
 /// Type of content block.
-enum ContentType: String {
+public enum ContentType: String {
     /// single string
     case text
     /// image content
@@ -33,7 +33,7 @@ public enum Content {
     case toolResult(ToolResultContent)
 
     /// The type of content block.
-    var contentType: ContentType {
+    public var contentType: ContentType {
         switch self {
         case .text:
             return ContentType.text

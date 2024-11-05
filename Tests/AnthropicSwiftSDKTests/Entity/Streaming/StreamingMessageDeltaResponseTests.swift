@@ -6,7 +6,6 @@
 //
 
 import XCTest
-import FunctionCalling
 @testable import AnthropicSwiftSDK
 
 final class StreamingMessageDeltaResponseTests: XCTestCase {
@@ -62,61 +61,6 @@ final class StreamingMessageDeltaResponseTests: XCTestCase {
         )
 
         XCTAssertFalse(responseWithoutReason.isToolUse)
-    }
-
-    func testToolContainerIsExecutedByResponse() async throws {
-        struct MockToolContiner: ToolContainer {
-            var allToolsJSONString: String {
-                ""
-            }
-            
-            var service: FunctionCallingService {
-                .claude
-            }
-            
-            func execute(methodName name: String, parameters: [String : Any]) async -> String {
-                return "executed,\(name),\(parameters.keys.first ?? "")"
-            }
-            
-            var allTools: [Tool]? {
-                nil
-            }
-        }
-
-        let responseWithContent = StreamingMessageDeltaResponse(
-            type: .messageDelta,
-            delta: .init(
-                stopReason: .toolUse,
-                stopSequence: nil),
-            usage: .init(
-                inputTokens: 1,
-                outputTokens: 1
-            ),
-            toolUseContent: .init(
-                id: "1",
-                name: "some_tool",
-                input: ["input1":1]
-            )
-        )
-
-        let result = await responseWithContent.getToolResultContent(from: MockToolContiner())
-
-        XCTAssertEqual(result?.contentType, .toolResult)
-        if case let .toolResult(toolResult) = result {
-            XCTAssertEqual(toolResult.toolUseId, "1")
-            XCTAssertTrue(toolResult.isError == false)
-            if case let .text(text) = toolResult.content.first {
-                let arguments = text.split(separator: ",")
-                XCTAssertEqual(arguments.count, 3)
-                XCTAssertEqual(arguments[0], "executed")
-                XCTAssertEqual(arguments[1], "some_tool")
-                XCTAssertEqual(arguments[2], "input1")
-            } else {
-                XCTFail("Content should be string")
-            }
-        } else {
-            XCTFail("Content should be toolResult")
-        }
     }
 
     func testContentIsAddedIntoResponse() {

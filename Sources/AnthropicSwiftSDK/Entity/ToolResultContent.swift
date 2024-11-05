@@ -16,6 +16,12 @@ public struct ToolResultContent {
     public let content: [Content]
     /// Set to `true` if the tool execution resulted in an error.
     public let isError: Bool?
+
+    public init(toolUseId: String, content: [Content], isError: Bool?) {
+        self.toolUseId = toolUseId
+        self.content = content
+        self.isError = isError
+    }
 }
 
 extension ToolResultContent: Encodable {}

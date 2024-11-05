@@ -1,57 +1,12 @@
 {
   "pins" : [
     {
-      "identity" : "documentationcomment",
+      "identity" : "swiftyjsonlines",
       "kind" : "remoteSourceControl",
-      "location" : "https://github.com/fumito-ito/DocumentationComment.git",
+      "location" : "https://github.com/fumito-ito/SwiftyJSONLines.git",
       "state" : {
-        "revision" : "90d3c5b9cccddb202c8adb99138733c868d7b082",
-        "version" : "0.0.6"
-      }
-    },
-    {
-      "identity" : "functioncalling",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/fumito-ito/FunctionCalling",
-      "state" : {
-        "revision" : "24c07c25d57a66b0e34af8d1ffb1192c2b1313a3",
-        "version" : "0.4.0"
-      }
-    },
-    {
-      "identity" : "grmustache.swift",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/groue/GRMustache.swift",
-      "state" : {
-        "revision" : "c4ee40ef49ae523b06fa470b8d27185ec027330d",
-        "version" : "5.0.1"
-      }
-    },
-    {
-      "identity" : "swift-cmark",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/apple/swift-cmark.git",
-      "state" : {
-        "revision" : "3bc2f3e25df0cecc5dc269f7ccae65d0f386f06a",
-        "version" : "0.4.0"
-      }
-    },
-    {
-      "identity" : "swift-markdown",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/apple/swift-markdown.git",
-      "state" : {
-        "revision" : "4aae40bf6fff5286e0e1672329d17824ce16e081",
-        "version" : "0.4.0"
-      }
-    },
-    {
-      "identity" : "swift-syntax",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/apple/swift-syntax.git",
-      "state" : {
-        "revision" : "cb53fa1bd3219b0b23ded7dfdd3b2baff266fd25",
-        "version" : "600.0.0"
+        "revision" : "fb957dada1e920b6916c7083e99895f8f7fc885a",
+        "version" : "0.0.3"
       }
     }
   ],
