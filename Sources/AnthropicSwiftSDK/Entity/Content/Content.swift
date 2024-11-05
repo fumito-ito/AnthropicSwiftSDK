@@ -17,6 +17,8 @@ public enum ContentType: String {
     case toolUse = "tool_use"
     /// result of tool use
     case toolResult = "tool_result"
+    /// document, like pdf
+    case document
 }
 
 /// The content of message.
@@ -31,18 +33,21 @@ public enum Content {
     case image(ImageContent)
     case toolUse(ToolUseContent)
     case toolResult(ToolResultContent)
+    case document(DocumentContent)
 
     /// The type of content block.
     public var contentType: ContentType {
         switch self {
         case .text:
-            return ContentType.text
+            return .text
         case .image:
-            return ContentType.image
+            return .image
         case .toolUse:
-            return ContentType.toolUse
+            return .toolUse
         case .toolResult:
-            return ContentType.toolResult
+            return .toolResult
+        case .document:
+            return .document
         }
     }
 }
@@ -92,6 +97,10 @@ extension Content: Encodable {
             if toolResult.isError != nil {
                 try container.encode(toolResult.isError, forKey: .isError)
             }
+        case let .document(document):
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(self.contentType.rawValue, forKey: .type)
+            try container.encode(document, forKey: .source)
         }
     }
 }
@@ -114,6 +123,9 @@ extension Content: Decodable {
             self = .toolUse(content)
         case .toolResult:
             fatalError("ContentType: `tool_result` is only used by user, not by assistant")
+        case .document:
+            let document = try container.decode(DocumentContent.self, forKey: .source)
+            self = .document(document)
         case .none:
             throw ClientError.failedToParseContentType(contentTypeString)
         }
