@@ -15,10 +15,14 @@ public final class Anthropic {
     /// MessageBatches API Interface
     public let messageBatches: MessageBatches
 
+    /// Token Counting API Interface
+    public let countTokens: CountTokens
+
     /// Construction of SDK
     /// - Parameter apiKey: API key to access Anthropic API.
     public init(apiKey: String) {
         self.messages = Messages(apiKey: apiKey, session: .shared)
         self.messageBatches = MessageBatches(apiKey: apiKey, session: .shared)
+        self.countTokens = CountTokens(apiKey: apiKey, session: .shared)
     }
 }
