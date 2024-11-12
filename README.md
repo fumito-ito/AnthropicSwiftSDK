@@ -21,7 +21,7 @@ let package = Package(
         )
     ],
     dependencies: [
-        .package(url: "https://github.com/fumito-ito/AnthropicSwiftSDK.git", .upToNextMajor(from: "0.8.0"))
+        .package(url: "https://github.com/fumito-ito/AnthropicSwiftSDK.git", .upToNextMajor(from: "0.11.0"))
     ]
 )
 ```
@@ -177,6 +177,30 @@ let response = try await anthropic.messages.createMessage(
     ]
 )
 ```
+
+### [Token Counting](https://docs.anthropic.com/en/docs/build-with-claude/token-counting)
+
+Token counting enables you to determine the number of tokens in a message before sending it to Claude, helping you make informed decisions about your prompts and usage. With token counting, you can
+
+- Proactively manage rate limits and costs
+- Make smart model routing decisions
+- Optimize prompts to be a specific length
+
+```swift
+let anthropic = Anthropic(apiKey: "YOUR_OWN_API_KEY")
+
+let message = Message(role: .user, content: [.text("Find flights from San Francisco to a place with warmer weather.")])
+let response = try await anthropic.countTokens.countTokens(
+    [message],
+    maxTokens: 1024,
+    tools: [
+        .computer(.init(name: "my_computer", displayWidthPx: 1024, displayHeightPx: 768, displayNumber: 1),
+        .bash(.init(name: "bash"))
+    ]
+)
+```
+
+The token counting endpoint accepts the same structured list of inputs for creating a message, including support for system prompts, tools, images, and PDFs. The response contains the total number of input tokens.
 
 ## Extensions
 
