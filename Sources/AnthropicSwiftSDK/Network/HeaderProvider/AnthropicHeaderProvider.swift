@@ -62,4 +62,8 @@ public enum BetaFeatures: String, CaseIterable {
     ///
     /// https://docs.anthropic.com/en/docs/build-with-claude/pdf-support
     case pdfSupport = "pdfs-2024-09-25"
+    /// Token Counting (beta)
+    ///
+    /// https://docs.anthropic.com/en/docs/build-with-claude/token-counting
+    case tokenCounting = "token-counting-2024-11-01"
 }

@@ -15,6 +15,7 @@ public enum HttpMethod: String {
 enum RequestType {
     case messages
     case batches
+    case countTokens
 
     var basePath: String {
         switch self {
@@ -22,6 +23,8 @@ enum RequestType {
             return "/v1/messages"
         case .batches:
             return "/v1/messages/batches"
+        case .countTokens:
+            return "v1/messages/count_tokens"
         }
     }
 }
