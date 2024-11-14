@@ -40,7 +40,7 @@ final class MessageBatchesRequestTests: XCTestCase {
         XCTAssertEqual(request.body?.requests[0].params.messages.count, 1)
         XCTAssertEqual(request.body?.requests[0].params.messages[0].role.rawValue, "user")
         let content1 = try XCTUnwrap(request.body?.requests[0].params.messages[0].content)
-        guard case let .text(text1) = content1[0] else {
+        guard case let .text(text1, _) = content1[0] else {
             XCTFail("content1[0] is not .text")
             return
         }
@@ -52,7 +52,7 @@ final class MessageBatchesRequestTests: XCTestCase {
         XCTAssertEqual(request.body?.requests[1].params.messages.count, 1)
         XCTAssertEqual(request.body?.requests[1].params.messages[0].role.rawValue, "user")
         let content2 = try XCTUnwrap(request.body?.requests[1].params.messages[0].content)
-        guard case let .text(text2) = content2[0] else {
+        guard case let .text(text2, _) = content2[0] else {
             XCTFail("content2[0] is not .text")
             return
         }

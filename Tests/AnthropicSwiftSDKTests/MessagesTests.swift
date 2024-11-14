@@ -83,7 +83,7 @@ final class MessagesTests: XCTestCase {
         XCTAssertEqual(response.type, .message)
         XCTAssertEqual(response.role, .assistant)
         XCTAssertEqual(response.content.first?.contentType, .text)
-        if case let .text(text) = response.content.first {
+        if case let .text(text, _) = response.content.first {
             XCTAssertEqual(text, "Hello!")
         } else {
             XCTFail("Wrong type content is received.")

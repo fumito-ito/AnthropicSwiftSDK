@@ -194,7 +194,7 @@ final class ContentTests: XCTestCase {
             from: TestCase.text.jsonString.data(using: .utf8)!
         )
 
-        guard case let .text(text) = expect else {
+        guard case let .text(text, _) = expect else {
             XCTFail("Failed to decode text")
             return
         }
@@ -208,7 +208,7 @@ final class ContentTests: XCTestCase {
             from: TestCase.image.jsonString.data(using: .utf8)!
         )
 
-        guard case let .image(imageContent) = expect else {
+        guard case let .image(imageContent, _) = expect else {
             XCTFail("Failed to decode image")
             return
         }

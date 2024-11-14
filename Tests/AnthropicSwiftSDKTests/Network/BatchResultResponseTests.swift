@@ -25,7 +25,7 @@ final class BatchResultResponseTests: XCTestCase {
         XCTAssertEqual(batchResultResponse.result?.message?.id, "msg_123456")
         XCTAssertEqual(batchResultResponse.result?.message?.type, .message)
         XCTAssertEqual(batchResultResponse.result?.message?.role, .assistant)
-        guard case let .text(text1) = batchResultResponse.result?.message?.content.first else {
+        guard case let .text(text1, _) = batchResultResponse.result?.message?.content.first else {
             XCTFail("batchResultResponse.result?.message.content.first is not .text")
             return
         }
