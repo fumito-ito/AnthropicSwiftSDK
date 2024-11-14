@@ -41,7 +41,7 @@ This library currently supports _Messages API_. If you need legacy _Text Complet
 
 ### [Create a Message API](https://docs.anthropic.com/claude/reference/messages_post)
 
-Send a structured list of input messages with text and/or image content, and the model will generate the next message in the conversation.
+Send a structured list of input messages with `text`, `image`, `pdf` and/or `tool` content, and the model will generate the next message in the conversation.
 
 The Messages API can be used for for either single queries or stateless multi-turn conversations.
 
@@ -53,10 +53,16 @@ let response = try await anthropic.messages.createMessage([message], maxTokens: 
 
 for content in response.content {
     switch content {
-    case .text(let text):
+    case .text(let text, _):
         print(text)
-    case .image(let imageContent):
+    case .image(let imageContent, _):
         // handle base64 encoded image content
+    case .document(let documentContent, _):
+        // handle base64 encoded pdf content
+    case .toolResult(let toolResult):
+        // handle tool result
+    case .toolUse(let toolUse):
+        // handle tool object
     }
 }
 ```
