@@ -58,7 +58,7 @@ final class StreamingDataLineParserTests: XCTestCase {
 
         XCTAssertEqual(result.type, .contentBlockStart)
         XCTAssertEqual(result.index, 0)
-        if case .text(let text) = result.contentBlock {
+        if case .text(let text, _) = result.contentBlock {
             XCTAssertEqual(text, "")
         } else {
             XCTFail()
