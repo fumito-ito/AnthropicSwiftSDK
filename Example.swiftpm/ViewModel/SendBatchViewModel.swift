@@ -51,7 +51,7 @@ import AnthropicSwiftSDK
                 let result = try await messageHandler.createBatches(batches: [batch])
                 let stream = try await messageHandler.results(streamOf: result.id)
                 for try await chunk in stream {
-                    guard case .text(let text) = chunk.result?.message?.content.first else {
+                    guard case .text(let text, _) = chunk.result?.message?.content.first else {
                         return
                     }
                     messages.append(.init(user: .assistant, text: text))

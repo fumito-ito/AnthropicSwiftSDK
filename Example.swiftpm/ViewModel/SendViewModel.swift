@@ -54,7 +54,7 @@ import AnthropicSwiftSDK
                     toolChoice: .auto
                 )
 
-                if case let .text(reply) = result.content.first {
+                if case let .text(reply, _) = result.content.first {
                     messages.append(.init(user: .assistant, text: reply))
                 }
                 isLoading = false
