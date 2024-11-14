@@ -57,19 +57,41 @@ public struct FunctionTool {
     /// A JSON Schema object defining the expected parameters for the tool.
     public let inputSchema: InputSchema
 
+    /// Enable caching for that portion of the request.
+    public let cacheControl: CacheControl?
+
     /// Creates a new function tool instance.
     /// - Parameters:
     ///   - name: The name of the tool that will be exposed to the model.
     ///   - description: A detailed description of the tool's functionality.
     ///   - inputSchema: The schema defining the tool's input parameters.
-    public init(name: String, description: String, inputSchema: InputSchema) {
+    ///   - cacheControl:
+    public init(name: String, description: String, inputSchema: InputSchema, cacheControl: CacheControl? = nil) {
         self.name = name
         self.description = description
         self.inputSchema = inputSchema
+        self.cacheControl = cacheControl
     }
 }
 
-extension FunctionTool: Encodable {}
+extension FunctionTool: Encodable {
+    enum CodingKeys: String, CodingKey {
+        case name
+        case description
+        case inputSchema = "input_schema"
+        case cacheControl = "cache_control"
+    }
+
+    public func encode(to encoder: any Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(name, forKey: .name)
+        try container.encode(description, forKey: .description)
+        try container.encode(inputSchema, forKey: .inputSchema)
+        if let cacheControl {
+            try container.encode(cacheControl, forKey: .cacheControl)
+        }
+    }
+}
 
 /// A class representing the JSON Schema for a tool's input parameters.
 ///
