@@ -35,6 +35,10 @@ public enum ClientError: Error {
     case failedToMakeEncodableToolUseInput([String: Any])
     /// SDK failed to encode `SystemPrompt` object
     case failedToEncodeSystemPrompt
+    /// These messages are not supported by the model.
+    case unsupportedMessageContentContained(model: Model, messages: [Message])
+    /// Some unsupported features are used.
+    case unsupportedFeatureUsed(description: String)
 
     /// Description of sdk internal errors.
     public var localizedDescription: String {
@@ -63,6 +67,10 @@ public enum ClientError: Error {
             return "Failed to make ToolUse.input object Encodable"
         case .failedToEncodeSystemPrompt:
             return "Failed to encode `SystemPrompt` object"
+        case let .unsupportedMessageContentContained(model, messages):
+            return "The model \(model.stringfy) does not support these messages: \(messages)"
+        case let .unsupportedFeatureUsed(description):
+            return "Some unsupported features are used. For more detail, see \(description)."
         }
     }
 }

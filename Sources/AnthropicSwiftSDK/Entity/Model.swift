@@ -48,6 +48,50 @@ public enum Model {
 }
 
 extension Model {
+    /// Whether this model supports Message Batches API or not.
+    ///
+    /// `Claude 3.0 Sonnet` does not support it.
+    var isSupportBatches: Bool {
+        switch self {
+        case
+            .claude_3_Opus,
+            .claude_3_Haiku,
+            .claude_3_5_Sonnet,
+            .claude_3_5_Haiku,
+            .custom:
+            return true
+        case .claude_3_Sonnet:
+            return false
+        }
+    }
+
+    /// Whether this model supports Vision feature or not.
+    ///
+    /// `Claude 3.5 Haiku` does not support it.
+    var isSupportVision: Bool {
+        switch self {
+        case
+            .claude_3_Opus,
+            .claude_3_Haiku,
+            .claude_3_Sonnet,
+            .claude_3_5_Sonnet,
+            .custom:
+            return true
+        case .claude_3_5_Haiku:
+            return false
+        }
+    }
+
+    func isValid(for message: Message) -> Bool {
+        if isSupportVision {
+            return true
+        }
+
+        return message.content.allSatisfy { $0.contentType != .image }
+    }
+}
+
+extension Model {
     var stringfy: String {
         switch self {
         case .claude_3_Opus:

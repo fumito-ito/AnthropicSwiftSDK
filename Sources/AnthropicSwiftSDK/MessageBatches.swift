@@ -31,7 +31,9 @@ public struct MessageBatches {
     /// - Returns: A `BatchResponse` containing the details of the created batches.
     /// - Throws: An error if the request fails.
     public func createBatches(batches: [MessageBatch]) async throws -> BatchResponse {
-        try await createBatches(
+        try validate(batches: batches)
+
+        return try await createBatches(
             batches: batches,
             anthropicHeaderProvider: DefaultAnthropicHeaderProvider(),
             authenticationHeaderProvider: APIKeyAuthenticationHeaderProvider(apiKey: apiKey)
@@ -334,5 +336,24 @@ public struct MessageBatches {
         }
 
         return try anthropicJSONDecoder.decode(BatchResponse.self, from: data)
+    }
+}
+
+extension MessageBatches {
+    func validate(batches: [MessageBatch]) throws {
+        try batches.forEach { batch in
+            let model = batch.parameter.model
+            guard model.isSupportBatches else {
+                throw ClientError.unsupportedFeatureUsed(description: "The model: \(model.stringfy) does not support Message Batches API")
+            }
+
+            let messages = batch.parameter.messages
+            guard (messages.allSatisfy { model.isValid(for: $0) }) else {
+                throw ClientError.unsupportedMessageContentContained(
+                    model: model,
+                    messages: messages.filter { model.isValid(for: $0) == false }
+                )
+            }
+        }
     }
 }

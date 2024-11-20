@@ -45,7 +45,9 @@ public struct Messages {
         tools: [Tool]? = nil,
         toolChoice: ToolChoice = .auto
     ) async throws -> MessagesResponse {
-        try await createMessage(
+        try validate(model, for: messages)
+
+        return try await createMessage(
             messages,
             model: model,
             system: system,
@@ -160,7 +162,9 @@ public struct Messages {
         tools: [Tool]? = nil,
         toolChoice: ToolChoice = .auto
     ) async throws -> AsyncThrowingStream<StreamingResponse, Error> {
-        try await streamMessage(
+        try validate(model, for: messages)
+
+        return try await streamMessage(
             messages,
             model: model,
             system: system,
@@ -244,5 +248,16 @@ public struct Messages {
         }
 
         return try await AnthropicStreamingParser.parse(stream: data.lines).accumulated()
+    }
+}
+
+extension Messages {
+    func validate(_ model: Model, for messages: [Message]) throws {
+        guard (messages.allSatisfy { model.isValid(for: $0) }) else {
+            throw ClientError.unsupportedMessageContentContained(
+                model: model,
+                messages: messages.filter { model.isValid(for: $0) == false }
+            )
+        }
     }
 }
