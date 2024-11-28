@@ -231,9 +231,9 @@ public struct MessageBatches {
     ///   - beforeId: The ID to list batches before.
     ///   - afterId: The ID to list batches after.
     ///   - limit: The maximum number of batches to list.
-    /// - Returns: A `BatchListResponse` containing the list of batches.
+    /// - Returns: A `ObjectListResponse<BatchResponse>` containing the list of batches.
     /// - Throws: An error if the request fails.
-    public func list(beforeId: String? = nil, afterId: String? = nil, limit: Int = 20) async throws -> BatchListResponse {
+    public func list(beforeId: String? = nil, afterId: String? = nil, limit: Int = 20) async throws -> ObjectListResponse<BatchResponse> {
         try await list(
             beforeId: beforeId,
             afterId: afterId,
@@ -251,7 +251,7 @@ public struct MessageBatches {
     ///   - limit: The maximum number of batches to list.
     ///   - anthropicHeaderProvider: The provider for Anthropic-specific headers.
     ///   - authenticationHeaderProvider: The provider for authentication headers.
-    /// - Returns: A `BatchListResponse` containing the list of batches.
+    /// - Returns: A `ObjectListResponse<BatchResponse>` containing the list of batches.
     /// - Throws: An error if the request fails.
     public func list(
         beforeId: String?,
@@ -259,7 +259,7 @@ public struct MessageBatches {
         limit: Int,
         anthropicHeaderProvider: AnthropicHeaderProvider,
         authenticationHeaderProvider: AuthenticationHeaderProvider
-    ) async throws -> BatchListResponse  {
+    ) async throws -> ObjectListResponse<BatchResponse>  {
         let client = APIClient(
             session: session,
             anthropicHeaderProvider: anthropicHeaderProvider,
@@ -267,18 +267,18 @@ public struct MessageBatches {
         )
 
         let queries: [String: CustomStringConvertible] = {
-            var queries: [String: CustomStringConvertible] = [ListMessageBatchesRequest.Parameter.limit.rawValue: limit]
+            var queries: [String: CustomStringConvertible] = [ListObjectRequest.Parameter.limit.rawValue: limit]
             if let beforeId {
-                queries[ListMessageBatchesRequest.Parameter.beforeId.rawValue] = beforeId
+                queries[ListObjectRequest.Parameter.beforeId.rawValue] = beforeId
             }
             if let afterId {
-                queries[ListMessageBatchesRequest.Parameter.afterId.rawValue] = afterId
+                queries[ListObjectRequest.Parameter.afterId.rawValue] = afterId
             }
 
             return queries
         }()
 
-        let request = ListMessageBatchesRequest(queries: queries)
+        let request = ListObjectRequest(queries: queries, type: .batches)
         let (data, response) = try await client.send(request: request)
 
         guard let httpResponse = response as? HTTPURLResponse else {
@@ -289,7 +289,7 @@ public struct MessageBatches {
             throw AnthropicAPIError(fromHttpStatusCode: httpResponse.statusCode)
         }
 
-        return try anthropicJSONDecoder.decode(BatchListResponse.self, from: data)
+        return try anthropicJSONDecoder.decode(ObjectListResponse<BatchResponse>.self, from: data)
     }
 
     /// Cancels a specific message batch by its ID.

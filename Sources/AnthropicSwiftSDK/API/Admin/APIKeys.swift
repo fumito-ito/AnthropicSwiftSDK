@@ -26,7 +26,7 @@ public struct APIKeys {
         status: APIKeyStatus? = nil,
         workspaceId: String? = nil,
         createdByUserId: String? = nil
-    ) async throws -> APIKeyListResponse {
+    ) async throws -> ObjectListResponse<APIKeyResponse> {
         fatalError()
     }
 
