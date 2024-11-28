@@ -56,7 +56,7 @@ final class BatchListResponseTests: XCTestCase {
         
         let jsonData = json.data(using: .utf8)!
         
-        let response = try anthropicJSONDecoder.decode(BatchListResponse.self, from: jsonData)
+        let response = try anthropicJSONDecoder.decode(ObjectListResponse<BatchResponse>.self, from: jsonData)
         
         XCTAssertEqual(response.data.count, 2)
         
