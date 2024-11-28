@@ -121,4 +121,62 @@ final class MessagesTests: XCTestCase {
             XCTAssertEqual(response.message.usage.outputTokens, 1)
         }
     }
+    
+    func testValidate_Success() {
+        let messages: [Message] = [
+            .init(role: .user, content: [.text("Valid message")]),
+            .init(role: .user, content: [.text("Another valid message")])
+        ]
+        let messagesHandler = Messages(apiKey: "", session: .shared)
+
+        XCTAssertNoThrow(try messagesHandler.validate(.claude_3_Opus, for: messages))
+    }
+
+    func testValidate_UnsupportedMessageContentContained() {
+        let messages: [Message] = [
+            .init(role: .user, content: [.text("Valid text message")]),
+            .init(role: .user, content: [.image(.init(type: .base64, mediaType: .png, data: Data()))]) // Unsupported image
+        ]
+        let messagesHandler = Messages(apiKey: "", session: .shared)
+
+        // Act & Assert
+        XCTAssertThrowsError(try messagesHandler.validate(.claude_3_5_Haiku, for: messages)) { error in
+            guard let clientError = error as? ClientError else {
+                XCTFail("Expected ClientError but got \(error)")
+                return
+            }
+            switch clientError {
+            case .unsupportedMessageContentContained(let invalidModel, let invalidMessages):
+                XCTAssertEqual(invalidModel.stringfy, Model.claude_3_5_Haiku.stringfy)
+                XCTAssertEqual(invalidMessages.count, 1)
+                XCTAssertEqual(invalidMessages.first?.content.first?.contentType, .image)
+            default:
+                XCTFail("Unexpected ClientError: \(clientError)")
+            }
+        }
+    }
+
+    func testValidate_AllUnsupportedMessages() {
+        let messages: [Message] = [
+            .init(role: .user, content: [.image(.init(type: .base64, mediaType: .png, data: Data()))]), // Unsupported image
+            .init(role: .user, content: [.image(.init(type: .base64, mediaType: .png, data: Data()))])  // Unsupported image
+        ]
+        let messagesHandler = Messages(apiKey: "", session: .shared)
+
+        // Act & Assert
+        XCTAssertThrowsError(try messagesHandler.validate(.claude_3_5_Haiku, for: messages)) { error in
+            guard let clientError = error as? ClientError else {
+                XCTFail("Expected ClientError but got \(error)")
+                return
+            }
+            switch clientError {
+            case .unsupportedMessageContentContained(let invalidModel, let invalidMessages):
+                XCTAssertEqual(invalidModel.stringfy, Model.claude_3_5_Haiku.stringfy)
+                XCTAssertEqual(invalidMessages.count, 2)
+                XCTAssertTrue(invalidMessages.allSatisfy { $0.content.first?.contentType == .image })
+            default:
+                XCTFail("Unexpected ClientError: \(clientError)")
+            }
+        }
+    }
 }

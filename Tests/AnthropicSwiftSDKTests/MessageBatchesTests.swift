@@ -240,4 +240,113 @@ final class MessageBatchesTests: XCTestCase {
             XCTAssertEqual(error, .invalidRequestError)
         }
     }
+    
+    func testValidate_Success() {
+        let batch = MessageBatch(
+            customId: "",
+            parameter: .init(
+                messages: [
+                    .init(
+                        role: .user,
+                        content: [
+                            .text("")
+                        ]
+                    ),
+                    .init(
+                        role: .user,
+                        content: [
+                            .text("")
+                        ]
+                    )
+                ],
+                model: .claude_3_Opus,
+                maxTokens: 1
+            )
+        )
+        let batches = [batch]
+        let messageBatches = MessageBatches(apiKey: "", session: .shared)
+
+        XCTAssertNoThrow(try messageBatches.validate(batches: batches))
+    }
+
+    func testValidate_ModelDoesNotSupportBatches() {
+        let batch = MessageBatch(
+            customId: "",
+            parameter: .init(
+                messages: [
+                    .init(
+                        role: .user,
+                        content: [
+                            .text("")
+                        ]
+                    ),
+                    .init(
+                        role: .user,
+                        content: [
+                            .text("")
+                        ]
+                    )
+                ],
+                model: .claude_3_Sonnet,
+                maxTokens: 1
+            )
+        )
+        let batches = [batch]
+        let messageBatches = MessageBatches(apiKey: "", session: .shared)
+
+        XCTAssertThrowsError(try messageBatches.validate(batches: batches)) { error in
+            guard let clientError = error as? ClientError else {
+                XCTFail("Expected ClientError but got \(error)")
+                return
+            }
+            switch clientError {
+            case .unsupportedFeatureUsed(let description):
+                XCTAssertEqual(description, "The model: \(Model.claude_3_Sonnet.stringfy) does not support Message Batches API")
+            default:
+                XCTFail("Unexpected ClientError: \(clientError)")
+            }
+        }
+    }
+
+    func testValidate_UnsupportedMessageContentContained() {
+        // Arrange
+        let batch = MessageBatch(
+            customId: "",
+            parameter: .init(
+                messages: [
+                    .init(
+                        role: .user,
+                        content: [
+                            .image(.init(type: .base64, mediaType: .png, data: Data()))
+                        ]
+                    ),
+                    .init(
+                        role: .user,
+                        content: [
+                            .text("")
+                        ]
+                    )
+                ],
+                model: .claude_3_5_Haiku,
+                maxTokens: 1
+            )
+        )
+        let batches = [batch]
+        let messageBatches = MessageBatches(apiKey: "", session: .shared)
+
+        XCTAssertThrowsError(try messageBatches.validate(batches: batches)) { error in
+            guard let clientError = error as? ClientError else {
+                XCTFail("Expected ClientError but got \(error)")
+                return
+            }
+            switch clientError {
+            case .unsupportedMessageContentContained(let model, let messages):
+                XCTAssertEqual(model.stringfy, Model.claude_3_5_Haiku.stringfy)
+                XCTAssertEqual(messages.count, 1)
+                XCTAssertEqual(messages.first?.content.first?.contentType, .image)
+            default:
+                XCTFail("Unexpected ClientError: \(clientError)")
+            }
+        }
+    }
 }
