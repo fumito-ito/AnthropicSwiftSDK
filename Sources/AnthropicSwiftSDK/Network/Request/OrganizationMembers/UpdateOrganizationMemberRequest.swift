@@ -12,7 +12,7 @@ struct UpdateOrganizationMemberRequest: Request {
     var path: String {
         "\(RequestType.organizationMember)/\(userId)"
     }
-    let queries: [String : any CustomStringConvertible]? = nil
+    let queries: [String: any CustomStringConvertible]? = nil
 
     let body: OrganizationRole?
     let userId: String

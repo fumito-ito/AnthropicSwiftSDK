@@ -10,7 +10,7 @@ struct CreateOrganizationInviteRequest: Request {
 
     let method: HttpMethod = .post
     let path: String = RequestType.organizationInvite.basePath
-    let queries: [String : any CustomStringConvertible]? = nil
+    let queries: [String: any CustomStringConvertible]? = nil
 
     let body: Invitation?
 }

@@ -45,6 +45,7 @@ public class HTTPMock: URLProtocol {
                 client?.urlProtocol(self, didLoad: getBasicJSONStringData())
             case .request(_, nil), .requestHeader(_, nil):
                 client?.urlProtocol(self, didReceive: succeedResponse, cacheStoragePolicy: .notAllowed)
+                client?.urlProtocol(self, didLoad: getBasicJSONStringData())
             case .request(_, let jsonString), .requestHeader(_, let jsonString):
                 client?.urlProtocol(self, didReceive: succeedResponse, cacheStoragePolicy: .notAllowed)
                 guard let jsonString, let data = jsonString.data(using: .utf8) else {

@@ -34,7 +34,7 @@ final class AnthropicAPIClientTests: XCTestCase {
             expectation.fulfill()
         }, nil)
 
-        let _ = try await client.send(request: NopRequest())
+        let _: MessagesResponse = try await client.send(request: NopRequest())
         await fulfillment(of: [expectation], timeout: 1.0)
     }
 
@@ -74,7 +74,7 @@ final class AnthropicAPIClientTests: XCTestCase {
             expectation.fulfill()
         }, nil)
 
-        let _ = try await client.send(request: NopRequest())
+        let _: MessagesResponse = try await client.send(request: NopRequest())
         await fulfillment(of: [expectation], timeout: 1.0)
     }
 

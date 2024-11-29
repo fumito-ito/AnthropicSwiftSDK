@@ -13,7 +13,7 @@ public struct Admin {
     public let workspaceMembers: WorkspaceMembers
     public let apiKeys: APIKeys
 
-    init(adminAPIKey apiKey: String, session: URLSession = .shared) {
+    public init(adminAPIKey apiKey: String, session: URLSession = .shared) {
         self.organizationMembers = OrganizationMembers(adminAPIKey: apiKey, session: session)
         self.organizationInvites = OrganizationInvites(adminAPIKey: apiKey, session: session)
         self.workspaces = Workspaces(adminAPIKey: apiKey, session: session)

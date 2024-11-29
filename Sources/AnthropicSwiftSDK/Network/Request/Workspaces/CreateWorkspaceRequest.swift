@@ -10,7 +10,7 @@ struct CreateWorkspaceRequest: Request {
 
     let method: HttpMethod = .post
     let path: String = RequestType.workspace.basePath
-    let queries: [String : any CustomStringConvertible]? = nil
+    let queries: [String: any CustomStringConvertible]? = nil
 
     let body: WorkspaceRequestBody?
 }

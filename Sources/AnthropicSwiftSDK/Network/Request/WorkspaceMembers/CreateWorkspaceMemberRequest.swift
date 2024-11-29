@@ -10,9 +10,9 @@ struct CreateWorkspaceMemberRequest: Request {
 
     let method: HttpMethod = .post
     var path: String {
-        "\(RequestType.workspace.basePath)/\(workspaceId)/members"
+        RequestType.workspaceMember(workspaceId: workspaceId).basePath
     }
-    let queries: [String : any CustomStringConvertible]? = nil
+    let queries: [String: any CustomStringConvertible]? = nil
 
     let body: Registration?
     let workspaceId: String

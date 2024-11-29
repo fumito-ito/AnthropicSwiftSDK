@@ -11,7 +11,7 @@ struct UpdateAPIKeyRequest: Request {
     var path: String {
         "\(RequestType.apiKey.basePath)/\(apiKeyId)"
     }
-    let queries: [String : any CustomStringConvertible]? = nil
+    let queries: [String: any CustomStringConvertible]? = nil
 
     let body: APIKeyRequestBody?
     let apiKeyId: String
@@ -19,5 +19,5 @@ struct UpdateAPIKeyRequest: Request {
 
 struct APIKeyRequestBody: Encodable {
     let name: String
-    let status: APIKeyStatus
+    let status: APIKeyStatus?
 }

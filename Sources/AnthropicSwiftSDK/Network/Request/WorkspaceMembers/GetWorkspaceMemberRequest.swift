@@ -8,9 +8,9 @@
 struct GetWorkspaceMemberRequest: Request {
     let method: HttpMethod = .get
     var path: String {
-        "\(RequestType.workspace.basePath)/\(workspaceId)/members/\(userId)"
+        "\(RequestType.workspaceMember(workspaceId: workspaceId).basePath)/\(userId)"
     }
-    let queries: [String : any CustomStringConvertible]? = nil
+    let queries: [String: any CustomStringConvertible]? = nil
     let body: Never? = nil
 
     let workspaceId: String
