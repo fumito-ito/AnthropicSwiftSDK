@@ -10,7 +10,7 @@ struct ArchiveWorkspaceRequest: Request {
     var path: String {
         "\(RequestType.workspace.basePath)/\(workspaceId)/archive"
     }
-    var queries: [String : any CustomStringConvertible]?
+    var queries: [String: any CustomStringConvertible]?
     let body: Never? = nil
 
     let workspaceId: String

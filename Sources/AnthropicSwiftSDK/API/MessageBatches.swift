@@ -59,18 +59,7 @@ public struct MessageBatches {
             authenticationHeaderProvider: authenticationHeaderProvider
         )
 
-        let request = MessageBatchesRequest(body: .init(from: batches))
-        let (data, response) = try await client.send(request: request)
-
-        guard let httpResponse = response as? HTTPURLResponse else {
-            throw ClientError.cannotHandleURLResponse(response)
-        }
-
-        guard httpResponse.statusCode == 200 else {
-            throw AnthropicAPIError(fromHttpStatusCode: httpResponse.statusCode)
-        }
-
-        return try anthropicJSONDecoder.decode(BatchResponse.self, from: data)
+        return try await client.send(request: MessageBatchesRequest(body: .init(from: batches)))
     }
 
     /// Retrieves a specific message batch by its ID.
@@ -105,18 +94,7 @@ public struct MessageBatches {
             authenticationHeaderProvider: authenticationHeaderProvider
         )
 
-        let request = RetrieveMessageBatchesRequest(batchId: batchId)
-        let (data, response) = try await client.send(request: request)
-
-        guard let httpResponse = response as? HTTPURLResponse else {
-            throw ClientError.cannotHandleURLResponse(response)
-        }
-
-        guard httpResponse.statusCode == 200 else {
-            throw AnthropicAPIError(fromHttpStatusCode: httpResponse.statusCode)
-        }
-
-        return try anthropicJSONDecoder.decode(BatchResponse.self, from: data)
+        return try await client.send(request: RetrieveMessageBatchesRequest(batchId: batchId))
     }
 
     /// Retrieves the results of a specific message batch by its ID.
@@ -278,18 +256,7 @@ public struct MessageBatches {
             return queries
         }()
 
-        let request = ListObjectRequest(queries: queries, type: .batches)
-        let (data, response) = try await client.send(request: request)
-
-        guard let httpResponse = response as? HTTPURLResponse else {
-            throw ClientError.cannotHandleURLResponse(response)
-        }
-
-        guard httpResponse.statusCode == 200 else {
-            throw AnthropicAPIError(fromHttpStatusCode: httpResponse.statusCode)
-        }
-
-        return try anthropicJSONDecoder.decode(ObjectListResponse<BatchResponse>.self, from: data)
+        return try await client.send(request: ListObjectRequest(queries: queries, type: .batches))
     }
 
     /// Cancels a specific message batch by its ID.
@@ -324,18 +291,7 @@ public struct MessageBatches {
             authenticationHeaderProvider: authenticationHeaderProvider
         )
 
-        let request = CancelMessageBatchRequest(batchId: batchId)
-        let (data, response) = try await client.send(request: request)
-
-        guard let httpResponse = response as? HTTPURLResponse else {
-            throw ClientError.cannotHandleURLResponse(response)
-        }
-
-        guard httpResponse.statusCode == 200 else {
-            throw AnthropicAPIError(fromHttpStatusCode: httpResponse.statusCode)
-        }
-
-        return try anthropicJSONDecoder.decode(BatchResponse.self, from: data)
+        return try await client.send(request: CancelMessageBatchRequest(batchId: batchId))
     }
 }
 

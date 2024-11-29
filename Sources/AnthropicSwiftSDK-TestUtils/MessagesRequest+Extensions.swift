@@ -11,7 +11,7 @@ import AnthropicSwiftSDK
 public struct NopRequest: Request {
     public let method: HttpMethod
     public let path: String
-    public let queries: [String : any CustomStringConvertible]? = nil
+    public let queries: [String: any CustomStringConvertible]? = nil
     public let body: Never? = nil
 
     public init(

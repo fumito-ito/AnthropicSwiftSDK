@@ -20,6 +20,7 @@ enum RequestType {
     case organizationMember
     case organizationInvite
     case workspace
+    case workspaceMember(workspaceId: String)
     case apiKey
 
     var basePath: String {
@@ -36,6 +37,8 @@ enum RequestType {
             return "/v1/organizations/invites"
         case .workspace:
             return "/v1/organizations/workspaces"
+        case .workspaceMember(let workspaceId):
+            return "/v1/organizations/workspaces/\(workspaceId)/members"
         case .apiKey:
             return "/v1/organizations/api_keys"
         }

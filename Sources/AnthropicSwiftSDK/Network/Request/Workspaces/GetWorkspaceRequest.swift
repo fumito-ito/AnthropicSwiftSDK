@@ -10,7 +10,7 @@ struct GetWorkspaceRequest: Request {
     var path: String {
         "\(RequestType.workspace.basePath)/\(workspaceId)"
     }
-    let queries: [String : any CustomStringConvertible]? = nil
+    let queries: [String: any CustomStringConvertible]? = nil
     let body: Never? = nil
 
     let workspaceId: String

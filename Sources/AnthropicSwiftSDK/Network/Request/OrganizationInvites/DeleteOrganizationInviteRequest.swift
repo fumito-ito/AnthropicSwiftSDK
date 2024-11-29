@@ -10,7 +10,7 @@ struct DeleteOrganizationInviteRequest: Request {
     var path: String {
         "\(RequestType.organizationInvite.basePath)/\(invitationId)"
     }
-    let queries: [String : any CustomStringConvertible]? = nil
+    let queries: [String: any CustomStringConvertible]? = nil
     let body: Never? = nil
 
     let invitationId: String

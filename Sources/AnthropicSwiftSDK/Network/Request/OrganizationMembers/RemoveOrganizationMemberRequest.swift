@@ -10,7 +10,7 @@ struct RemoveOrganizationMemberRequest: Request {
     var path: String {
         "\(RequestType.organizationMember.basePath)/\(userId)"
     }
-    let queries: [String : any CustomStringConvertible]? = nil
+    let queries: [String: any CustomStringConvertible]? = nil
     let body: Never? = nil
 
     let userId: String

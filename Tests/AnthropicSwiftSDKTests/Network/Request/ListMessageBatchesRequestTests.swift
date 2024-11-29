@@ -27,8 +27,8 @@ final class ListObjectRequestTests: XCTestCase {
     }
 
     func testParameterRawValues() {
-        XCTAssertEqual(ListMessageBatchesRequest.Parameter.beforeId.rawValue, "before_id")
-        XCTAssertEqual(ListMessageBatchesRequest.Parameter.afterId.rawValue, "after_id")
-        XCTAssertEqual(ListMessageBatchesRequest.Parameter.limit.rawValue, "limit")
+        XCTAssertEqual(ListObjectRequest.Parameter.beforeId.rawValue, "before_id")
+        XCTAssertEqual(ListObjectRequest.Parameter.afterId.rawValue, "after_id")
+        XCTAssertEqual(ListObjectRequest.Parameter.limit.rawValue, "limit")
     }
 }
