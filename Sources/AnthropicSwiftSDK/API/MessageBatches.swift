@@ -267,18 +267,18 @@ public struct MessageBatches {
         )
 
         let queries: [String: CustomStringConvertible] = {
-            var queries: [String: CustomStringConvertible] = [ListMessageBatchesRequest.Parameter.limit.rawValue: limit]
+            var queries: [String: CustomStringConvertible] = [ListObjectRequest.Parameter.limit.rawValue: limit]
             if let beforeId {
-                queries[ListMessageBatchesRequest.Parameter.beforeId.rawValue] = beforeId
+                queries[ListObjectRequest.Parameter.beforeId.rawValue] = beforeId
             }
             if let afterId {
-                queries[ListMessageBatchesRequest.Parameter.afterId.rawValue] = afterId
+                queries[ListObjectRequest.Parameter.afterId.rawValue] = afterId
             }
 
             return queries
         }()
 
-        let request = ListMessageBatchesRequest(queries: queries)
+        let request = ListObjectRequest(queries: queries, type: .batches)
         let (data, response) = try await client.send(request: request)
 
         guard let httpResponse = response as? HTTPURLResponse else {

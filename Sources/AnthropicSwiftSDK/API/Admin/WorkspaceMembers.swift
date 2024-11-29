@@ -19,7 +19,7 @@ public struct WorkspaceMembers {
         fatalError()
     }
 
-    public func list(workspaceId: String, limit: Int = 20, beforeId: String? = nil, afterId: String? = nil) async throws -> WorkspaceMemberListResponse {
+    public func list(workspaceId: String, limit: Int = 20, beforeId: String? = nil, afterId: String? = nil) async throws -> ObjectListResponse<WorkspaceMemberResponse> {
         fatalError()
     }
 

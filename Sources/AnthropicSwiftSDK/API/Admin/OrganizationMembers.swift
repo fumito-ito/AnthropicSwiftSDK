@@ -19,7 +19,7 @@ public struct OrganizationMembers {
         fatalError()
     }
 
-    public func list(limit: Int = 20, beforeId: String? = nil, afterId: String? = nil) async throws -> OrganizationMemberListResponse {
+    public func list(limit: Int = 20, beforeId: String? = nil, afterId: String? = nil) async throws -> ObjectListResponse<OrganizationMemberResponse> {
         fatalError()
     }
 
