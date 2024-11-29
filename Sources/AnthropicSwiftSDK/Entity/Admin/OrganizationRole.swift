@@ -5,7 +5,7 @@
 //  Created by 伊藤史 on 2024/11/27.
 //
 
-public enum OrganizationRole: String, Decodable {
+public enum OrganizationRole: String, Codable {
     /// Can use Workbench
     case user
     /// Can use Workbench and manage API keys
