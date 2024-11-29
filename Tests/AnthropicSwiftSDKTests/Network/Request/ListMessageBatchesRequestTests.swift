@@ -8,15 +8,15 @@
 import XCTest
 @testable import AnthropicSwiftSDK
 
-final class ListMessageBatchesRequestTests: XCTestCase {
+final class ListObjectRequestTests: XCTestCase {
 
-    func testListMessageBatchesRequestProperties() {
+    func testListObjectRequestProperties() {
         let queries: [String: CustomStringConvertible] = [
             "before_id": "batch123",
             "after_id": "batch456",
             "limit": 10
         ]
-        let request = ListMessageBatchesRequest(queries: queries)
+        let request = ListObjectRequest(queries: queries, type: .batches)
 
         XCTAssertEqual(request.method, .get)
         XCTAssertEqual(request.path, RequestType.batches.basePath)
