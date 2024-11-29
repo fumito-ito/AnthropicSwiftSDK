@@ -19,7 +19,7 @@ public struct APIKeyActor: Decodable {
 }
 
 /// Status of the API key.
-public enum APIKeyStatus: String, Decodable {
+public enum APIKeyStatus: String, Codable {
     case active
     case inactive
     case archived

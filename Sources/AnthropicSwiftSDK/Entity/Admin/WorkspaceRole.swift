@@ -6,7 +6,7 @@
 //
 
 /// workspace role for the user.
-public enum WorkspaceRole: String, Decodable {
+public enum WorkspaceRole: String, Codable {
     case user = "workspace_user"
     case developer = "workspace_developer"
     case admin = "workspace_admin"
