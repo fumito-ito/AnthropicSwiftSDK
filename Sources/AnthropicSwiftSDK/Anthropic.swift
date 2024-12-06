@@ -26,3 +26,15 @@ public final class Anthropic {
         self.countTokens = CountTokens(apiKey: apiKey, session: .shared)
     }
 }
+
+public final class AnthropicAdmin {
+    /// Admin API interface
+    public let admin: Admin
+
+    /// Construction of Admin SDK
+    ///
+    /// - Parameter adminAPIKey: API key to access Anthropic Admin API
+    public init(adminAPIKey: String, session: URLSession = .shared) {
+        self.admin = Admin(adminAPIKey: adminAPIKey, session: session)
+    }
+}
