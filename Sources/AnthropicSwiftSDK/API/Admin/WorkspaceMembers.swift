@@ -121,7 +121,7 @@ public struct WorkspaceMembers {
             authenticationHeaderProvider: authenticationHeaderProvider
         )
 
-        return try await client.send(request: UpdateWorkspaceMemberRequest(body: role, userId: userId, workspaceId: workspaceId))
+        return try await client.send(request: UpdateWorkspaceMemberRequest(body: .init(role: role), userId: userId, workspaceId: workspaceId))
     }
 
     public func remove(userId: String, workspaceId: String) async throws -> WorkspaceMemberRemoveResponse {

@@ -86,7 +86,7 @@ public struct OrganizationMembers {
             authenticationHeaderProvider: authenticationHeaderProvider
         )
 
-        return try await client.send(request: UpdateOrganizationMemberRequest(body: role, userId: userId))
+        return try await client.send(request: UpdateOrganizationMemberRequest(body: .init(role: role), userId: userId))
     }
 
     public func remove(userId: String) async throws -> OrganizationMemberRemoveResponse {

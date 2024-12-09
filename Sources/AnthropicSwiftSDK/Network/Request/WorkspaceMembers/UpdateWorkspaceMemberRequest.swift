@@ -6,7 +6,7 @@
 //
 
 struct UpdateWorkspaceMemberRequest: Request {
-    typealias Body = WorkspaceRole
+    typealias Body = WorkspaceMemberRequestBody
 
     let method: HttpMethod = .post
     var path: String {
@@ -14,7 +14,11 @@ struct UpdateWorkspaceMemberRequest: Request {
     }
     let queries: [String: any CustomStringConvertible]? = nil
 
-    let body: WorkspaceRole?
+    let body: WorkspaceMemberRequestBody?
     let userId: String
     let workspaceId: String
+}
+
+struct WorkspaceMemberRequestBody: Encodable {
+    let role: WorkspaceRole
 }

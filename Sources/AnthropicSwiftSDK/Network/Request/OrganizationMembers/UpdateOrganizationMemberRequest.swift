@@ -6,14 +6,18 @@
 //
 
 struct UpdateOrganizationMemberRequest: Request {
-    typealias Body = OrganizationRole
+    typealias Body = OrganizationMememberRequestBody
 
     let method: HttpMethod = .post
     var path: String {
-        "\(RequestType.organizationMember)/\(userId)"
+        "\(RequestType.organizationMember.basePath)/\(userId)"
     }
     let queries: [String: any CustomStringConvertible]? = nil
 
-    let body: OrganizationRole?
+    let body: OrganizationMememberRequestBody?
     let userId: String
+}
+
+struct OrganizationMememberRequestBody: Encodable {
+    let role: OrganizationRole
 }
