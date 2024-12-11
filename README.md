@@ -85,6 +85,137 @@ for try await chunk in stream {
 }
 ```
 
+### [Message Batches (beta)](https://docs.anthropic.com/en/docs/build-with-claude/message-batches)
+
+The Message Batches API is a powerful, cost-effective way to asynchronously process large volumes of [Messages](https://docs.anthropic.com/en/api/messages) requests. This approach is well-suited to tasks that do not require immediate responses, reducing costs by 50% while increasing throughput.
+
+This is especially useful for bulk operations that don’t require immediate results.
+
+Here's an example of how to process many messages with the Message Batches API:
+
+```swift
+let anthropic = Anthropic(apiKey: "YOUR_OWN_API_KEY")
+
+let messages = [
+    Message(role: .user, content: [.text("Write a haiku about robots.")]),
+    Message(role: .user, content: [.text("Write a haiku about robots. Skip the preamble; go straight into the poem.")]),
+    Message(role: .user, content: [.text("Who is the best basketball player of all time?")]),
+    Message(role: .user, content: [.text("Who is the best basketball player of all time? Yes, there are differing opinions, but if you absolutely had to pick one player, who would it be?")])
+    // ....
+]
+
+let batch = MessageBatch(
+    customId: "my-first-batch-request",
+    parameter: .init(
+        messages: messages,
+        maxTokens: 1024
+    )
+)
+
+let response = try await anthropic.messageBatches.createBatches(batches: [batch])
+```
+
+### [Admin API](https://docs.anthropic.com/en/docs/administration/administration-api)
+
+This library also supports an Admin API for managing workspaces and organization members.
+
+#### [Organization Members API](https://docs.anthropic.com/en/docs/administration/administration-api#organization-members)
+
+- **Get Organization Member**: Retrieve details about a specific organization member.
+- **List Organization Members**: List organization members.
+- **Remove Organization Member**: Remove a member from the organization.
+- **Update Organization Member**: Update the role or details of an existing organization member.
+
+Example of updating an organization member:
+
+```swift
+let admin = AnthropicAdmin(adminAPIKey: "YOUR_OWN_ADMIN_API_KEY")
+try await admin.organizationMembers.get(userId: "user_01WCz1FkmYMm4gnmykNKUu3Q")
+```
+
+#### [Organization Invites API](https://docs.anthropic.com/en/docs/administration/administration-api#organization-invites)
+
+- **Get Organization Invites**: Retrieve details about a specific organization invitation.
+- **List Organization Invites**: List organization invitations.
+- **Remove Organization Invites**: Remove a invitation from the organization.
+- **Create Organization Invites**: Create a new organization invitation.
+
+Example of updating an organization invitation:
+
+```swift
+let admin = AnthropicAdmin(adminAPIKey: "YOUR_OWN_ADMIN_API_KEY")
+try await admin.organizationInvites.list()
+```
+
+#### [Workspaces API](https://docs.anthropic.com/en/docs/administration/administration-api#workspaces)
+
+- **Get Workspace**: Retrieve details about a specific workspace.
+- **List Workspaces**: List workspaces.
+- **Create Workspace**: Create a new workspace.
+- **Archive Workspace**: Archive an existing workspace.
+- **Update Workspace**: Update the details of an existing workspace.
+
+Example of creating a workspace:
+
+```swift
+let admin = AnthropicAdmin(adminAPIKey: "YOUR_OWN_ADMIN_API_KEY")
+try await admin.workspaces.get(workspaceId: "wrkspc_01JwQvzr7rXLA5AGx3HKfFUJ")
+```
+
+#### [Workspace Members API](https://docs.anthropic.com/en/docs/administration/administration-api#workspace-members)
+
+- **Get Workspace Member**: Retrieve details about a specific workspace member.
+- **List Workspace Members**: List workspace members.
+- **Create Workspace Member**: Add a new member for the workspace.
+- **Remove Workspace Member**: Remove a member from the workspace.
+- **Update Workspace Member**: Update the role or details of an existing workspace member.
+
+Example of updating an workspace member:
+
+```swift
+let admin = AnthropicAdmin(adminAPIKey: "YOUR_OWN_ADMIN_API_KEY")
+try await admin.workspaceMembers.get(userId: "user_01WCz1FkmYMm4gnmykNKUu3Q")
+```
+
+#### [API Keys API](https://docs.anthropic.com/en/docs/administration/administration-api#api-keys)
+
+- **Get Organization Member**: Retrieve details about a specific API key.
+- **List Organization Members**: List API keys.
+- **Update Organization Member**: Update the status or name of an existing API key.
+
+Example of updating an organization member:
+
+```swift
+let admin = AnthropicAdmin(adminAPIKey: "YOUR_OWN_ADMIN_API_KEY")
+try await admin.apiKeys.get(apiKeyId: "apikey_01Rj2N8SVvo6BePZj99NhmiT")
+```
+
+### [Token Counting](https://docs.anthropic.com/en/docs/build-with-claude/token-counting)
+
+Token counting enables you to determine the number of tokens in a message before sending it to Claude, helping you make informed decisions about your prompts and usage. With token counting, you can
+
+- Proactively manage rate limits and costs
+- Make smart model routing decisions
+- Optimize prompts to be a specific length
+
+```swift
+let anthropic = Anthropic(apiKey: "YOUR_OWN_API_KEY")
+
+let message = Message(role: .user, content: [.text("Find flights from San Francisco to a place with warmer weather.")])
+let response = try await anthropic.countTokens.countTokens(
+    [message],
+    maxTokens: 1024,
+    tools: [
+        .computer(.init(name: "my_computer", displayWidthPx: 1024, displayHeightPx: 768, displayNumber: 1),
+        .bash(.init(name: "bash"))
+    ]
+)
+```
+
+The token counting endpoint accepts the same structured list of inputs for creating a message, including support for system prompts, tools, images, and PDFs. The response contains the total number of input tokens.
+
+## Supporting Features
+
 ### [Tool Use](https://docs.anthropic.com/en/docs/build-with-claude/tool-use)
 
 Claude is capable of interacting with external client-side tools and functions, allowing you to equip Claude with your own custom tools to perform a wider variety of tasks.
@@ -134,36 +265,6 @@ let response = try await anthropic.messages.createMessage(
 )
 ```
 
-### [Message Batches (beta)](https://docs.anthropic.com/en/docs/build-with-claude/message-batches)
-
-The Message Batches API is a powerful, cost-effective way to asynchronously process large volumes of [Messages](https://docs.anthropic.com/en/api/messages) requests. This approach is well-suited to tasks that do not require immediate responses, reducing costs by 50% while increasing throughput.
-
-This is especially useful for bulk operations that don’t require immediate results.
-
-Here's an example of how to process many messages with the Message Bathches API:
-
-```swift
-let anthropic = Anthropic(apiKey: "YOUR_OWN_API_KEY")
-
-let messages = [
-    Message(role: .user, content: [.text("Write a haiku about robots.")]),
-    Message(role: .user, content: [.text("Write a haiku about robots. Skip the preamble; go straight into the poem.")]),
-    Message(role: .user, content: [.text("Who is the best basketball player of all time?")]),
-    Message(role: .user, content: [.text("Who is the best basketball player of all time? Yes, there are differing opinions, but if you absolutely had to pick one player, who would it be?")])
-    // ....
-]
-
-let batch = MessageBatch(
-    customId: "my-first-batch-request",
-    parameter: .init(
-        messages: messages,
-        maxTokens: 1024
-    )
-)
-
-let response = try await anthropic.messageBatches.createBatches(batches: [batch])
-```
-
 ### [Computer Use (beta)](https://docs.anthropic.com/en/docs/build-with-claude/computer-use#computer-tool)
 
 The upgraded Claude 3.5 Sonnet model is capable of interacting with tools that can manipulate a computer desktop environment.
@@ -183,30 +284,6 @@ let response = try await anthropic.messages.createMessage(
     ]
 )
 ```
-
-### [Token Counting](https://docs.anthropic.com/en/docs/build-with-claude/token-counting)
-
-Token counting enables you to determine the number of tokens in a message before sending it to Claude, helping you make informed decisions about your prompts and usage. With token counting, you can
-
-- Proactively manage rate limits and costs
-- Make smart model routing decisions
-- Optimize prompts to be a specific length
-
-```swift
-let anthropic = Anthropic(apiKey: "YOUR_OWN_API_KEY")
-
-let message = Message(role: .user, content: [.text("Find flights from San Francisco to a place with warmer weather.")])
-let response = try await anthropic.countTokens.countTokens(
-    [message],
-    maxTokens: 1024,
-    tools: [
-        .computer(.init(name: "my_computer", displayWidthPx: 1024, displayHeightPx: 768, displayNumber: 1),
-        .bash(.init(name: "bash"))
-    ]
-)
-```
-
-The token counting endpoint accepts the same structured list of inputs for creating a message, including support for system prompts, tools, images, and PDFs. The response contains the total number of input tokens.
 
 ## Extensions
 

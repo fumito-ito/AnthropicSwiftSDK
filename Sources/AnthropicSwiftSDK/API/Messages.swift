@@ -120,17 +120,7 @@ public struct Messages {
             )
         )
 
-        let (data, response) = try await client.send(request: request)
-
-        guard let httpResponse = response as? HTTPURLResponse else {
-            throw ClientError.cannotHandleURLResponse(response)
-        }
-
-        guard httpResponse.statusCode == 200 else {
-            throw AnthropicAPIError(fromHttpStatusCode: httpResponse.statusCode)
-        }
-
-        return try anthropicJSONDecoder.decode(MessagesResponse.self, from: data)
+        return try await client.send(request: request)
     }
 
     /// Streams messages using the specified parameters and sends a request to the Anthropic API asynchronously.

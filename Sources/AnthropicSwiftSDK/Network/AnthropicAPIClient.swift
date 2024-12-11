@@ -52,6 +52,21 @@ struct APIClient {
         return try await session.data(for: urlRequest)
     }
 
+    func send<Object: Decodable>(request: any Request) async throws -> Object {
+        let (data, response) = try await self.send(request: request)
+
+        guard let httpResponse = response as? HTTPURLResponse else {
+            throw ClientError.cannotHandleURLResponse(response)
+        }
+
+        guard httpResponse.statusCode == 200 else {
+            throw AnthropicAPIError(fromHttpStatusCode: httpResponse.statusCode)
+        }
+
+        return try anthropicJSONDecoder.decode(Object.self, from: data)
+    }
+
+
     /// Send messages API request. This method read the API response sequentially.
     ///
     /// - Parameter request: request body for api request
