@@ -1,5 +1,5 @@
 //
-//  BatchListResponseTests.swift
+//  ObjectListResponseTests.swift
 //  AnthropicSwiftSDK
 //
 //  Created by 伊藤史 on 2024/10/18.
@@ -8,7 +8,7 @@
 import XCTest
 @testable import AnthropicSwiftSDK
 
-final class BatchListResponseTests: XCTestCase {
+final class ObjectListResponseTests: XCTestCase {
     func testDecodeBatchListResponse() throws {
         let json = """
         {
@@ -56,7 +56,7 @@ final class BatchListResponseTests: XCTestCase {
         
         let jsonData = json.data(using: .utf8)!
         
-        let response = try anthropicJSONDecoder.decode(BatchListResponse.self, from: jsonData)
+        let response = try anthropicJSONDecoder.decode(ObjectListResponse<BatchResponse>.self, from: jsonData)
         
         XCTAssertEqual(response.data.count, 2)
         

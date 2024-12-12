@@ -10,12 +10,18 @@ import Foundation
 public enum HttpMethod: String {
     case post = "POST"
     case get = "GET"
+    case delete = "DELETE"
 }
 
 enum RequestType {
     case messages
     case batches
     case countTokens
+    case organizationMember
+    case organizationInvite
+    case workspace
+    case workspaceMember(workspaceId: String)
+    case apiKey
 
     var basePath: String {
         switch self {
@@ -24,7 +30,17 @@ enum RequestType {
         case .batches:
             return "/v1/messages/batches"
         case .countTokens:
-            return "v1/messages/count_tokens"
+            return "/v1/messages/count_tokens"
+        case .organizationMember:
+            return "/v1/organizations/users"
+        case .organizationInvite:
+            return "/v1/organizations/invites"
+        case .workspace:
+            return "/v1/organizations/workspaces"
+        case .workspaceMember(let workspaceId):
+            return "/v1/organizations/workspaces/\(workspaceId)/members"
+        case .apiKey:
+            return "/v1/organizations/api_keys"
         }
     }
 }
