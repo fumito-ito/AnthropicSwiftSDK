@@ -16,7 +16,7 @@ let package = Package(
             targets: ["AnthropicSwiftSDK"]),
     ],
     dependencies: [
-        .package(url: "https://github.com/fumito-ito/SwiftyJSONLines.git", from: "0.0.3")
+        .package(url: "https://github.com/fumito-ito/SwiftyJSONLines.git", from: "0.0.4")
     ],
     targets: [
         // Targets are the basic building blocks of a package, defining a module or a test suite.
