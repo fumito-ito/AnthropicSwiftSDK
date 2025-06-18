@@ -14,7 +14,7 @@ import Foundation
 /// Each input message must be an object with a `role` and `content`. You can specify a single `user`-role message, or you can include multiple `user` and `assistant` messages. The first message must always use the `user` role.
 ///
 /// If the final message uses the `assistant` role, the response content will continue immediately from the content in that message. This can be used to constrain part of the model's response.
-public struct Message: Codable {
+public struct Message: Codable, Sendable {
     /// role of the message
     public let role: Role
     /// content of the message

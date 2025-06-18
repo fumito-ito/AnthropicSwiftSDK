@@ -7,7 +7,7 @@
 
 import Foundation
 
-public protocol StreamingResponse: Decodable {
+public protocol StreamingResponse: Decodable, Sendable {
     var type: StreamingEvent { get }
 }
 

@@ -10,7 +10,7 @@ import Foundation
 /// The error returned from the Anthropic API
 ///
 /// for more detail, see https://docs.anthropic.com/claude/reference/errors
-public enum AnthropicAPIError: String, Decodable, Error {
+public enum AnthropicAPIError: String, Decodable, Error, Sendable {
     case invalidRequestError = "invalid_request_error"
     case authenticationError = "authentication_error"
     case permissionError = "permission_error"

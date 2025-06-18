@@ -16,7 +16,7 @@ public enum MockInspectType {
 }
 
 public class HTTPMock: URLProtocol {
-    public static var inspectType: MockInspectType = .none
+    nonisolated(unsafe) public static var inspectType: MockInspectType = .none
 
     public override class func canInit(with request: URLRequest) -> Bool {
         return true

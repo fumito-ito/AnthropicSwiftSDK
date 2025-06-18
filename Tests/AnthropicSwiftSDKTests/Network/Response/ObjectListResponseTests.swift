@@ -19,7 +19,7 @@ final class ObjectListResponseTests: XCTestCase {
                     "processing_status": "ended",
                     "request_counts": {
                         "processing": 0,
-                        "succeeeded": 95,
+                        "succeeded": 95,
                         "errored": 5,
                         "canceled": 0,
                         "expired": 0
@@ -36,7 +36,7 @@ final class ObjectListResponseTests: XCTestCase {
                     "processing_status": "in_progress",
                     "request_counts": {
                         "processing": 100,
-                        "succeeeded": 0,
+                        "succeeded": 0,
                         "errored": 0,
                         "canceled": 0,
                         "expired": 0
@@ -66,7 +66,7 @@ final class ObjectListResponseTests: XCTestCase {
         XCTAssertEqual(firstBatch.type, .message)
         XCTAssertEqual(firstBatch.processingStatus, .ended)
         XCTAssertEqual(firstBatch.requestCounts.processing, 0)
-        XCTAssertEqual(firstBatch.requestCounts.succeeeded, 95)
+        XCTAssertEqual(firstBatch.requestCounts.succeeded, 95)
         XCTAssertEqual(firstBatch.requestCounts.errored, 5)
         XCTAssertEqual(firstBatch.requestCounts.canceled, 0)
         XCTAssertEqual(firstBatch.requestCounts.expired, 0)
@@ -82,7 +82,7 @@ final class ObjectListResponseTests: XCTestCase {
         XCTAssertEqual(secondBatch.type, .message)
         XCTAssertEqual(secondBatch.processingStatus, .inProgress)
         XCTAssertEqual(secondBatch.requestCounts.processing, 100)
-        XCTAssertEqual(secondBatch.requestCounts.succeeeded, 0)
+        XCTAssertEqual(secondBatch.requestCounts.succeeded, 0)
         XCTAssertEqual(secondBatch.requestCounts.errored, 0)
         XCTAssertEqual(secondBatch.requestCounts.canceled, 0)
         XCTAssertEqual(secondBatch.requestCounts.expired, 0)

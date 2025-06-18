@@ -50,17 +50,14 @@ extension AsyncThrowingStream where Element == StreamingResponse {
         let accumulator = InputJSONDeltaAccumulator()
         let accumulativeStream = accumulator.createAccumulativeStream()
 
-        Task {
+        Task { @Sendable in
             do {
-                defer {
-                    accumulator.finish()
-                }
-
                 for try await value in self {
                     try accumulator.accumulateIfNeeded(value)
                 }
+                accumulator.finish()
             } catch {
-                throw error
+                accumulator.finish(throwing: error)
             }
         }
 

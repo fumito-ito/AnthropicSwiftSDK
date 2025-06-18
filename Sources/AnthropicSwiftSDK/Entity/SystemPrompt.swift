@@ -7,7 +7,7 @@
 
 import Foundation
 
-public enum CacheControl: String {
+public enum CacheControl: String, Sendable {
     /// corresponds to this 5-minute lifetime.
     case ephemeral
 }
@@ -23,7 +23,7 @@ extension CacheControl: Encodable {
     }
 }
 
-public enum SystemPrompt {
+public enum SystemPrompt: Sendable {
     case text(String, CacheControl?)
 
     private var type: String {

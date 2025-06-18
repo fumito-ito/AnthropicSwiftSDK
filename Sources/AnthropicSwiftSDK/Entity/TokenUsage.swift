@@ -8,7 +8,7 @@
 import Foundation
 
 /// Billing and rate-limit usage.
-public struct TokenUsage: Decodable {
+public struct TokenUsage: Decodable, Sendable {
     /// The number of input tokens which were used.
     public let inputTokens: Int?
     /// The number of output tokens which were used.

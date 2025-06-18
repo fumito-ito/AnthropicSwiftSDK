@@ -10,7 +10,7 @@ import Foundation
 /// The model that will complete your prompt.
 ///
 /// See [models](https://docs.anthropic.com/claude/docs/models-overview) for additional details and options.
-public enum Model {
+public enum Model: Sendable {
     /// Most powerful model for highly complex tasks
     // swiftlint:disable:next identifier_name
     case claude_3_Opus

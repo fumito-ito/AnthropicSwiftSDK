@@ -7,7 +7,7 @@
 
 import Foundation
 
-public struct ContentBlockDelta: Decodable {
+public struct ContentBlockDelta: Decodable, Sendable {
     public let type: ContentBlockDeltaType
     public let text: String?
     public let partialJson: String?

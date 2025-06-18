@@ -10,12 +10,12 @@ import Foundation
 /// Object type.
 ///
 /// For Messages, this is always "message".
-public enum MessagesResponseType: String, Decodable {
+public enum MessagesResponseType: String, Decodable, Sendable {
     case message
 }
 
 /// Messages API response
-public struct MessagesResponse: Decodable {
+public struct MessagesResponse: Decodable, Sendable {
     /// Unique object identifier.
     public let id: String
     /// Object type.

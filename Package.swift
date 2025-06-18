@@ -6,7 +6,7 @@ import PackageDescription
 let package = Package(
     name: "AnthropicSwiftSDK",
     platforms: [
-        .iOS(.v17),
+        .iOS(.v18),
         .macOS(.v15)
     ],
     products: [
