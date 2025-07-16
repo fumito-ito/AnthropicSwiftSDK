@@ -16,8 +16,7 @@ let package = Package(
             targets: ["AnthropicSwiftSDK"]),
     ],
     dependencies: [
-        .package(url: "https://github.com/fumito-ito/SwiftyJSONLines.git", from: "0.0.4"),
-        .package(url: "https://github.com/fumito-ito/AsyncHTTPKit.git", from: "0.0.1")
+        .package(url: "https://github.com/fumito-ito/SwiftyJSONLines.git", from: "0.0.4")
     ],
     targets: [
         // Targets are the basic building blocks of a package, defining a module or a test suite.
@@ -25,8 +24,7 @@ let package = Package(
         .target(
             name: "AnthropicSwiftSDK",
             dependencies: [
-                .product(name: "SwiftyJSONLines", package: "SwiftyJSONLines"),
-                .product(name: "AsyncHTTPKit", package: "AsyncHTTPKit")
+                .product(name: "SwiftyJSONLines", package: "SwiftyJSONLines")
             ]
         ),
         .testTarget(

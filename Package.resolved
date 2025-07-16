@@ -1,15 +1,6 @@
 {
-  "originHash" : "e507edd1ad78200d7a132348207d914eee1bafac2cc39be2e82c95b96253d9d9",
+  "originHash" : "d61a94dd8be384d28c66ae7d8255335932a2cc4a4de7aed63c898ec3ce7da233",
   "pins" : [
-    {
-      "identity" : "asynchttpkit",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/fumito-ito/AsyncHTTPKit.git",
-      "state" : {
-        "revision" : "2a8b270746e7e1fe7b350db26e04be43eb3030e1",
-        "version" : "0.0.1"
-      }
-    },
     {
       "identity" : "swiftyjsonlines",
       "kind" : "remoteSourceControl",
