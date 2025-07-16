@@ -7,7 +7,7 @@
 
 import Foundation
 
-public enum ContentBlockDeltaType: String, Decodable {
+public enum ContentBlockDeltaType: String, Decodable, Sendable {
     case text = "text_delta"
     case inputJSON = "input_json_delta"
 }

@@ -8,7 +8,7 @@
 import Foundation
 
 /// The reason that we stopped.
-public enum StopReason: String, Decodable {
+public enum StopReason: String, Decodable, Sendable {
     /// the model reached a natural stopping point
     case endTurn = "end_turn"
     /// we exceeded the requested max_tokens or the model's maximum

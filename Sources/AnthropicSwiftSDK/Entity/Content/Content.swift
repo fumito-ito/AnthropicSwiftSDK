@@ -8,7 +8,7 @@
 import Foundation
 
 /// Type of content block.
-public enum ContentType: String {
+public enum ContentType: String, Sendable {
     /// single string
     case text
     /// image content
@@ -26,7 +26,7 @@ public enum ContentType: String {
 /// Each input message `content` may be either a single `string` or an array of content blocks, where each block has a specific `type`. Using a `string` for `content` is shorthand for an array of one content block of type `text`.
 ///
 /// Starting with Claude 3 models, you can also send `image` content blocks.
-public enum Content {
+public enum Content: Sendable {
     /// a single string
     case text(String, cacheControl: CacheControl? = nil)
     /// currently supported the `base64` source type for images, and the `image/jpeg`, `image/png`, `image/gif`, and `image/webp` media types.

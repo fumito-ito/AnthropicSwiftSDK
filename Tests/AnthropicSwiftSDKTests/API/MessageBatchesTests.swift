@@ -34,7 +34,7 @@ final class MessageBatchesTests: XCTestCase {
             "processing_status": "ended",
             "request_counts": {
                 "processing": 0,
-                "succeeeded": 95,
+                "succeeded": 95,
                 "errored": 3,
                 "canceled": 1,
                 "expired": 1
@@ -77,7 +77,7 @@ final class MessageBatchesTests: XCTestCase {
             "processing_status": "ended",
             "request_counts": {
                 "processing": 0,
-                "succeeeded": 95,
+                "succeeded": 95,
                 "errored": 3,
                 "canceled": 1,
                 "expired": 1
@@ -99,7 +99,7 @@ final class MessageBatchesTests: XCTestCase {
         XCTAssertEqual(response.type, .message)
         XCTAssertEqual(response.processingStatus, .ended)
         XCTAssertEqual(response.requestCounts.processing, 0)
-        XCTAssertEqual(response.requestCounts.succeeeded, 95)
+        XCTAssertEqual(response.requestCounts.succeeded, 95)
         XCTAssertEqual(response.requestCounts.errored, 3)
         XCTAssertEqual(response.requestCounts.canceled, 1)
         XCTAssertEqual(response.requestCounts.expired, 1)
@@ -120,7 +120,7 @@ final class MessageBatchesTests: XCTestCase {
             "processing_status": "in_progress",
             "request_counts": {
                 "processing": 50,
-                "succeeeded": 0,
+                "succeeded": 0,
                 "errored": 0,
                 "canceled": 0,
                 "expired": 0
@@ -153,7 +153,7 @@ final class MessageBatchesTests: XCTestCase {
             "processing_status": "canceling",
             "request_counts": {
                 "processing": 25,
-                "succeeeded": 25,
+                "succeeded": 25,
                 "errored": 0,
                 "canceled": 0,
                 "expired": 0
@@ -197,7 +197,7 @@ final class MessageBatchesTests: XCTestCase {
             "processing_status": "in_progress",
             "request_counts": {
                 "processing": 100,
-                "succeeeded": 0,
+                "succeeded": 0,
                 "errored": 0,
                 "canceled": 0,
                 "expired": 0

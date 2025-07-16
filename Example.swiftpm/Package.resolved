@@ -1,12 +1,21 @@
 {
   "pins" : [
     {
+      "identity" : "asynchttpkit",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/fumito-ito/AsyncHTTPKit.git",
+      "state" : {
+        "revision" : "2a8b270746e7e1fe7b350db26e04be43eb3030e1",
+        "version" : "0.0.1"
+      }
+    },
+    {
       "identity" : "swiftyjsonlines",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/fumito-ito/SwiftyJSONLines.git",
       "state" : {
-        "revision" : "fb957dada1e920b6916c7083e99895f8f7fc885a",
-        "version" : "0.0.3"
+        "revision" : "a96f39c20f9d9ed5abf3a4dc3294e69d0e3521cc",
+        "version" : "0.0.4"
       }
     }
   ],

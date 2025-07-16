@@ -7,7 +7,7 @@
 
 import Foundation
 
-public enum StreamingEvent: String, Decodable {
+public enum StreamingEvent: String, Decodable, Sendable {
     /// contains a `Message` object with empty content
     case messageStart = "message_start"
     /// A series of content blocks, each of which have a `content_block_start`, one or more `content_block_delta` events, and a `content_block_stop` event. Each content block will have an `index` that corresponds to its index in the final `Message` content array.

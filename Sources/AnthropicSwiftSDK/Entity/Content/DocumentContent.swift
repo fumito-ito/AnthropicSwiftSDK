@@ -6,12 +6,12 @@
 //
 import Foundation
 
-public struct DocumentContent {
-    public enum DocumentContentType: String, Codable {
+public struct DocumentContent: Sendable {
+    public enum DocumentContentType: String, Codable, Sendable {
         case base64
     }
 
-    public enum DocumentContentMediaType: String, Codable {
+    public enum DocumentContentMediaType: String, Codable, Sendable {
         case pdf = "application/pdf"
     }
 

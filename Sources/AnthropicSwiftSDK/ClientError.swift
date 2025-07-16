@@ -8,7 +8,7 @@
 import Foundation
 
 /// Errors in swift SDK
-public enum ClientError: Error {
+public enum ClientError: Error, @unchecked Sendable {
     /// Received unknown event in Stream.
     case unknownStreamingEvent(String)
     /// Received in Stream with unknown line type.

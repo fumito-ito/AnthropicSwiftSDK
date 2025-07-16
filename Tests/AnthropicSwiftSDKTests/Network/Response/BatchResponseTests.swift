@@ -17,7 +17,7 @@ final class BatchResponseTests: XCTestCase {
             "processing_status": "ended",
             "request_counts": {
                 "processing": 0,
-                "succeeeded": 95,
+                "succeeded": 95,
                 "errored": 3,
                 "canceled": 1,
                 "expired": 1
@@ -41,7 +41,7 @@ final class BatchResponseTests: XCTestCase {
         XCTAssertEqual(batchResponse.processingStatus, .ended)
         
         XCTAssertEqual(batchResponse.requestCounts.processing, 0)
-        XCTAssertEqual(batchResponse.requestCounts.succeeeded, 95)
+        XCTAssertEqual(batchResponse.requestCounts.succeeded, 95)
         XCTAssertEqual(batchResponse.requestCounts.errored, 3)
         XCTAssertEqual(batchResponse.requestCounts.canceled, 1)
         XCTAssertEqual(batchResponse.requestCounts.expired, 1)
@@ -61,7 +61,7 @@ final class BatchResponseTests: XCTestCase {
             "processing_status": "canceling",
             "request_counts": {
                 "processing": 50,
-                "succeeeded": 40,
+                "succeeded": 40,
                 "errored": 10,
                 "canceled": 0,
                 "expired": 0
@@ -85,7 +85,7 @@ final class BatchResponseTests: XCTestCase {
         XCTAssertEqual(batchResponse.processingStatus, .canceling)
         
         XCTAssertEqual(batchResponse.requestCounts.processing, 50)
-        XCTAssertEqual(batchResponse.requestCounts.succeeeded, 40)
+        XCTAssertEqual(batchResponse.requestCounts.succeeded, 40)
         XCTAssertEqual(batchResponse.requestCounts.errored, 10)
         XCTAssertEqual(batchResponse.requestCounts.canceled, 0)
         XCTAssertEqual(batchResponse.requestCounts.expired, 0)

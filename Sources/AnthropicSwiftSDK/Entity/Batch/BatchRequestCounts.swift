@@ -12,7 +12,7 @@ public struct BatchRequestCounts: Decodable {
     /// Number of requests in the Message Batch that have completed successfully.
     ///
     /// This is zero until processing of the entire Message Batch has ended.
-    let succeeeded: Int
+    let succeeded: Int
     /// Number of requests in the Message Batch that encountered an error.
     ///
     /// This is zero until processing of the entire Message Batch has ended.

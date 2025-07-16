@@ -7,7 +7,7 @@
 
 import Foundation
 
-public struct MessageDelta: Decodable {
+public struct MessageDelta: Decodable, Sendable {
     public let stopReason: StopReason
     public let stopSequence: String?
 }

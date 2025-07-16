@@ -8,14 +8,14 @@
 import Foundation
 
 /// Object for image content.
-public struct ImageContent {
+public struct ImageContent: Sendable {
     /// currently support the base64 source type for images
-    public enum ImageContentType: String, Codable {
+    public enum ImageContentType: String, Codable, Sendable {
         case base64
     }
 
     /// currently support the image/jpeg, image/png, image/gif, and image/webp media types.
-    public enum ImageContentMediaType: String, Codable {
+    public enum ImageContentMediaType: String, Codable, Sendable {
         case jpeg = "image/jpeg"
         case png = "image/png"
         case gif = "image/gif"

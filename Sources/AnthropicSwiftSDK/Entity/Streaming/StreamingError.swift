@@ -7,7 +7,7 @@
 
 import Foundation
 
-public struct StreamingError: Decodable {
+public struct StreamingError: Decodable, Sendable {
     public let type: AnthropicAPIError
     public let message: String
 }

@@ -1,14 +1,15 @@
 {
+  "originHash" : "d61a94dd8be384d28c66ae7d8255335932a2cc4a4de7aed63c898ec3ce7da233",
   "pins" : [
     {
       "identity" : "swiftyjsonlines",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/fumito-ito/SwiftyJSONLines.git",
       "state" : {
-        "revision" : "fb957dada1e920b6916c7083e99895f8f7fc885a",
-        "version" : "0.0.3"
+        "revision" : "a96f39c20f9d9ed5abf3a4dc3294e69d0e3521cc",
+        "version" : "0.0.4"
       }
     }
   ],
-  "version" : 2
+  "version" : 3
 }

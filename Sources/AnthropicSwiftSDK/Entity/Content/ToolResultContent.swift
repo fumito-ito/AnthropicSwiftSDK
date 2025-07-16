@@ -7,7 +7,7 @@
 
 import Foundation
 
-public struct ToolResultContent {
+public struct ToolResultContent: Sendable {
     /// The `id of the tool use request this is a result for
     public let toolUseId: String
     /// The result of the tool, as a string (e.g. `"content": "15 degrees"` ) or

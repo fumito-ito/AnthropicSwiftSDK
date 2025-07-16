@@ -7,7 +7,7 @@
 
 import Foundation
 
-public struct ToolUseContent {
+public struct ToolUseContent: @unchecked Sendable {
     /// A unique identifier for this particular tool use block.
     /// This will be used to match up the tool results later.
     public let id: String
